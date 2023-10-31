@@ -18,16 +18,16 @@ namespace WorldOfZuul
             Console.Write("Enter the name of your character: ");
             GameManager.playerName = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.WriteLine("Choose a world you'll be starting in");
-            Console.WriteLine("1.Grasslands\n2. Forest\n3. Mountains\n4.Jungle\n5. Glacial");
-            string? userInput = Console.ReadLine();
-
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
             bool worldPicked = false;
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("Choose a world you'll be starting in");
+                Console.WriteLine("1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n");
+                string? userInput = Console.ReadLine();
+
                 if (userInput?.ToLower() == "grasslands")
                 {
 
@@ -155,6 +155,12 @@ namespace WorldOfZuul
                 switch (command.Name)
                 {
                     case "look":
+                        if(currentRoom==null)
+                        {
+                            //added this here for now since we are still adding the biomes
+                            Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
+                            break;
+                        }
                         Console.WriteLine(currentRoom?.LongDescription);
                         // ShowRoomItems() will display the items in the room. If there are no items in the room 
                         // the method will display an according message as well, so I deleted some of the Console.WriteLines
