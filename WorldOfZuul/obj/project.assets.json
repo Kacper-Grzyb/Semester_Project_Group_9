@@ -8,25 +8,31 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/Users/ernie/.nuget/packages/": {}
+    "C:\\Users\\kgrzy\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ernie/Desktop/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
+      "projectUniqueName": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
       "projectName": "WorldOfZuul",
-      "projectPath": "/Users/ernie/Desktop/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
-      "packagesPath": "/Users/ernie/.nuget/packages/",
-      "outputPath": "/Users/ernie/Desktop/Semester_Project_Group_9/WorldOfZuul/obj/",
+      "projectPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+      "packagesPath": "C:\\Users\\kgrzy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/ernie/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\kgrzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -60,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

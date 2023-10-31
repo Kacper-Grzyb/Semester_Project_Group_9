@@ -23,7 +23,7 @@ namespace WorldOfZuul
             RoomId = roomId;
         }
 
-        public void CompleteQuest()
+        public virtual void CompleteQuest()
         {
             IsCompleted = true;
         }
