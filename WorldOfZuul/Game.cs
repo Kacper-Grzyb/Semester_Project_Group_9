@@ -5,7 +5,7 @@ namespace WorldOfZuul
 {
     public class Game
     {
-        Gamemanager player = new Gamemanager();
+ 
         public Room? currentRoom;
         private Room? previousRoom;
 
@@ -16,55 +16,72 @@ namespace WorldOfZuul
         public void ChooseWorld()
         {
             Console.Write("Enter the name of your character: ");
-            player.playerName = Console.ReadLine();
+            GameManager.playerName = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.WriteLine("Choose a world you'll be starting in");
-            Console.WriteLine(" 1.Grassland, 2. Forest,  3. Mountain 4.Jungle 5. Glacial");
-            string? userInput = Console.ReadLine();
-
-            // Direct the user to the appropriate room
-            if (userInput?.ToLower() == "grassland" && userInput == "grassland")
+            // Direct user to desired world
+            // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
+            bool worldPicked = false;
+            do
             {
+                Console.WriteLine();
+                Console.WriteLine("Choose a world you'll be starting in");
+                Console.WriteLine("1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n");
+                string? userInput = Console.ReadLine();
 
-                Console.WriteLine("You are located in a grasslands.");
+                if (userInput?.ToLower() == "grasslands")
+                {
 
+                    Console.WriteLine("You are located in the grasslands.");
+                    worldPicked = true;
+
+                }
+                else if (userInput?.ToLower() == "forest")
+                {
+
+                    Console.WriteLine("You are located in the forest.");
+                    worldPicked = true;
+
+                }
+                else if (userInput?.ToLower() == "mountains")
+                {
+                    Console.WriteLine("You are located in the mountains.");
+                    worldPicked = true;
+
+                }
+                else if (userInput?.ToLower() == "jungle")
+                {
+                    Console.WriteLine("You are located in the jungle.");
+                    worldPicked = true;
+                    CreateJungle();
+
+                }
+                else if (userInput?.ToLower() == "glacial")
+                {
+                    Console.WriteLine("You are located in the glacial biome.");
+                    worldPicked = true;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect world name. Please try again.");
+                }
             }
-            else if (userInput == "forest")
-            {
+            while (!worldPicked);
 
-                Console.WriteLine("You are located in a grasslands.");
-
-            }
-            else if (userInput == "mountain")
-            {
-                Console.WriteLine("You are located in a grasslands.");
-
-            }
-            else if (userInput == "jungle")
-            {
-                Console.WriteLine("You are located in a grasslands.");
-                CreateJungle();
-
-            }
-            else if (userInput == "glacial")
-            {
-                Console.WriteLine("You are located in a grasslands.");
-            }
 
         }
         public void CreateJungle()
         {
 
-            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<string> {});
-            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<string> { });
-            Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<string> { });
-            Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<string> { });
-            Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<string> { "flashlight, map, trap" });
-            Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<string> { });
-            Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<string> { });
-            Room? location8 = new("Sector 8", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<string> { });
-            Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<string> { });
+            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> {});
+            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { });
+            Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { });
+            Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<Item> { });
+            Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { new Item("Flashlight", "A way to light your path"),
+            new Item("Map","Useful for navigation"), new Item("Trap", "Can be used against enemies") });
+            Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { });
+            Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
+            Room? location8 = new("Sector 8", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { });
+            Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { });
 
             JungleQuest stopThePoachers = new JungleQuest("Stop the Poachers","asdhfalsdkfj", false, 5);   
 
@@ -138,37 +155,38 @@ namespace WorldOfZuul
                 switch (command.Name)
                 {
                     case "look":
+                        if(currentRoom==null)
+                        {
+                            //added this here for now since we are still adding the biomes
+                            Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
+                            break;
+                        }
                         Console.WriteLine(currentRoom?.LongDescription);
+                        // ShowRoomItems() will display the items in the room. If there are no items in the room 
+                        // the method will display an according message as well, so I deleted some of the Console.WriteLines
+                        currentRoom?.ShowRoomItems();
 
                         if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
-                        {
-
-                            Console.WriteLine("On the floor, you can see: " + string.Join(", ", currentRoom.Items));
-                            Console.WriteLine("do you want to pick up the item? yes/no");
+                        {   
+                            Console.WriteLine("Do you want to pick up an item? (yes/no)");
                             string yesNo = Console.ReadLine() ?? string.Empty;
                             if (yesNo.ToLower() == "yes")
                             {
-                                Console.WriteLine("You can pick up Item by typing its name:");
+                                Console.WriteLine("You can pick up an item by typing its name:");
                                 string itemToPick = Console.ReadLine() ?? string.Empty;
+                                Item? roomItem = currentRoom.GetItem(itemToPick);
 
-                                if (currentRoom != null && currentRoom.Items != null && currentRoom.Items.Contains(itemToPick))
+                                if (currentRoom != null && currentRoom.Items != null && roomItem != null)
                                 {
-                                    currentRoom.Items.Remove(itemToPick);
-                                    Console.WriteLine($"You picked up the {itemToPick}.");
+                                    // the AddItem function automaticaly takes care of removing the item from the room
+                                    // and adds the item to the player's inventory
+                                    GameManager.Inventory?.AddItem(roomItem);
                                 }
                                 else
                                 {
                                     Console.WriteLine($"The {itemToPick} is not here.");
                                 }
                             }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("there are no items left in this room");
                         }
                         break;
 
@@ -180,7 +198,22 @@ namespace WorldOfZuul
                         break;
 
                     case "drop":
-                        Console.WriteLine("which item do you want to drop?");
+                        GameManager.Inventory?.ShowInventory();
+                        Console.WriteLine("Type the name of the item which you would like to drop: ");
+                        string? dropItemName = Console.ReadLine() ?? string.Empty;
+                        if (currentRoom != null && currentRoom.Items != null)
+                        { 
+                            // The DropItem() function takes care of the edge cases like if the item is not in the
+                            // players inventory
+                            GameManager.Inventory?.DropItem(dropItemName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("You can't drop an item here");
+                            // This is for a scenario where a currentroom for the player is not set or 
+                            // is unknown, so that the player doesn't end up deleting an item from their game
+                        }
+
                         break;
                     case "quest":
                         

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace WorldOfZuul
 {
-    public class Gamemanager
+    public static class GameManager
     {
-        public int score {get; set;}
-        public string? playerName {get; set;}
-        public float time {get; set;}
+        public static int score {get; set;}
+        public static string? playerName {get; set;}
+        public static float time {get; set;}
+
+        public static Inventory? Inventory { get; set;}
+        public static Room? currentPlayerRoom { get; set; }
+        public static string? currentPlayerWorld { get; set; }
     }
 }
