@@ -16,11 +16,17 @@ namespace WorldOfZuul
         public void ShowInventory()
         {
             //check if player has any items
-            if (items.Count == 0) Console.WriteLine("There are no items in your inventory.");
+            if (items.Count == 0)
+            {
+                Console.WriteLine("There are no items in your inventory.");
+            } 
             else
             {
                 Console.WriteLine("Items currently in your inventory:");
-                foreach(Item item in items) Console.WriteLine(item.ToString());
+                foreach(Item item in items)
+                {
+                     Console.WriteLine(item.ToString());
+                }
             }
         }
 
@@ -53,7 +59,8 @@ namespace WorldOfZuul
             }
             foreach (Item item in items)
             {
-                if (item.name == itemName) {
+                if (item.name == itemName) 
+                {
                     items.Remove(item);
                     currentInventorySize--;
                     GameManager.currentPlayerRoom?.AddItem(item);
@@ -63,11 +70,19 @@ namespace WorldOfZuul
             }
             // This Console.WriteLine will only execute if the foreach loop loops through every item without finding a match
             Console.WriteLine($"Could not find {itemName} in your inventory!");
+
+            
         }
 
         public Item? GetItem(string itemName)
         {
-            foreach (Item item in items) if (item.name.ToLower() == itemName.ToLower()) return item;
+            foreach (Item item in items)
+            {
+                if (item.name.ToLower() == itemName.ToLower())
+                {
+                    return item;
+                }
+            }  
             return null;
         }
     }

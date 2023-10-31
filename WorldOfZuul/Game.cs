@@ -98,7 +98,7 @@ namespace WorldOfZuul
             location9.SetExits(location6, null, null, location8);
 
             currentRoom = location5;
-
+            
 
 
         }
@@ -169,8 +169,8 @@ namespace WorldOfZuul
                         if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
                         {   
                             Console.WriteLine("Do you want to pick up an item? (yes/no)");
-                            string yesNo = Console.ReadLine() ?? string.Empty;
-                            if (yesNo.ToLower() == "yes")
+                            string rsp = Console.ReadLine() ?? string.Empty;
+                            if (rsp.ToLower() == "yes")
                             {
                                 Console.WriteLine("You can pick up an item by typing its name:");
                                 string itemToPick = Console.ReadLine() ?? string.Empty;
