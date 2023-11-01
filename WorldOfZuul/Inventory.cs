@@ -16,17 +16,23 @@ namespace WorldOfZuul
         public void ShowInventory()
         {
             //check if player has any items
-            if (items.Count == 0) Console.WriteLine("There are no items in your inventory.");
+            if (items.Count == 0)
+            {
+                Console.WriteLine("There are no items in your inventory.");
+            } 
             else
             {
                 Console.WriteLine("Items currently in your inventory:");
-                foreach(Item item in items) Console.WriteLine(item.ToString());
+                foreach (Item item in items)
+                {
+                     Console.WriteLine(item.ToString());
+                }
             }
         }
 
         public void AddItem(Item newItem)
         {
-            if(currentInventorySize < maxInventorySize) 
+            if (currentInventorySize < maxInventorySize)
             {
                 items.Add(newItem);
                 currentInventorySize++;
@@ -45,15 +51,17 @@ namespace WorldOfZuul
         // For now I implemented this method by using the name of the item to be removed, but later I can remake it
         // so that for example it will not require any arguments. The method will display the whole inventory with an
         // index next to each item and will ask the player to type in the index of the item they would like to remove
-        public void DropItem(string itemName) {
-            if (currentInventorySize==0)
+        public void DropItem(string itemName)
+        {
+            if (currentInventorySize == 0)
             {
                 Console.WriteLine("You have no items to drop!");
                 return;
             }
             foreach (Item item in items)
             {
-                if (item.name == itemName) {
+                if (item.name == itemName)
+                {
                     items.Remove(item);
                     currentInventorySize--;
                     GameManager.currentPlayerRoom?.AddItem(item);
@@ -67,8 +75,14 @@ namespace WorldOfZuul
 
         public Item? GetItem(string itemName)
         {
-            foreach (Item item in items) if (item.name.ToLower() == itemName.ToLower()) return item;
-            return null;
+            foreach (Item item in items)
+            {
+                if (item.name.ToLower() == itemName.ToLower())
+                {
+                    return item;
+                }
+            }
+                return null; 
         }
     }
 }
