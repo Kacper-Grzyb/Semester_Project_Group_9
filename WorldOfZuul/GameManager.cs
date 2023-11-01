@@ -11,6 +11,7 @@ namespace WorldOfZuul
         public static int score {get; set;}
         public static string? playerName {get; set;}
         public static float time {get; set;}
+        public static bool questActive {get; set;}
 
         public static Inventory? Inventory { get; set;}
         public static Room? currentPlayerRoom { get; set; }
