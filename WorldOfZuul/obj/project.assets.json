@@ -8,25 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/Users/ernie/.nuget/packages/": {}
+    "/Users/gigwebs/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ernie/Documents/GitHub/Semester_Project_Group_9-2/WorldOfZuul/WorldOfZuul.csproj",
+      "projectUniqueName": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
       "projectName": "WorldOfZuul",
-      "projectPath": "/Users/ernie/Documents/GitHub/Semester_Project_Group_9-2/WorldOfZuul/WorldOfZuul.csproj",
-      "packagesPath": "/Users/ernie/.nuget/packages/",
-      "outputPath": "/Users/ernie/Documents/GitHub/Semester_Project_Group_9-2/WorldOfZuul/obj/",
+      "projectPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
+      "packagesPath": "/Users/gigwebs/.nuget/packages/",
+      "outputPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ernie/.nuget/NuGet/NuGet.Config"
+        "/Users/gigwebs/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -55,12 +54,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.11, 6.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-x64",
+            "version": "[6.0.11, 6.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.11, 6.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/Users/gigwebs/.vscode-dotnet-sdk/.dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }
