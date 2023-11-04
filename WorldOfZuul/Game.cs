@@ -27,44 +27,49 @@ namespace WorldOfZuul
             do
             {
                 Console.WriteLine();
-                Console.WriteLine("\x1b[31mChoose a world you'll be starting in: \x1b[0m");
+                Console.WriteLine("\x1b[31mChoose the world you'll be starting in: \x1b[0m");
                 Console.WriteLine("1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n");
                 Console.Write("> ");
-                string? userInput = Console.ReadLine();
+                string? userInput = Console.ReadLine()?.ToString();
 
                 if (userInput?.ToLower() == "grasslands")
                 {
-                    GameManager.currentPlayerBiome = "Grasslands";
+                    GameManager.currentPlayerBiomeName = "Grasslands";
+                    GameManager.currentPlayerBiomeType = Biomes.Grasslands;
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
-                    GameManager.currentPlayerBiome = "Forest";
+                    GameManager.currentPlayerBiomeName = "Forest";
+                    GameManager.currentPlayerBiomeType = Biomes.Forest;
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "mountains")
                 {
-                    GameManager.currentPlayerBiome = "Mountains";
+                    GameManager.currentPlayerBiomeName = "Mountains";
+                    GameManager.currentPlayerBiomeType = Biomes.Mountains;
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "jungle")
                 {
-                    GameManager.currentPlayerBiome = "Jungle";
+                    GameManager.currentPlayerBiomeName = "Jungle";
+                    GameManager.currentPlayerBiomeType = Biomes.Jungle;
                     worldPicked = true;
                     CreateJungle();
 
                 }
                 else if (userInput?.ToLower() == "glacial")
                 {
-                    GameManager.currentPlayerBiome = "Glacial Biome";
+                    GameManager.currentPlayerBiomeName = "Glacial Biome";
+                    GameManager.currentPlayerBiomeType = Biomes.Glacial;
                     worldPicked = true;
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect world name. Please try again. (Type in the name of the biome)");
+                    Console.WriteLine("Incorrect input. Please try again. (Type in the name of the biome)");
                 }
             }
             while (!worldPicked);
@@ -279,7 +284,7 @@ namespace WorldOfZuul
 
         private void PrintWelcome()
         {
-            Console.WriteLine("Welcome to"); // should it be maybe the full title? Console.WriteLine("Welcome to Scribescape: Textual Eco-Pursuits!");
+            Console.WriteLine("Welcome to"); // should it be maybe the full title? so Scribescape: Textual Eco-Pursuits
             Console.WriteLine(" ___   ___  ____  ____  ____  ____  ___   ___    __    ____  ____ \r\n/ __) / __)(  _ \\(_  _)(  _ \\( ___)/ __) / __)  /__\\  (  _ \\( ___)\r\n\\__ \\( (__  )   / _)(_  ) _ < )__) \\__ \\( (__  /(__)\\  )___/ )__) \r\n(___/ \\___)(_)\\_)(____)(____/(____)(___/ \\___)(__)(__)(__)  (____)\n");
             Console.Write("Enter the name of your character: ");
             GameManager.playerName = Console.ReadLine();
@@ -288,7 +293,7 @@ namespace WorldOfZuul
         private void PrintBiomeWelcome()
         {
             Console.WriteLine();
-            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome}!");
+            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiomeName}!");
             PrintHelp();
         }
 
