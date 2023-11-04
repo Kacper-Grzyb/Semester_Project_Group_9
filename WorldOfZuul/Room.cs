@@ -3,15 +3,22 @@
     public class Room
     {
         public string ShortDescription { get; private set; }
-        public string LongDescription { get; private set;}
-        public List<Item> Items {get; private set;}
+        public string LongDescription { get; private set; }
+        public List<Item> Items { get; private set; }
         public Dictionary<string, Room> Exits { get; private set; } = new();
+        public List<Quest> Quests { get; private set; } = new List<Quest>();
+
+
+        public void AddQuest(Quest quest)
+        {
+            Quests.Add(quest);
+        }
 
         public Room(string shortDesc, string longDesc, List<Item> items)
         {
             ShortDescription = shortDesc;
-            LongDescription = longDesc;    
-            Items = items ?? new List<Item>();   
+            LongDescription = longDesc;
+            Items = items ?? new List<Item>();
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
@@ -29,11 +36,11 @@
         }
 
         public void AddItem(Item newItem)
-        { 
+        {
             Items.Add(newItem);
         }
 
-        public void RemoveItem(Item item) 
+        public void RemoveItem(Item item)
         {
             if (Items.Contains(item)) Items.Remove(item);
             else Console.WriteLine($"There is no {item.name} in this room!");
@@ -51,9 +58,9 @@
 
         public Item? GetItem(string itemName)
         {
-            foreach(Item item in Items)
+            foreach (Item item in Items)
             {
-                if(item.name.ToLower() == itemName.ToLower()) return item;
+                if (item.name.ToLower() == itemName.ToLower()) return item;
             }
             return null;
         }

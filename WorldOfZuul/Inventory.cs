@@ -23,7 +23,7 @@ namespace WorldOfZuul
             else
             {
                 Console.WriteLine("Items currently in your inventory:");
-                foreach(Item item in items)
+                foreach (Item item in items)
                 {
                      Console.WriteLine(item.ToString());
                 }
@@ -32,7 +32,7 @@ namespace WorldOfZuul
 
         public void AddItem(Item newItem)
         {
-            if(currentInventorySize < maxInventorySize) 
+            if (currentInventorySize < maxInventorySize)
             {
                 items.Add(newItem);
                 currentInventorySize++;
@@ -51,15 +51,16 @@ namespace WorldOfZuul
         // For now I implemented this method by using the name of the item to be removed, but later I can remake it
         // so that for example it will not require any arguments. The method will display the whole inventory with an
         // index next to each item and will ask the player to type in the index of the item they would like to remove
-        public void DropItem(string itemName) {
-            if (currentInventorySize==0)
+        public void DropItem(string itemName)
+        {
+            if (currentInventorySize == 0)
             {
                 Console.WriteLine("You have no items to drop!");
                 return;
             }
             foreach (Item item in items)
             {
-                if (item.name == itemName) 
+                if (item.name == itemName)
                 {
                     items.Remove(item);
                     currentInventorySize--;
@@ -82,8 +83,8 @@ namespace WorldOfZuul
                 {
                     return item;
                 }
-            }  
-            return null;
+            }
+                return null; 
         }
     }
 }
