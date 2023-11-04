@@ -1,5 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel.Design;
+using System.Linq.Expressions;
 using System.Security;
+using static WorldOfZuul.GameManager;
 
 namespace WorldOfZuul
 {
@@ -100,7 +102,7 @@ namespace WorldOfZuul
             // location5.AddQuest(stopThePoachers);
             var stopPoachers = new List<QuestObjective>
             {
-             new QuestObjective("Destroy 9 traps that poachers setup in Sector 9")
+             new QuestObjective("Destroy 9 traps that poachers setup in Sector 9", "Map")
 
             };
             Quest Poachers = new Quest("Disable traps", "fing all the traps that poachers setup in Sector 9", false, false, stopPoachers);
@@ -122,6 +124,10 @@ namespace WorldOfZuul
             location9.SetExits(location6, null, null, location8);
 
             GameManager.currentPlayerRoom = location5;
+            Player.mapHeight = 3;
+            Player.mapWidth = 3;
+            Player.X = 1;
+            Player.Y = 1;
         }
 
 
@@ -175,14 +181,12 @@ namespace WorldOfZuul
                         }
                         DisplayItems(); //made method so it looks better
                         break;
-
                     case "back":
                         if (previousRoom == null)
                             Console.WriteLine("You can't go back from here!");
                         else
                             GameManager.currentPlayerRoom = GameManager.previousPlayerRoom;
                         break;
-
                     case "drop":
                         // turned this into a method also
                         Drop();
@@ -215,21 +219,35 @@ namespace WorldOfZuul
                         }
                         else
                         {
-
+                            Console.WriteLine($"Wrong input");
+                            break;
                         }
-
-
                         break;
-
                     case "inventory":
                         GameManager.Inventory?.ShowInventory();
                         break;
-
+                    case "map":
+                        DisplayMap();
+                        break;
                     case "north":
-                    case "south":
-                    case "east":
-                    case "west":
+                        Player.Y = Math.Max(0, Player.Y - 1);
                         Move(command.Name);
+                        DisplayMap();
+                        break;
+                    case "south":
+                        Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
+                        Move(command.Name);
+                        DisplayMap();
+                        break;
+                    case "east":
+                        Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
+                        Move(command.Name);
+                        DisplayMap();
+                        break;
+                    case "west":
+                        Player.X = Math.Max(0, Player.X - 1);
+                        Move(command.Name);
+                        DisplayMap();
                         break;
 
                     case "quit":
@@ -293,6 +311,7 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'quest' to see available quest in the room");
             Console.WriteLine("Type 'drop' to drop an item from your inventory");
             Console.WriteLine("Type 'inventory' to display your inventory");
+            Console.WriteLine("Type 'map' to display the biome map and your current location");
         }
         public void PickAvailableQuests()
         {
@@ -327,6 +346,7 @@ namespace WorldOfZuul
             }
 
             Console.WriteLine("Enter the number of the quest you want to pick:");
+
             if (int.TryParse(Console.ReadLine(), out int questNumber) && questNumber > 0 && questNumber <= availableQuests.Count)
             {
                 GameManager.ActiveQuest = availableQuests[questNumber - 1];
@@ -343,6 +363,8 @@ namespace WorldOfZuul
             }
 
         }
+
+
         public void DisplayItems()
         {
             bool firstIteration = true;
@@ -364,8 +386,9 @@ namespace WorldOfZuul
                         Console.WriteLine("Do you want to pick up another item? (yes/no)");
                     }
                     Console.Write("> ");
-                    string yesNo = Console.ReadLine() ?? string.Empty;
-                    if (yesNo.ToLower() == "yes")
+                    string rsp = Console.ReadLine() ?? string.Empty;
+
+                    if (rsp.ToLower() == "yes" || rsp.ToLower() == "y")
                     {
                         if (GameManager.Inventory != null && GameManager.Inventory.isFull())
                         {
@@ -374,21 +397,35 @@ namespace WorldOfZuul
                         }
                         Console.WriteLine("You can pick up an item by typing its name:");
                         Console.Write("> ");
-                        string itemToPick = Console.ReadLine() ?? string.Empty;
-                        Item? roomItem = currentRoom.GetItem(itemToPick);
+                        string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
+                        Item? roomItem = currentRoom.GetItem(itemName);
 
                         if (currentRoom != null && currentRoom.Items != null && roomItem != null)
                         {
                             // the AddItem function automaticaly takes care of removing the item from the room
                             // and adds the item to the player's inventory
                             GameManager.Inventory?.AddItem(roomItem);
+
+                            if (GameManager.ActiveQuest != null)
+                            {
+                                foreach (var objective in GameManager.ActiveQuest.Objectives)
+                                {
+                                    if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
+                                    {
+                                        objective.CompleteObjective(); // Mark the objective as completed
+                                        Console.WriteLine($"Objective completed: {objective.Description}");
+                                        GameManager.ActiveQuest.CheckQuestCompletion(); // Check if all objectives are completed
+                                        break; // Assuming one item cannot complete multiple objectives
+                                    }
+                                }
+                            }
                         }
                         else
                         {
-                            Console.WriteLine($"The {itemToPick} is not here.");
+                            Console.WriteLine($"The {itemName} is not here.");
                         }
                     }
-                    else if(yesNo.ToLower() == "no")
+                    else if(rsp.ToLower() == "no" || rsp.ToLower() == "n")
                     {
                         return;
                     }
@@ -399,6 +436,29 @@ namespace WorldOfZuul
                     }
                 }
                 firstIteration = false;
+            }
+        }
+
+        private void DisplayMap()
+        {
+            int step = 1;
+
+            for (int y = 0; y < Player.mapHeight; y++)
+            {
+                for (int x = 0; x < Player.mapWidth; x++)
+                {
+                    if (x == Player.X && y == Player.Y)
+                    {
+                        Console.Write("[P]");
+                        step++; // players current position
+                    }
+                    else
+                    {
+                        Console.Write($"[{step}]");
+                        step++;
+                    }
+                }
+                Console.WriteLine();
             }
         }
 

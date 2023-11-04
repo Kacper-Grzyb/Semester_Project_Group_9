@@ -8,7 +8,7 @@ namespace WorldOfZuul
 {
     public sealed class Inventory
     {
-        private List<Item> items = new List<Item>();
+        public List<Item> items = new List<Item>();
         private int maxInventorySize = 9;
 
         // Prints all of the items in the player's inventory

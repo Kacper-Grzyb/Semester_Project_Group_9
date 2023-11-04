@@ -31,9 +31,9 @@ namespace WorldOfZuul
             IsCompleted = true;
             GameManager.IsActive = false;
         }
-        public void AddObjective(string description)
+        public void AddObjective(string description, string neededItems)
         {
-            Objectives.Add(new QuestObjective(description));
+            Objectives.Add(new QuestObjective(description, neededItems));
         }
 
 
@@ -63,11 +63,13 @@ namespace WorldOfZuul
     {
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
+        public string NeededItems { get; set; }
 
-        public QuestObjective(string description)
+        public QuestObjective(string description, string neededItems)
         {
             Description = description;
             IsCompleted = false;
+            NeededItems = neededItems;
         }
 
         public void CompleteObjective()
