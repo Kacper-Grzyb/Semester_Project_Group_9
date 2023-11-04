@@ -42,17 +42,30 @@
 
         public void RemoveItem(Item item)
         {
-            if (Items.Contains(item)) Items.Remove(item);
-            else Console.WriteLine($"There is no {item.name} in this room!");
+            if (Items.Contains(item))
+            {
+                Items.Remove(item);
+            }
+            else
+            {
+                Console.WriteLine($"There is no {item.name} in this room!");
+            } 
         }
 
         public void ShowRoomItems()
         {
-            if (Items.Count == 0) Console.WriteLine("There are no items in this room.");
+            if (Items.Count == 0)
+            {
+                Console.WriteLine("There are no items in this room.");
+            }
             else
             {
                 Console.WriteLine("On the floor you can see: ");
-                foreach (Item item in Items) Console.Write(item.name + " ");
+                foreach (Item item in Items)
+                {
+                    string showItems = string.Join(",", item);
+                    Console.WriteLine(showItems);
+                }
             }
         }
 
@@ -60,7 +73,10 @@
         {
             foreach (Item item in Items)
             {
-                if (item.name.ToLower() == itemName.ToLower()) return item;
+                if (item.name.ToLower() == itemName.ToLower())
+                {
+                    return item;
+                }
             }
             return null;
         }

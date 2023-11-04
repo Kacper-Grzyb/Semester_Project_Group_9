@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WorldOfZuul
 {
-    public sealed class Inventory
+    public class Inventory
     {
-        private List<Item> items = new List<Item>();
+        public List<Item> items = new List<Item>();
         private int currentInventorySize = 0;
         private int maxInventorySize = 9;
 
@@ -25,13 +25,15 @@ namespace WorldOfZuul
                 Console.WriteLine("Items currently in your inventory:");
                 foreach (Item item in items)
                 {
-                     Console.WriteLine(item.ToString());
+                     string showInvetory = string.Join(",", item);
+                     Console.WriteLine(showInvetory);
                 }
             }
         }
 
         public void AddItem(Item newItem)
         {
+           
             if (currentInventorySize < maxInventorySize)
             {
                 items.Add(newItem);
