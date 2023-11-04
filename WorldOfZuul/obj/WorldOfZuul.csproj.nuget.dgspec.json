@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj": {}
+    "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
-    "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj": {
+    "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
+        "projectUniqueName": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
         "projectName": "WorldOfZuul",
-        "projectPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
-        "packagesPath": "/Users/gigwebs/.nuget/packages/",
-        "outputPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/obj/",
+        "projectPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+        "packagesPath": "C:\\Users\\kgrzy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/gigwebs/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kgrzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -48,26 +54,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.osx-x64",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/gigwebs/.vscode-dotnet-sdk/.dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

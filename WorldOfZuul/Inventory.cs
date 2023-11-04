@@ -9,7 +9,6 @@ namespace WorldOfZuul
     public sealed class Inventory
     {
         private List<Item> items = new List<Item>();
-        private int currentInventorySize = 0;
         private int maxInventorySize = 9;
 
         // Prints all of the items in the player's inventory
@@ -25,17 +24,29 @@ namespace WorldOfZuul
                 Console.WriteLine("Items currently in your inventory:");
                 foreach (Item item in items)
                 {
-                     Console.WriteLine(item.ToString());
+                     Console.WriteLine("\t-" + item.ToString());
                 }
             }
         }
 
+        public int Size()
+        {
+            return items.Count(); 
+        }
+
+        /// <summary>
+        ///  Returns true is inventory is full and false if there is still space in the inventory
+        /// </summary>
+        public bool isFull()
+        {
+            return items.Count() == maxInventorySize;
+        }
+
         public void AddItem(Item newItem)
         {
-            if (currentInventorySize < maxInventorySize)
+            if (items.Count() < maxInventorySize)
             {
                 items.Add(newItem);
-                currentInventorySize++;
                 GameManager.currentPlayerRoom?.RemoveItem(newItem);
                 Console.WriteLine($"{newItem.name} added to your inventory");
             }
@@ -53,17 +64,16 @@ namespace WorldOfZuul
         // index next to each item and will ask the player to type in the index of the item they would like to remove
         public void DropItem(string itemName)
         {
-            if (currentInventorySize == 0)
+            if (items.Count() == 0)
             {
                 Console.WriteLine("You have no items to drop!");
                 return;
             }
             foreach (Item item in items)
             {
-                if (item.name == itemName)
+                if (item.name.ToLower() == itemName.ToLower())
                 {
                     items.Remove(item);
-                    currentInventorySize--;
                     GameManager.currentPlayerRoom?.AddItem(item);
                     Console.WriteLine($"{itemName} was removed from your inventory");
                     return;

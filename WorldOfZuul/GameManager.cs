@@ -16,6 +16,7 @@ namespace WorldOfZuul
 
         public static Inventory? Inventory { get; set;}
         public static Room? currentPlayerRoom { get; set; }
-        public static string? currentPlayerWorld { get; set; }
+        public static Room? previousPlayerRoom { get; set; }
+        public static string? currentPlayerBiome { get; set; }
     }
 }

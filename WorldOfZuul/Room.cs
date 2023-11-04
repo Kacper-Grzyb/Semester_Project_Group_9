@@ -51,8 +51,11 @@
             if (Items.Count == 0) Console.WriteLine("There are no items in this room.");
             else
             {
-                Console.WriteLine("On the floor you can see: ");
-                foreach (Item item in Items) Console.Write(item.name + " ");
+                Console.WriteLine("On the floor you can see:");
+                foreach (Item item in Items)
+                {
+                    Console.WriteLine("\t-" + item.name);
+                }
             }
         }
 

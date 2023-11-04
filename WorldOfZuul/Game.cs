@@ -8,15 +8,21 @@ namespace WorldOfZuul
 
         public Room? currentRoom;
         private Room? previousRoom;
+        private int wrongCommands = 0;
+        private int wrongCommandLimit = 5;
 
         public Game()
         {
-            ChooseWorld();
+            
+        }
+
+        public void Setup()
+        {
+            GameManager.Inventory = new Inventory();
+            GameManager.score = 0;
         }
         public void ChooseWorld()
-        {
-            Console.Write("Enter the name of your character: ");
-            GameManager.playerName = Console.ReadLine();
+        { 
 
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
@@ -26,48 +32,45 @@ namespace WorldOfZuul
                 Console.WriteLine();
                 Console.WriteLine("\x1b[31mChoose a world you'll be starting in: \x1b[0m");
                 Console.WriteLine("1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n");
+                Console.Write("> ");
                 string? userInput = Console.ReadLine();
 
                 if (userInput?.ToLower() == "grasslands")
                 {
-
-                    Console.WriteLine("You are located in the grasslands.");
+                    GameManager.currentPlayerBiome = "Grasslands";
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
-
-                    Console.WriteLine("You are located in the forest.");
+                    GameManager.currentPlayerBiome = "Forest";
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "mountains")
                 {
-                    Console.WriteLine("You are located in the mountains.");
+                    GameManager.currentPlayerBiome = "Mountains";
                     worldPicked = true;
 
                 }
                 else if (userInput?.ToLower() == "jungle")
                 {
-                    Console.WriteLine("You are located in the jungle.");
+                    GameManager.currentPlayerBiome = "Jungle";
                     worldPicked = true;
                     CreateJungle();
 
                 }
                 else if (userInput?.ToLower() == "glacial")
                 {
-                    Console.WriteLine("You are located in the glacial biome.");
+                    GameManager.currentPlayerBiome = "Glacial Biome";
                     worldPicked = true;
-
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect world name. Please try again.");
+                    Console.WriteLine("Incorrect world name. Please try again. (Type in the name of the biome)");
                 }
             }
             while (!worldPicked);
-
 
         }
         public void CreateJungle()
@@ -118,7 +121,7 @@ namespace WorldOfZuul
             location8.SetExits(location5, location9, null, location7);
             location9.SetExits(location6, null, null, location8);
 
-            currentRoom = location5;
+            GameManager.currentPlayerRoom = location5;
         }
 
 
@@ -126,13 +129,17 @@ namespace WorldOfZuul
         public void Play()
         {
             Parser parser = new();
-
+            Setup();
             PrintWelcome();
+            ChooseWorld();
+            PrintBiomeWelcome();
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                Console.WriteLine(currentRoom?.ShortDescription);
+                currentRoom = GameManager.currentPlayerRoom;
+
+                Console.WriteLine("\nCurrent room: " + currentRoom?.ShortDescription);
                 Console.Write("> ");
 
                 string? input = Console.ReadLine();
@@ -148,6 +155,12 @@ namespace WorldOfZuul
                 if (command == null)
                 {
                     Console.WriteLine("I don't know that command.");
+                    wrongCommands++;
+                    if(wrongCommands == wrongCommandLimit)
+                    {
+                        Console.WriteLine("Remember that you can type 'help' to display available commands");
+                        wrongCommands = 0;
+                    }
                     continue;
                 }
 
@@ -167,26 +180,12 @@ namespace WorldOfZuul
                         if (previousRoom == null)
                             Console.WriteLine("You can't go back from here!");
                         else
-                            currentRoom = previousRoom;
+                            GameManager.currentPlayerRoom = GameManager.previousPlayerRoom;
                         break;
 
                     case "drop":
-                        GameManager.Inventory?.ShowInventory();
-                        Console.WriteLine("Type the name of the item which you would like to drop: ");
-                        string? dropItemName = Console.ReadLine() ?? string.Empty;
-                        if (currentRoom != null && currentRoom.Items != null)
-                        {
-                            // The DropItem() function takes care of the edge cases like if the item is not in the
-                            // players inventory
-                            GameManager.Inventory?.DropItem(dropItemName);
-                        }
-                        else
-                        {
-                            Console.WriteLine("You can't drop an item here");
-                            // This is for a scenario where a currentroom for the player is not set or 
-                            // is unknown, so that the player doesn't end up deleting an item from their game
-                        }
-
+                        // turned this into a method also
+                        Drop();
                         break;
                     case "quest":
                         Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective");
@@ -221,6 +220,11 @@ namespace WorldOfZuul
 
 
                         break;
+
+                    case "inventory":
+                        GameManager.Inventory?.ShowInventory();
+                        break;
+
                     case "north":
                     case "south":
                     case "east":
@@ -237,7 +241,7 @@ namespace WorldOfZuul
                         break;
 
                     default:
-                        Console.WriteLine("I don't know what command.");
+                        Console.WriteLine("I don't know that command.");
                         break;
 
 
@@ -246,7 +250,7 @@ namespace WorldOfZuul
                 }
             }
 
-            Console.WriteLine("Thank you for playing World of Zuul!");
+            Console.WriteLine("Thank you for playing Scribescape!");
         }
 
         private void Move(string direction)
@@ -265,23 +269,30 @@ namespace WorldOfZuul
 
         private void PrintWelcome()
         {
-            Console.WriteLine("Welcome to the World of Zuul!");
-            Console.WriteLine("World of Zuul is a new, incredibly boring adventure game.");
-            PrintHelp();
+            Console.WriteLine("Welcome to"); // should it be maybe the full title? Console.WriteLine("Welcome to Scribescape: Textual Eco-Pursuits!");
+            Console.WriteLine(" ___   ___  ____  ____  ____  ____  ___   ___    __    ____  ____ \r\n/ __) / __)(  _ \\(_  _)(  _ \\( ___)/ __) / __)  /__\\  (  _ \\( ___)\r\n\\__ \\( (__  )   / _)(_  ) _ < )__) \\__ \\( (__  /(__)\\  )___/ )__) \r\n(___/ \\___)(_)\\_)(____)(____/(____)(___/ \\___)(__)(__)(__)  (____)\n");
+            Console.Write("Enter the name of your character: ");
+            GameManager.playerName = Console.ReadLine();
+        }
+
+        private void PrintBiomeWelcome()
+        {
             Console.WriteLine();
+            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome}!");
+            PrintHelp();
         }
 
         public void PrintHelp()
         {
-            Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the university.");
             Console.WriteLine();
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
-            Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.WriteLine("Navigate by typing 'north', 'south', 'east' or 'west'");
+            Console.WriteLine("Type 'look' for more details");
+            Console.WriteLine("Type 'back' to go to the previous room");
+            Console.WriteLine("Type 'help' to print this message again");
+            Console.WriteLine("Type 'quit' to exit the game");
             Console.WriteLine("Type 'quest' to see available quest in the room");
+            Console.WriteLine("Type 'drop' to drop an item from your inventory");
+            Console.WriteLine("Type 'inventory' to display your inventory");
         }
         public void PickAvailableQuests()
         {
@@ -334,32 +345,83 @@ namespace WorldOfZuul
         }
         public void DisplayItems()
         {
+            bool firstIteration = true;
             Console.WriteLine(currentRoom?.LongDescription);
             // ShowRoomItems() will display the items in the room. If there are no items in the room 
             // the method will display an according message as well, so I deleted some of the Console.WriteLines
             currentRoom?.ShowRoomItems();
 
-            if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
-            {
-                Console.WriteLine("Do you want to pick up an item? (yes/no)");
-                string yesNo = Console.ReadLine() ?? string.Empty;
-                if (yesNo.ToLower() == "yes")
+            while (true)
+            { 
+                if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
                 {
-                    Console.WriteLine("You can pick up an item by typing its name:");
-                    string itemToPick = Console.ReadLine() ?? string.Empty;
-                    Item? roomItem = currentRoom.GetItem(itemToPick);
-
-                    if (currentRoom != null && currentRoom.Items != null && roomItem != null)
+                    if (firstIteration)
                     {
-                        // the AddItem function automaticaly takes care of removing the item from the room
-                        // and adds the item to the player's inventory
-                        GameManager.Inventory?.AddItem(roomItem);
+                        Console.WriteLine("Do you want to pick up an item? (yes/no)");
                     }
                     else
                     {
-                        Console.WriteLine($"The {itemToPick} is not here.");
+                        Console.WriteLine("Do you want to pick up another item? (yes/no)");
+                    }
+                    Console.Write("> ");
+                    string yesNo = Console.ReadLine() ?? string.Empty;
+                    if (yesNo.ToLower() == "yes")
+                    {
+                        if (GameManager.Inventory != null && GameManager.Inventory.isFull())
+                        {
+                            Console.WriteLine("Your inventory is full!");
+                            return;
+                        }
+                        Console.WriteLine("You can pick up an item by typing its name:");
+                        Console.Write("> ");
+                        string itemToPick = Console.ReadLine() ?? string.Empty;
+                        Item? roomItem = currentRoom.GetItem(itemToPick);
+
+                        if (currentRoom != null && currentRoom.Items != null && roomItem != null)
+                        {
+                            // the AddItem function automaticaly takes care of removing the item from the room
+                            // and adds the item to the player's inventory
+                            GameManager.Inventory?.AddItem(roomItem);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"The {itemToPick} is not here.");
+                        }
+                    }
+                    else if(yesNo.ToLower() == "no")
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid response.");
+                        return;
                     }
                 }
+                firstIteration = false;
+            }
+        }
+
+        private void Drop()
+        {
+            if(GameManager.Inventory?.Size() == 0)
+            {
+                Console.WriteLine("There are no items in your inventory!");
+                return;
+            }
+            GameManager.Inventory?.ShowInventory();
+            Console.WriteLine("Type the name of the item which you would like to drop: ");
+            string? dropItemName = Console.ReadLine() ?? string.Empty;
+            if (currentRoom != null && currentRoom.Items != null)
+            {
+                GameManager.Inventory?.DropItem(dropItemName);
+                // The DropItem() function takes care of the edge cases like if the item is not in the players inventory
+            }
+            else
+            {
+                Console.WriteLine("You can't drop an item here");
+                // This is for a scenario where a currentroom for the player is not set or 
+                // is unknown, so that the player doesn't end up deleting an item from their game
             }
         }
     }

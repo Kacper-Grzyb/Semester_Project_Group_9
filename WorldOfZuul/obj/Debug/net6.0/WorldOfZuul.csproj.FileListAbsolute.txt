@@ -72,3 +72,17 @@ C:/Users/kgrzy/Pulpit/Programming Workspace/Semester Project/Semester_Project_Gr
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/WorldOfZuul.pdb
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/WorldOfZuul.genruntimeconfig.cache
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/ref/WorldOfZuul.dll
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.exe
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.deps.json
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.runtimeconfig.json
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.dll
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.pdb
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfoInputs.cache
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfo.cs
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.csproj.CoreCompileInputs.cache
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.dll
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\refint\WorldOfZuul.dll
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.pdb
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.genruntimeconfig.cache
+C:\Users\kgrzy\Pulpit\Programming Workspace\Semester Project Beta\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\ref\WorldOfZuul.dll
