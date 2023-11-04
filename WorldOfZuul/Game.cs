@@ -13,11 +13,6 @@ namespace WorldOfZuul
         private int wrongCommands = 0;
         private int wrongCommandLimit = 5;
 
-        public Game()
-        {
-            
-        }
-
         public void Setup()
         {
             GameManager.Inventory = new Inventory();
@@ -97,9 +92,6 @@ namespace WorldOfZuul
 
             Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { });
 
-            // Quest stopThePoachers = new Quest("Stop the Poachers", "asdhfalsdkfj", false, false);
-            // stopThePoachers.AddObjective("Stop the poaching");
-            // location5.AddQuest(stopThePoachers);
             var stopPoachers = new List<QuestObjective>
             {
              new QuestObjective("Destroy 9 traps that poachers setup in Sector 9","Map")
@@ -107,9 +99,6 @@ namespace WorldOfZuul
             };
             Quest Poachers = new Quest("Disable traps", "fing all the traps that poachers setup in Sector 9", false, false, stopPoachers);
             location5.AddQuest(Poachers);
-
-
-
 
             location1.SetExits(null, location2, location4, null);
             location2.SetExits(null, location3, location5, location1);
@@ -124,7 +113,9 @@ namespace WorldOfZuul
             location9.SetExits(location6, null, null, location8);
 
             currentRoom = location5;
+            GameManager.currentPlayerRoom = currentRoom;
             GameManager.Inventory = new Inventory();
+            
             Player.mapHeight = 3;
             Player.mapWidth = 3;
             Player.X = 1;
@@ -311,7 +302,7 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'quit' to exit the game");
             Console.WriteLine("Type 'quest' to see available quest in the room");
             Console.WriteLine("Type 'drop' to drop an item from your inventory");
-            Console.WriteLine("Type 'inventory' to display your inventory");
+            Console.WriteLine("Type 'inv' to display your inventory");
             Console.WriteLine("Type 'map' to display the biome map and your current location");
         }
         public void PickAvailableQuests()
@@ -437,29 +428,6 @@ namespace WorldOfZuul
                     }
                 }
                 firstIteration = false;
-            }
-        }
-
-        private void DisplayMap()
-        {
-            int step = 1;
-
-            for (int y = 0; y < Player.mapHeight; y++)
-            {
-                for (int x = 0; x < Player.mapWidth; x++)
-                {
-                    if (x == Player.X && y == Player.Y)
-                    {
-                        Console.Write("[P]");
-                        step++; // players current position
-                    }
-                    else
-                    {
-                        Console.Write($"[{step}]");
-                        step++;
-                    }
-                }
-                Console.WriteLine();
             }
         }
 
