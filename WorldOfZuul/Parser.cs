@@ -21,7 +21,8 @@ namespace WorldOfZuul
 
             if (words.Length > 1)
             {
-                return new Command(words[0], words[1]);
+                // returns a command with an array of arguments for it
+                return new Command(words[0], words.Skip(1).ToArray());
             }
 
             return new Command(words[0]);

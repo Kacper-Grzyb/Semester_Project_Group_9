@@ -62,11 +62,11 @@ namespace WorldOfZuul
             }
             else
             {
-                Console.WriteLine("On the floor you can see: ");
+                Console.WriteLine("On the floor you can see:");
                 foreach (Item item in Items)
                 {
                     string showItems = string.Join(",", item);
-                    Console.WriteLine(showItems);
+                    Console.WriteLine("\n" + showItems);
                 }
             }
         }

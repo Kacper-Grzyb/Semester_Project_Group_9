@@ -174,7 +174,7 @@ namespace WorldOfZuul
                             Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
                             break;
                         }
-                        DisplayItems(); //made method so it looks better
+                        Look(); //made method so it looks better
                         break;
                     case "back":
                         if (GameManager.previousPlayerRooms?.Count() == 0)
@@ -189,7 +189,10 @@ namespace WorldOfZuul
                         break;
                     case "drop":
                         // turned this into a method also
-                        Drop();
+                        Drop(command);
+                        break;
+                    case "take":
+                        Take(command);
                         break;
                     case "quest":
                         Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective (Pick a number)");
@@ -230,7 +233,7 @@ namespace WorldOfZuul
                         DisplayMap();
                         break;
                     case "paths":
-                        GameManager.currentPlayerRoom.showPaths();
+                        GameManager.currentPlayerRoom?.showPaths();
                         break;
                     case "north":
                         Player.Y = Math.Max(0, Player.Y - 1);
@@ -369,106 +372,87 @@ namespace WorldOfZuul
         }
 
 
-        public void DisplayItems()
+        public void Look()
         {
-            bool firstIteration = true;
             Console.WriteLine(GameManager.currentPlayerRoom?.LongDescription);
             // ShowRoomItems() will display the items in the room. If there are no items in the room 
             // the method will display an according message as well, so I deleted some of the Console.WriteLines
             GameManager.currentPlayerRoom?.ShowRoomItems();
-            if(GameManager.currentPlayerRoom?.Items.Count()==0)
-            {
-                return;
-            }
-
-            while (true)
-            { 
-                if (GameManager.currentPlayerRoom?.Items != null && GameManager.currentPlayerRoom.Items.Count > 0)
-                {
-                    if (firstIteration)
-                    {
-                        Console.WriteLine("Do you want to pick up an item? (yes/no)");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Do you want to pick up another item? (yes/no)");
-                    }
-                    Console.Write("> ");
-                    string rsp = Console.ReadLine() ?? string.Empty;
-
-                    if (rsp.ToLower() == "yes" || rsp.ToLower() == "y")
-                    {
-                        if (GameManager.Inventory != null && GameManager.Inventory.isFull())
-                        {
-                            Console.WriteLine("Your inventory is full!");
-                            return;
-                        }
-                        Console.WriteLine("You can pick up an item by typing its name:");
-                        Console.Write("> ");
-                        string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
-                        Item? roomItem = GameManager.currentPlayerRoom.GetItem(itemName);
-
-                        if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && roomItem != null)
-                        {
-                            // the AddItem function automaticaly takes care of removing the item from the room
-                            // and adds the item to the player's inventory
-                            GameManager.Inventory?.AddItem(roomItem);
-
-                            if (GameManager.ActiveQuest != null)
-                            {
-                                foreach (var objective in GameManager.ActiveQuest.Objectives)
-                                {
-                                    if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
-                                    {
-                                        objective.CompleteObjective(); // Mark the objective as completed
-                                        Console.WriteLine($"Objective completed: {objective.Description}");
-                                        GameManager.ActiveQuest.CheckQuestCompletion(); // Check if all objectives are completed
-                                        break; // Assuming one item cannot complete multiple objectives
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"The {itemName} is not here.");
-                        }
-                    }
-                    else if(rsp.ToLower() == "no" || rsp.ToLower() == "n")
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid response.");
-                        return;
-                    }
-                }
-                firstIteration = false;
-            }
         }
 
-        private void Drop()
+
+        private void Drop(Command command)
         {
             if(GameManager.Inventory?.Size() == 0)
             {
                 Console.WriteLine("There are no items in your inventory!");
                 return;
             }
-            GameManager.Inventory?.ShowInventory();
-            Console.WriteLine("Type the name of the item which you would like to drop: ");
-            string? dropItemName = Console.ReadLine() ?? string.Empty;
-            if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
+            if(command.arguments == null)
             {
-                GameManager.Inventory?.DropItem(dropItemName);
-                // The DropItem() function takes care of the edge cases like if the item is not in the players inventory
+                Console.WriteLine("Please specify which items you want to drop.");
+                return;
             }
             else
             {
-                Console.WriteLine("You can't drop an item here");
-                // This is for a scenario where a curren troom for the player is not set or 
-                // is unknown, so that the player doesn't end up deleting an item from their game
+                if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
+                {
+                    foreach (string itemName in command.arguments)
+                    {
+                        // This function will remove an item from the player's inventory if it exists
+                        // and add it into the inventory of currentPlayerRoom
+                        GameManager.Inventory?.DropItem(itemName);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You can't drop items here!");
+                    // This check is implemented just in case there is something wrong with currentPlayerRoom
+                    // so that the player doesn't end up deleting an item from his game
+                }
+                
             }
         }
+
+
+        private void Take(Command command)
+        {
+            if (command.arguments == null)
+            {
+                Console.WriteLine("Please specify which items you want to pick up.");
+                return;
+            }
+            else
+            {
+                foreach (string itemName in command.arguments)
+                {
+                    Item? takeItem = GameManager.currentPlayerRoom?.GetItem(itemName);
+                    if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && takeItem != null)
+                    {
+                        GameManager.Inventory?.AddItem(takeItem);
+
+                        if (GameManager.ActiveQuest != null)
+                        {
+                            foreach (var objective in GameManager.ActiveQuest.Objectives)
+                            {
+                                if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
+                                {
+                                    objective.CompleteObjective(); // Mark the objective as completed
+                                    Console.WriteLine($"Objective completed: {objective.Description}");
+                                    GameManager.ActiveQuest.CheckQuestCompletion(); // Check if all objectives are completed
+                                    break; // Assuming one item cannot complete multiple objectives
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The {itemName} is not here.");
+                    }
+                }
+            }
+        }
+
         private void DisplayMap()
         {
             int step = 1;
