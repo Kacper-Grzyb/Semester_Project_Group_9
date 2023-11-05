@@ -1,4 +1,6 @@
-﻿namespace WorldOfZuul
+﻿using System.Diagnostics;
+
+namespace WorldOfZuul
 {
     public class Room
     {
@@ -79,6 +81,27 @@
                 }
             }
             return null;
+        }
+
+        public void showPaths()
+        {
+            if ( Exits.ContainsKey("south") )
+            {
+                Console.WriteLine("There is a path leading south");
+            }
+            if ( Exits.ContainsKey("north") )
+            {
+                Console.WriteLine("There is a path leading north");
+            }
+            if ( Exits.ContainsKey("east") )
+            {
+                Console.WriteLine("There is a path leading east");
+            }
+            if ( Exits.ContainsKey("west") )
+            {
+                Console.WriteLine("There is a path leading west");
+            }
+        
         }
     }
 }

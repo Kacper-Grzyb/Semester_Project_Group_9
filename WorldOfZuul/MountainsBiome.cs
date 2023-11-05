@@ -15,8 +15,8 @@ namespace WorldOfZuul
             MountainsBiome.BiomeType = Biomes.Mountains;
             MountainsBiome.PointsToWin = 100;
 
-            Room mountainsStartRoom = new Room("Foot of the Mountain", "Starting Room Description", new List<Item>{ new Item("Flashlight", "Used to light the way")});
-            Room mountainsRoom1 = new Room("Room 1", "Room 1 Description", new List<Item>());
+            Room mountainsStartRoom = new Room("Foot of the Mountains", "You are at the bottom of the mountains. The clouds cover their very tops and you can spot patches of snow here and there. Before you lies a path to begin your climb", new List<Item>());
+            Room mountainsRoom1 = new Room("Room 1", "Room 1 Description", new List<Item>() { new Item("Flashlight", "Used to light the way") });
             Room mountainsRoom2 = new Room("Room 2", "Room 2 Description", new List<Item>());
             Room mountainsRoom3 = new Room("Room 3", "Room 3 Description", new List<Item>());
             Room mountainsRoom4 = new Room("Room 4", "Room 4 Description", new List<Item>());
@@ -25,7 +25,7 @@ namespace WorldOfZuul
             Room mountainsRoom7 = new Room("Room 7", "Room 7 Description", new List<Item>());
             Room mountainsRoom8 = new Room("Room 8", "Room 8 Description", new List<Item>());
             Room mountainsOptionalRoom = new Room("Optional Room", "Optional Room Description", new List<Item>());
-            Room mountainsFinalRoom = new Room("Top of the Mountain", "Final Room Description", new List<Item>());
+            Room mountainsFinalRoom = new Room("Top of the highest Mountain", "Final Room Description", new List<Item>());
 
             mountainsStartRoom.SetExits(null, mountainsRoom4, null, mountainsRoom1);
             mountainsRoom1.SetExits(mountainsRoom5, mountainsRoom2, mountainsStartRoom, null);

@@ -7,15 +7,14 @@ namespace WorldOfZuul
 {
     public class Game
     {
-
-        public Room? currentRoom;
-        private Room? previousRoom;
         private int wrongCommands = 0;
         private int wrongCommandLimit = 5;
+        private MountainsBiome? mountainsBiome = null;
 
         public void Setup()
         {
             GameManager.Inventory = new Inventory();
+            GameManager.previousPlayerRooms = new Stack<Room>();
             GameManager.score = 0;
         }
         public void ChooseWorld()
@@ -51,6 +50,8 @@ namespace WorldOfZuul
                     GameManager.currentPlayerBiomeName = "Mountains";
                     GameManager.currentPlayerBiomeType = Biomes.Mountains;
                     worldPicked = true;
+                    if (mountainsBiome == null) mountainsBiome = new MountainsBiome();
+                    GameManager.currentPlayerRoom = mountainsBiome.startLocation;
 
                 }
                 else if (userInput?.ToLower() == "jungle")
@@ -117,8 +118,7 @@ namespace WorldOfZuul
             location8.SetExits(location5, location9, null, location7);
             location9.SetExits(location6, null, null, location8);
 
-            currentRoom = location5;
-            GameManager.currentPlayerRoom = currentRoom;
+            GameManager.currentPlayerRoom = location5;
             GameManager.Inventory = new Inventory();
             
             Player.mapHeight = 3;
@@ -140,9 +140,7 @@ namespace WorldOfZuul
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                currentRoom = GameManager.currentPlayerRoom;
-
-                Console.WriteLine("\nCurrent room: " + currentRoom?.ShortDescription);
+                Console.WriteLine("\nCurrent room: " + GameManager.currentPlayerRoom?.ShortDescription);
                 Console.Write("> ");
 
                 string? input = Console.ReadLine();
@@ -170,7 +168,7 @@ namespace WorldOfZuul
                 switch (command.Name)
                 {
                     case "look":
-                        if (currentRoom == null)
+                        if (GameManager.currentPlayerRoom == null)
                         {
                             //added this here for now since we are still adding the biomes
                             Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
@@ -179,17 +177,22 @@ namespace WorldOfZuul
                         DisplayItems(); //made method so it looks better
                         break;
                     case "back":
-                        if (previousRoom == null)
+                        if (GameManager.previousPlayerRooms?.Count() == 0)
+                        {
                             Console.WriteLine("You can't go back from here!");
+                        }
                         else
-                            GameManager.currentPlayerRoom = GameManager.previousPlayerRoom;
+                        {
+                            GameManager.currentPlayerRoom = GameManager.previousPlayerRooms?.Peek();
+                            GameManager.previousPlayerRooms?.Pop();
+                        }
                         break;
                     case "drop":
                         // turned this into a method also
                         Drop();
                         break;
                     case "quest":
-                        Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective");
+                        Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective (Pick a number)");
                         int rsp = Convert.ToInt32(Console.ReadLine());
                         if (rsp == 1)
                         {
@@ -225,6 +228,9 @@ namespace WorldOfZuul
                         break;
                     case "map":
                         DisplayMap();
+                        break;
+                    case "paths":
+                        GameManager.currentPlayerRoom.showPaths();
                         break;
                     case "north":
                         Player.Y = Math.Max(0, Player.Y - 1);
@@ -270,10 +276,10 @@ namespace WorldOfZuul
 
         private void Move(string direction)
         {
-            if (currentRoom?.Exits.ContainsKey(direction) == true)
+            if (GameManager.currentPlayerRoom?.Exits.ContainsKey(direction) == true && GameManager.currentPlayerRoom != null)
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
+                GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
+                GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
             }
             else
             {
@@ -309,6 +315,7 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'drop' to drop an item from your inventory");
             Console.WriteLine("Type 'inv' to display your inventory");
             Console.WriteLine("Type 'map' to display the biome map and your current location");
+            Console.WriteLine("Type 'paths' to show directions in which you can go from your current location");
         }
         public void PickAvailableQuests()
         {
@@ -317,7 +324,7 @@ namespace WorldOfZuul
                 Console.WriteLine("You are already on one quest");
                 return;
             }
-            if (currentRoom?.Quests == null || currentRoom.Quests.Count == 0)
+            if (GameManager.currentPlayerRoom?.Quests == null || GameManager.currentPlayerRoom.Quests.Count == 0)
             {
                 Console.WriteLine("There are no quests available in this room.");
                 return;
@@ -326,7 +333,7 @@ namespace WorldOfZuul
             Console.WriteLine("Available quests in this room:");
             int index = 1;
             List<Quest> availableQuests = new List<Quest>();
-            foreach (var quest in currentRoom.Quests)
+            foreach (var quest in GameManager.currentPlayerRoom.Quests)
             {
                 if (quest is Quest jungleQuest && !jungleQuest.IsCompleted)
                 {
@@ -365,14 +372,18 @@ namespace WorldOfZuul
         public void DisplayItems()
         {
             bool firstIteration = true;
-            Console.WriteLine(currentRoom?.LongDescription);
+            Console.WriteLine(GameManager.currentPlayerRoom?.LongDescription);
             // ShowRoomItems() will display the items in the room. If there are no items in the room 
             // the method will display an according message as well, so I deleted some of the Console.WriteLines
-            currentRoom?.ShowRoomItems();
+            GameManager.currentPlayerRoom?.ShowRoomItems();
+            if(GameManager.currentPlayerRoom?.Items.Count()==0)
+            {
+                return;
+            }
 
             while (true)
             { 
-                if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
+                if (GameManager.currentPlayerRoom?.Items != null && GameManager.currentPlayerRoom.Items.Count > 0)
                 {
                     if (firstIteration)
                     {
@@ -395,9 +406,9 @@ namespace WorldOfZuul
                         Console.WriteLine("You can pick up an item by typing its name:");
                         Console.Write("> ");
                         string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
-                        Item? roomItem = currentRoom.GetItem(itemName);
+                        Item? roomItem = GameManager.currentPlayerRoom.GetItem(itemName);
 
-                        if (currentRoom != null && currentRoom.Items != null && roomItem != null)
+                        if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && roomItem != null)
                         {
                             // the AddItem function automaticaly takes care of removing the item from the room
                             // and adds the item to the player's inventory
@@ -446,7 +457,7 @@ namespace WorldOfZuul
             GameManager.Inventory?.ShowInventory();
             Console.WriteLine("Type the name of the item which you would like to drop: ");
             string? dropItemName = Console.ReadLine() ?? string.Empty;
-            if (currentRoom != null && currentRoom.Items != null)
+            if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
             {
                 GameManager.Inventory?.DropItem(dropItemName);
                 // The DropItem() function takes care of the edge cases like if the item is not in the players inventory
@@ -454,7 +465,7 @@ namespace WorldOfZuul
             else
             {
                 Console.WriteLine("You can't drop an item here");
-                // This is for a scenario where a currentroom for the player is not set or 
+                // This is for a scenario where a curren troom for the player is not set or 
                 // is unknown, so that the player doesn't end up deleting an item from their game
             }
         }
