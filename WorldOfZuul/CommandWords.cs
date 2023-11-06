@@ -12,7 +12,7 @@ namespace WorldOfZuul
         {
              "north", "east", "south", "west", "look", 
              "back", "quit", "take","drop","quest",
-             "inv", "map", "paths", "help"
+             "inv", "map", "paths", "help", "use"
         };
 
         public bool IsValidCommand(string command)

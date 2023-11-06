@@ -140,6 +140,7 @@ namespace WorldOfZuul
             bool continuePlaying = true;
             while (continuePlaying)
             {
+                GameManager.currentPlayerRoom?.Update();
                 Console.WriteLine("\nCurrent room: " + GameManager.currentPlayerRoom?.ShortDescription);
                 Console.Write("> ");
 
@@ -193,6 +194,9 @@ namespace WorldOfZuul
                         break;
                     case "take":
                         Take(command);
+                        break;
+                    case "use":
+                        UseItem(command);
                         break;
                     case "quest":
                         Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective (Pick a number)");
@@ -281,8 +285,15 @@ namespace WorldOfZuul
         {
             if (GameManager.currentPlayerRoom?.Exits.ContainsKey(direction) == true && GameManager.currentPlayerRoom != null)
             {
-                GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
-                GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
+                if(GameManager.currentPlayerRoom?.blockedExits[direction] == false)
+                {
+                    GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
+                    GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
+                }
+                else
+                {
+                    Console.WriteLine("This path is currently blocked!");
+                }
             }
             else
             {
@@ -310,15 +321,17 @@ namespace WorldOfZuul
         {
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east' or 'west'");
-            Console.WriteLine("Type 'look' for more details");
             Console.WriteLine("Type 'back' to go to the previous room");
-            Console.WriteLine("Type 'help' to print this message again");
-            Console.WriteLine("Type 'quit' to exit the game");
-            Console.WriteLine("Type 'quest' to see available quest in the room");
-            Console.WriteLine("Type 'drop' to drop an item from your inventory");
+            Console.WriteLine("Type 'look' for more details");
+            Console.WriteLine("Type 'take [item name]' to pick up an item");
+            Console.WriteLine("Type 'use [item name]' to use an item");
+            Console.WriteLine("Type 'drop [item name]' to drop an item from your inventory");
             Console.WriteLine("Type 'inv' to display your inventory");
+            Console.WriteLine("Type 'quest' to see available quest in the room");
             Console.WriteLine("Type 'map' to display the biome map and your current location");
             Console.WriteLine("Type 'paths' to show directions in which you can go from your current location");
+            Console.WriteLine("Type 'quit' to exit the game");
+            Console.WriteLine("Type 'help' to print this message again");
         }
         public void PickAvailableQuests()
         {
@@ -452,6 +465,31 @@ namespace WorldOfZuul
                 }
             }
         }
+
+        //for now this function checks if an item can be activated and activates it, to be expanded in the future
+        private void UseItem(Command command) 
+        {
+            if (command.arguments == null)
+            {
+                Console.WriteLine("Please specify which items you want to use");
+                return;
+            }
+            else
+            {
+                foreach(string itemName in command.arguments)
+                {
+                    Item? useItem = GameManager.Inventory?.GetItem(itemName);
+                    if (useItem != null)
+                    { 
+                        useItem.Activate();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"There is no {itemName} in your inventory!");
+                    }
+                }
+            }
+        } 
 
         private void DisplayMap()
         {
