@@ -11,7 +11,7 @@ namespace WorldOfZuul
         private int wrongCommandLimit = 5;
         private MountainsBiome? mountainsBiome = null;
         private GlacialBiome? glacialBiome = null;
-        private Forest? forest = null;
+        private ForestBiome? forest = null;
 
         public void Setup()
         {

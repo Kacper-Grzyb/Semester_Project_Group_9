@@ -6,7 +6,7 @@ using static WorldOfZuul.GameManager;
 
 namespace WorldOfZuul
 {
-    public class Forest : Biome
+    public class ForestBiome : Biome
     {
         // Class-level variables for the Forest Biome
 
@@ -16,7 +16,7 @@ namespace WorldOfZuul
 
         // Existing constructor and methods
 
-        public Forest()
+        public ForestBiome()
 
         {
 
