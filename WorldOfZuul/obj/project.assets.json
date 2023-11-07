@@ -8,31 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\natal\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/gigwebs/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj",
+      "projectUniqueName": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
       "projectName": "WorldOfZuul",
-      "projectPath": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj",
-      "packagesPath": "C:\\Users\\natal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\obj\\",
+      "projectPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
+      "packagesPath": "/Users/gigwebs/.nuget/packages/",
+      "outputPath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\natal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/gigwebs/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -61,12 +54,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.11, 6.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-x64",
+            "version": "[6.0.11, 6.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.11, 6.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/Users/gigwebs/.vscode-dotnet-sdk/.dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -11,6 +11,7 @@ namespace WorldOfZuul
         private int wrongCommandLimit = 5;
         private MountainsBiome? mountainsBiome = null;
         private GlacialBiome? glacialBiome = null;
+        private Forest? forest = null;
 
         public void Setup()
         {
@@ -19,7 +20,7 @@ namespace WorldOfZuul
             GameManager.score = 0;
         }
         public void ChooseWorld()
-        { 
+        {
 
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
@@ -123,7 +124,7 @@ namespace WorldOfZuul
 
             GameManager.currentPlayerRoom = location5;
             GameManager.Inventory = new Inventory();
-            
+
             Player.mapHeight = 3;
             Player.mapWidth = 3;
             Player.X = 1;
@@ -161,7 +162,7 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("I don't know that command.");
                     wrongCommands++;
-                    if(wrongCommands == wrongCommandLimit)
+                    if (wrongCommands == wrongCommandLimit)
                     {
                         Console.WriteLine("Remember that you can type 'help' to display available commands");
                         wrongCommands = 0;
@@ -288,7 +289,7 @@ namespace WorldOfZuul
         {
             if (GameManager.currentPlayerRoom?.Exits.ContainsKey(direction) == true && GameManager.currentPlayerRoom != null)
             {
-                if(GameManager.currentPlayerRoom?.blockedExits[direction] == false)
+                if (GameManager.currentPlayerRoom?.blockedExits[direction] == false)
                 {
                     GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
                     GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
@@ -399,19 +400,19 @@ namespace WorldOfZuul
 
         private void Drop(Command command)
         {
-            if(GameManager.Inventory?.Size() == 0)
+            if (GameManager.Inventory?.Size() == 0)
             {
                 Console.WriteLine("There are no items in your inventory!");
                 return;
             }
-            if(command.arguments == null)
+            if (command.arguments == null)
             {
                 Console.WriteLine("Please specify which items you want to drop.");
                 return;
             }
             else
             {
-                if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
+                if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
                 {
                     foreach (string itemName in command.arguments)
                     {
@@ -426,7 +427,7 @@ namespace WorldOfZuul
                     // This check is implemented just in case there is something wrong with currentPlayerRoom
                     // so that the player doesn't end up deleting an item from his game
                 }
-                
+
             }
         }
 
@@ -443,7 +444,7 @@ namespace WorldOfZuul
                 foreach (string itemName in command.arguments)
                 {
                     Item? takeItem = GameManager.currentPlayerRoom?.GetItem(itemName);
-                    if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && takeItem != null)
+                    if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && takeItem != null)
                     {
                         GameManager.Inventory?.AddItem(takeItem);
 
@@ -470,7 +471,7 @@ namespace WorldOfZuul
         }
 
         //for now this function checks if an item can be activated and activates it, to be expanded in the future
-        private void UseItem(Command command) 
+        private void UseItem(Command command)
         {
             if (command.arguments == null)
             {
@@ -479,11 +480,11 @@ namespace WorldOfZuul
             }
             else
             {
-                foreach(string itemName in command.arguments)
+                foreach (string itemName in command.arguments)
                 {
                     Item? useItem = GameManager.Inventory?.GetItem(itemName);
                     if (useItem != null)
-                    { 
+                    {
                         useItem.Activate();
                     }
                     else
@@ -492,12 +493,12 @@ namespace WorldOfZuul
                     }
                 }
             }
-        } 
+        }
 
         private void DisplayMap()
         {
             int step = 1;
-            
+
             for (int y = 0; y < Player.mapHeight; y++)
             {
                 for (int x = 0; x < Player.mapWidth; x++)
@@ -508,12 +509,12 @@ namespace WorldOfZuul
                         step++; // players current position
                     }
                     else
-                    {                        
+                    {
                         Console.Write($"[{step}]");
-                        step++; 
+                        step++;
                     }
                 }
-                Console.WriteLine(); 
+                Console.WriteLine();
             }
         }
 
