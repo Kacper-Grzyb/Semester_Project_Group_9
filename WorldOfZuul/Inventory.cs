@@ -60,9 +60,6 @@ namespace WorldOfZuul
         /// <summary>
         ///  To use this method you must provide the name of the item you want to remove
         /// </summary>
-        // For now I implemented this method by using the name of the item to be removed, but later I can remake it
-        // so that for example it will not require any arguments. The method will display the whole inventory with an
-        // index next to each item and will ask the player to type in the index of the item they would like to remove
         public void DropItem(string itemName)
         {
             if (items.Count() == 0)
@@ -76,7 +73,7 @@ namespace WorldOfZuul
                 {
                     items.Remove(item);
                     GameManager.currentPlayerRoom?.AddItem(item);
-                    Console.WriteLine($"{itemName} was removed from your inventory");
+                    Console.WriteLine($"{item.name} was removed from your inventory");
                     return;
                 }
             }
@@ -95,7 +92,7 @@ namespace WorldOfZuul
                     return item;
                 }
             }
-                return null; 
+            return null; 
         }
     }
 }
