@@ -10,6 +10,7 @@ namespace WorldOfZuul
         private int wrongCommands = 0;
         private int wrongCommandLimit = 5;
         private MountainsBiome? mountainsBiome = null;
+        private GlacialBiome? glacialBiome = null;
 
         public void Setup()
         {
@@ -67,6 +68,8 @@ namespace WorldOfZuul
                     GameManager.currentPlayerBiomeName = "Glacial Biome";
                     GameManager.currentPlayerBiomeType = Biomes.Glacial;
                     worldPicked = true;
+                    if (glacialBiome == null) glacialBiome = new GlacialBiome();
+                    GameManager.currentPlayerRoom = glacialBiome.startLocation;
                 }
                 else
                 {
