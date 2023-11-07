@@ -13,13 +13,19 @@ namespace WorldOfZuul
         private int wrongCommands = 0;
         private int wrongCommandLimit = 5;
 
+        // Class-level variables for the Forest Biome
+        private int treesPlanted;
+        private int forestHealth;
+
+        // Existing constructor and methods
+
         public void Setup()
         {
             GameManager.Inventory = new Inventory();
             GameManager.score = 0;
         }
         public void ChooseWorld()
-        { 
+        {
 
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
@@ -69,7 +75,19 @@ namespace WorldOfZuul
             }
             while (!worldPicked);
 
+            // Existing world selection logic
+            switch (userInput)
+            {
+                // Other cases...
+                case "2":
+                    CreateForest(); // Initialize the forest biome
+                    break;
+                    // Other cases...
+            }
+
         }
+
+
         public void CreateJungle()
         {
 
@@ -115,366 +133,406 @@ namespace WorldOfZuul
             currentRoom = location5;
             GameManager.currentPlayerRoom = currentRoom;
             GameManager.Inventory = new Inventory();
-            
+
             Player.mapHeight = 3;
             Player.mapWidth = 3;
             Player.X = 1;
             Player.Y = 1;
         }
 
-
-
-        public void Play()
+        public void CreateForest()
         {
-            Parser parser = new();
-            Setup();
-            PrintWelcome();
-            ChooseWorld();
-            PrintBiomeWelcome();
+            // Initialization of forest-specific rooms
+            Room location1 = new Room("Forest Entrance", "You are at the edge of a dense forest. The sounds of wildlife resonate around you. A path leads north into the woods.", new List<Item>());
+            Room location2 = new Room("Forest Clearing", "A sunlit clearing lies before you, surrounded by towering trees. There's a sense of serenity here.", new List<Item>());
+            Room location3 = new Room("Ancient Tree", "You stand before an ancient tree, its massive trunk suggesting centuries of growth. There's an aura of wisdom about this place.", new List<Item>());
+            Room location4 = new Room("Rushing River", "A river cuts through the forest, its waters rushing over rocks. The sound of the water is both loud and calming.", new List<Item>());
+            Room location5 = new Room("Forest Camp", "An abandoned campsite, with a firepit and some scattered supplies. It looks like someone left in a hurry.", new List<Item> {
+                new Item("Seedling", "A young tree ready for planting"),
+                new Item("Watering Can", "Useful for nurturing plants"),
+                new Item("Field Guide", "Helps with identifying flora and fauna")
+            });
 
-            bool continuePlaying = true;
-            while (continuePlaying)
+            // Adding reforestation challenges to the forest biome
+            var reforestationObjectives = new List<QuestObjective> {
+                new QuestObjective("Plant 5 seedlings in the clearing to promote forest growth", "Seedling")
+            };
+            Quest Reforestation = new Quest("Reforestation Effort", "Help replenish the forest by planting new trees", false, false, reforestationObjectives);
+            location5.AddQuest(Reforestation);
+
+            // Connect rooms with appropriate exits to form the forest layout
+            location1.SetExits(null, location2, null, null);
+            location2.SetExits(null, location3, null, location1);
+            // Additional exits for other rooms as needed
+
+            // Establish the starting point within the forest biome
+            currentRoom = location1;
+            GameManager.currentPlayerRoom = currentRoom;
+
+            // Configure the map dimensions and player's starting position for the forest biome
+            Player.mapHeight = 3;
+            Player.mapWidth = 3;
+            Player.X = 1;
+            Player.Y = 1;
+        }
+
+        // Other methods and logic for gameplay
+    }
+
+    // Definition of Dashboard class and any other auxiliary classes
+}
+
+public void Play()
+{
+    Parser parser = new();
+    Setup();
+    PrintWelcome();
+    ChooseWorld();
+    PrintBiomeWelcome();
+
+    bool continuePlaying = true;
+    while (continuePlaying)
+    {
+        currentRoom = GameManager.currentPlayerRoom;
+
+        Console.WriteLine("\nCurrent room: " + currentRoom?.ShortDescription);
+        Console.Write("> ");
+
+        string? input = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(input))
+        {
+            Console.WriteLine("Please enter a command.");
+            continue;
+        }
+
+        Command? command = parser.GetCommand(input);
+
+        if (command == null)
+        {
+            Console.WriteLine("I don't know that command.");
+            wrongCommands++;
+            if (wrongCommands == wrongCommandLimit)
             {
-                currentRoom = GameManager.currentPlayerRoom;
+                Console.WriteLine("Remember that you can type 'help' to display available commands");
+                wrongCommands = 0;
+            }
+            continue;
+        }
 
-                Console.WriteLine("\nCurrent room: " + currentRoom?.ShortDescription);
+        switch (command.Name)
+        {
+            case "look":
+                if (currentRoom == null)
+                {
+                    //added this here for now since we are still adding the biomes
+                    Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
+                    break;
+                }
+                DisplayItems(); //made method so it looks better
+                break;
+            case "back":
+                if (previousRoom == null)
+                    Console.WriteLine("You can't go back from here!");
+                else
+                    GameManager.currentPlayerRoom = GameManager.previousPlayerRoom;
+                break;
+            case "drop":
+                // turned this into a method also
+                Drop();
+                break;
+            case "quest":
+                Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective");
+                int rsp = Convert.ToInt32(Console.ReadLine());
+                if (rsp == 1)
+                {
+                    PickAvailableQuests();
+                }
+                else if (rsp == 2)
+                {
+                    Console.WriteLine($"Your active quest is: {GameManager.ActiveQuest}");
+                }
+                else if (rsp == 3)
+                {
+                    if (GameManager.ActiveQuest?.Objectives != null)
+                    {
+                        Console.WriteLine("These are your objectives:");
+                        foreach (var objective in GameManager.ActiveQuest.Objectives)
+                        {
+                            Console.WriteLine($"- {objective.Description}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No active quest or objectives found.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Wrong input");
+                    break;
+                }
+                break;
+            case "inv":
+                GameManager.Inventory?.ShowInventory();
+                break;
+            case "map":
+                DisplayMap();
+                break;
+            case "north":
+                Player.Y = Math.Max(0, Player.Y - 1);
+                Move(command.Name);
+                DisplayMap();
+                break;
+            case "south":
+                Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
+                Move(command.Name);
+                DisplayMap();
+                break;
+            case "east":
+                Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
+                Move(command.Name);
+                DisplayMap();
+                break;
+            case "west":
+                Player.X = Math.Max(0, Player.X - 1);
+                Move(command.Name);
+                DisplayMap();
+                break;
+
+            case "quit":
+                continuePlaying = false;
+                break;
+
+            case "help":
+                PrintHelp();
+                break;
+
+            default:
+                Console.WriteLine("I don't know that command.");
+                break;
+
+
+
+
+        }
+    }
+
+    Console.WriteLine("Thank you for playing Scribescape!");
+}
+
+private void Move(string direction)
+{
+    if (currentRoom?.Exits.ContainsKey(direction) == true)
+    {
+        previousRoom = currentRoom;
+        currentRoom = currentRoom?.Exits[direction];
+    }
+    else
+    {
+        Console.WriteLine($"You can't go {direction}!");
+    }
+}
+
+
+private void PrintWelcome()
+{
+    Console.WriteLine("Welcome to"); // should it be maybe the full title? Console.WriteLine("Welcome to Scribescape: Textual Eco-Pursuits!");
+    Console.WriteLine(" ___   ___  ____  ____  ____  ____  ___   ___    __    ____  ____ \r\n/ __) / __)(  _ \\(_  _)(  _ \\( ___)/ __) / __)  /__\\  (  _ \\( ___)\r\n\\__ \\( (__  )   / _)(_  ) _ < )__) \\__ \\( (__  /(__)\\  )___/ )__) \r\n(___/ \\___)(_)\\_)(____)(____/(____)(___/ \\___)(__)(__)(__)  (____)\n");
+    Console.Write("Enter the name of your character: ");
+    GameManager.playerName = Console.ReadLine();
+}
+
+private void PrintBiomeWelcome()
+{
+    Console.WriteLine();
+    Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome}!");
+    PrintHelp();
+}
+
+public void PrintHelp()
+{
+    Console.WriteLine();
+    Console.WriteLine("Navigate by typing 'north', 'south', 'east' or 'west'");
+    Console.WriteLine("Type 'look' for more details");
+    Console.WriteLine("Type 'back' to go to the previous room");
+    Console.WriteLine("Type 'help' to print this message again");
+    Console.WriteLine("Type 'quit' to exit the game");
+    Console.WriteLine("Type 'quest' to see available quest in the room");
+    Console.WriteLine("Type 'drop' to drop an item from your inventory");
+    Console.WriteLine("Type 'inv' to display your inventory");
+    Console.WriteLine("Type 'map' to display the biome map and your current location");
+}
+public void PickAvailableQuests()
+{
+    if (GameManager.IsActive)
+    {
+        Console.WriteLine("You are already on one quest");
+        return;
+    }
+    if (currentRoom?.Quests == null || currentRoom.Quests.Count == 0)
+    {
+        Console.WriteLine("There are no quests available in this room.");
+        return;
+    }
+
+    Console.WriteLine("Available quests in this room:");
+    int index = 1;
+    List<Quest> availableQuests = new List<Quest>();
+    foreach (var quest in currentRoom.Quests)
+    {
+        if (quest is Quest jungleQuest && !jungleQuest.IsCompleted)
+        {
+            Console.WriteLine($"{index}. {jungleQuest.Name}: {jungleQuest.Description}");
+            availableQuests.Add(jungleQuest);
+            index++;
+        }
+    }
+
+    if (availableQuests.Count == 0)
+    {
+        Console.WriteLine("There are no available quests in this room.");
+        return;
+    }
+
+    Console.WriteLine("Enter the number of the quest you want to pick:");
+
+    if (int.TryParse(Console.ReadLine(), out int questNumber) && questNumber > 0 && questNumber <= availableQuests.Count)
+    {
+        GameManager.ActiveQuest = availableQuests[questNumber - 1];
+        Console.WriteLine($"You have picked the quest: {GameManager.ActiveQuest.Name}");
+        foreach (var objective in GameManager.ActiveQuest.Objectives)
+        {
+            Console.WriteLine($"- {objective.Description}");
+        }
+        GameManager.IsActive = true;
+    }
+    else
+    {
+        Console.WriteLine("Invalid choice. Please pick a valid quest number.");
+    }
+
+}
+
+
+public void DisplayItems()
+{
+    bool firstIteration = true;
+    Console.WriteLine(currentRoom?.LongDescription);
+    // ShowRoomItems() will display the items in the room. If there are no items in the room 
+    // the method will display an according message as well, so I deleted some of the Console.WriteLines
+    currentRoom?.ShowRoomItems();
+
+    while (true)
+    {
+        if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
+        {
+            if (firstIteration)
+            {
+                Console.WriteLine("Do you want to pick up an item? (yes/no)");
+            }
+            else
+            {
+                Console.WriteLine("Do you want to pick up another item? (yes/no)");
+            }
+            Console.Write("> ");
+            string rsp = Console.ReadLine() ?? string.Empty;
+
+            if (rsp.ToLower() == "yes" || rsp.ToLower() == "y")
+            {
+                if (GameManager.Inventory != null && GameManager.Inventory.isFull())
+                {
+                    Console.WriteLine("Your inventory is full!");
+                    return;
+                }
+                Console.WriteLine("You can pick up an item by typing its name:");
                 Console.Write("> ");
+                string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
+                Item? roomItem = currentRoom.GetItem(itemName);
 
-                string? input = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(input))
+                if (currentRoom != null && currentRoom.Items != null && roomItem != null)
                 {
-                    Console.WriteLine("Please enter a command.");
-                    continue;
-                }
+                    // the AddItem function automaticaly takes care of removing the item from the room
+                    // and adds the item to the player's inventory
+                    GameManager.Inventory?.AddItem(roomItem);
 
-                Command? command = parser.GetCommand(input);
-
-                if (command == null)
-                {
-                    Console.WriteLine("I don't know that command.");
-                    wrongCommands++;
-                    if(wrongCommands == wrongCommandLimit)
+                    if (GameManager.ActiveQuest != null)
                     {
-                        Console.WriteLine("Remember that you can type 'help' to display available commands");
-                        wrongCommands = 0;
+                        foreach (var objective in GameManager.ActiveQuest.Objectives)
+                        {
+                            if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
+                            {
+                                objective.CompleteObjective(); // Mark the objective as completed
+                                Console.WriteLine($"Objective completed: {objective.Description}");
+                                GameManager.ActiveQuest.CheckQuestCompletion(); // Check if all objectives are completed
+                                break; // Assuming one item cannot complete multiple objectives
+                            }
+                        }
                     }
-                    continue;
                 }
-
-                switch (command.Name)
+                else
                 {
-                    case "look":
-                        if (currentRoom == null)
-                        {
-                            //added this here for now since we are still adding the biomes
-                            Console.WriteLine("You are in a null room. Probably an error or an unfinished feature");
-                            break;
-                        }
-                        DisplayItems(); //made method so it looks better
-                        break;
-                    case "back":
-                        if (previousRoom == null)
-                            Console.WriteLine("You can't go back from here!");
-                        else
-                            GameManager.currentPlayerRoom = GameManager.previousPlayerRoom;
-                        break;
-                    case "drop":
-                        // turned this into a method also
-                        Drop();
-                        break;
-                    case "quest":
-                        Console.WriteLine("Do you want to see 1.Available quest 2. Active quest 3. Quest objective");
-                        int rsp = Convert.ToInt32(Console.ReadLine());
-                        if (rsp == 1)
-                        {
-                            PickAvailableQuests();
-                        }
-                        else if (rsp == 2)
-                        {
-                            Console.WriteLine($"Your active quest is: {GameManager.ActiveQuest}");
-                        }
-                        else if (rsp == 3)
-                        {
-                            if (GameManager.ActiveQuest?.Objectives != null)
-                            {
-                                Console.WriteLine("These are your objectives:");
-                                foreach (var objective in GameManager.ActiveQuest.Objectives)
-                                {
-                                    Console.WriteLine($"- {objective.Description}");
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("No active quest or objectives found.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Wrong input");
-                            break;
-                        }
-                        break;
-                    case "inv":
-                        GameManager.Inventory?.ShowInventory();
-                        break;
-                    case "map":
-                        DisplayMap();
-                        break;
-                    case "north":
-                        Player.Y = Math.Max(0, Player.Y - 1);
-                        Move(command.Name);
-                        DisplayMap();
-                        break;
-                    case "south":
-                        Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
-                        Move(command.Name);
-                        DisplayMap();
-                        break;
-                    case "east":
-                        Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
-                        Move(command.Name);
-                        DisplayMap();
-                        break;
-                    case "west":
-                        Player.X = Math.Max(0, Player.X - 1);
-                        Move(command.Name);
-                        DisplayMap();
-                        break;
-
-                    case "quit":
-                        continuePlaying = false;
-                        break;
-
-                    case "help":
-                        PrintHelp();
-                        break;
-
-                    default:
-                        Console.WriteLine("I don't know that command.");
-                        break;
-
-
-
-
+                    Console.WriteLine($"The {itemName} is not here.");
                 }
             }
-
-            Console.WriteLine("Thank you for playing Scribescape!");
-        }
-
-        private void Move(string direction)
-        {
-            if (currentRoom?.Exits.ContainsKey(direction) == true)
+            else if (rsp.ToLower() == "no" || rsp.ToLower() == "n")
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
+                return;
             }
             else
             {
-                Console.WriteLine($"You can't go {direction}!");
-            }
-        }
-
-
-        private void PrintWelcome()
-        {
-            Console.WriteLine("Welcome to"); // should it be maybe the full title? Console.WriteLine("Welcome to Scribescape: Textual Eco-Pursuits!");
-            Console.WriteLine(" ___   ___  ____  ____  ____  ____  ___   ___    __    ____  ____ \r\n/ __) / __)(  _ \\(_  _)(  _ \\( ___)/ __) / __)  /__\\  (  _ \\( ___)\r\n\\__ \\( (__  )   / _)(_  ) _ < )__) \\__ \\( (__  /(__)\\  )___/ )__) \r\n(___/ \\___)(_)\\_)(____)(____/(____)(___/ \\___)(__)(__)(__)  (____)\n");
-            Console.Write("Enter the name of your character: ");
-            GameManager.playerName = Console.ReadLine();
-        }
-
-        private void PrintBiomeWelcome()
-        {
-            Console.WriteLine();
-            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome}!");
-            PrintHelp();
-        }
-
-        public void PrintHelp()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east' or 'west'");
-            Console.WriteLine("Type 'look' for more details");
-            Console.WriteLine("Type 'back' to go to the previous room");
-            Console.WriteLine("Type 'help' to print this message again");
-            Console.WriteLine("Type 'quit' to exit the game");
-            Console.WriteLine("Type 'quest' to see available quest in the room");
-            Console.WriteLine("Type 'drop' to drop an item from your inventory");
-            Console.WriteLine("Type 'inv' to display your inventory");
-            Console.WriteLine("Type 'map' to display the biome map and your current location");
-        }
-        public void PickAvailableQuests()
-        {
-            if (GameManager.IsActive)
-            {
-                Console.WriteLine("You are already on one quest");
+                Console.WriteLine("Invalid response.");
                 return;
             }
-            if (currentRoom?.Quests == null || currentRoom.Quests.Count == 0)
-            {
-                Console.WriteLine("There are no quests available in this room.");
-                return;
-            }
+        }
+        firstIteration = false;
+    }
+}
 
-            Console.WriteLine("Available quests in this room:");
-            int index = 1;
-            List<Quest> availableQuests = new List<Quest>();
-            foreach (var quest in currentRoom.Quests)
-            {
-                if (quest is Quest jungleQuest && !jungleQuest.IsCompleted)
-                {
-                    Console.WriteLine($"{index}. {jungleQuest.Name}: {jungleQuest.Description}");
-                    availableQuests.Add(jungleQuest);
-                    index++;
-                }
-            }
+private void Drop()
+{
+    if (GameManager.Inventory?.Size() == 0)
+    {
+        Console.WriteLine("There are no items in your inventory!");
+        return;
+    }
+    GameManager.Inventory?.ShowInventory();
+    Console.WriteLine("Type the name of the item which you would like to drop: ");
+    string? dropItemName = Console.ReadLine() ?? string.Empty;
+    if (currentRoom != null && currentRoom.Items != null)
+    {
+        GameManager.Inventory?.DropItem(dropItemName);
+        // The DropItem() function takes care of the edge cases like if the item is not in the players inventory
+    }
+    else
+    {
+        Console.WriteLine("You can't drop an item here");
+        // This is for a scenario where a currentroom for the player is not set or 
+        // is unknown, so that the player doesn't end up deleting an item from their game
+    }
+}
+private void DisplayMap()
+{
+    int step = 1;
 
-            if (availableQuests.Count == 0)
+    for (int y = 0; y < Player.mapHeight; y++)
+    {
+        for (int x = 0; x < Player.mapWidth; x++)
+        {
+            if (x == Player.X && y == Player.Y)
             {
-                Console.WriteLine("There are no available quests in this room.");
-                return;
-            }
-
-            Console.WriteLine("Enter the number of the quest you want to pick:");
-
-            if (int.TryParse(Console.ReadLine(), out int questNumber) && questNumber > 0 && questNumber <= availableQuests.Count)
-            {
-                GameManager.ActiveQuest = availableQuests[questNumber - 1];
-                Console.WriteLine($"You have picked the quest: {GameManager.ActiveQuest.Name}");
-                foreach (var objective in GameManager.ActiveQuest.Objectives)
-                {
-                    Console.WriteLine($"- {objective.Description}");
-                }
-                GameManager.IsActive = true;
+                Console.Write("[P]");
+                step++; // players current position
             }
             else
             {
-                Console.WriteLine("Invalid choice. Please pick a valid quest number.");
-            }
-
-        }
-
-
-        public void DisplayItems()
-        {
-            bool firstIteration = true;
-            Console.WriteLine(currentRoom?.LongDescription);
-            // ShowRoomItems() will display the items in the room. If there are no items in the room 
-            // the method will display an according message as well, so I deleted some of the Console.WriteLines
-            currentRoom?.ShowRoomItems();
-
-            while (true)
-            { 
-                if (currentRoom?.Items != null && currentRoom.Items.Count > 0)
-                {
-                    if (firstIteration)
-                    {
-                        Console.WriteLine("Do you want to pick up an item? (yes/no)");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Do you want to pick up another item? (yes/no)");
-                    }
-                    Console.Write("> ");
-                    string rsp = Console.ReadLine() ?? string.Empty;
-
-                    if (rsp.ToLower() == "yes" || rsp.ToLower() == "y")
-                    {
-                        if (GameManager.Inventory != null && GameManager.Inventory.isFull())
-                        {
-                            Console.WriteLine("Your inventory is full!");
-                            return;
-                        }
-                        Console.WriteLine("You can pick up an item by typing its name:");
-                        Console.Write("> ");
-                        string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
-                        Item? roomItem = currentRoom.GetItem(itemName);
-
-                        if (currentRoom != null && currentRoom.Items != null && roomItem != null)
-                        {
-                            // the AddItem function automaticaly takes care of removing the item from the room
-                            // and adds the item to the player's inventory
-                            GameManager.Inventory?.AddItem(roomItem);
-
-                            if (GameManager.ActiveQuest != null)
-                            {
-                                foreach (var objective in GameManager.ActiveQuest.Objectives)
-                                {
-                                    if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
-                                    {
-                                        objective.CompleteObjective(); // Mark the objective as completed
-                                        Console.WriteLine($"Objective completed: {objective.Description}");
-                                        GameManager.ActiveQuest.CheckQuestCompletion(); // Check if all objectives are completed
-                                        break; // Assuming one item cannot complete multiple objectives
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"The {itemName} is not here.");
-                        }
-                    }
-                    else if(rsp.ToLower() == "no" || rsp.ToLower() == "n")
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid response.");
-                        return;
-                    }
-                }
-                firstIteration = false;
+                Console.Write($"[{step}]");
+                step++;
             }
         }
-
-        private void Drop()
-        {
-            if(GameManager.Inventory?.Size() == 0)
-            {
-                Console.WriteLine("There are no items in your inventory!");
-                return;
-            }
-            GameManager.Inventory?.ShowInventory();
-            Console.WriteLine("Type the name of the item which you would like to drop: ");
-            string? dropItemName = Console.ReadLine() ?? string.Empty;
-            if (currentRoom != null && currentRoom.Items != null)
-            {
-                GameManager.Inventory?.DropItem(dropItemName);
-                // The DropItem() function takes care of the edge cases like if the item is not in the players inventory
-            }
-            else
-            {
-                Console.WriteLine("You can't drop an item here");
-                // This is for a scenario where a currentroom for the player is not set or 
-                // is unknown, so that the player doesn't end up deleting an item from their game
-            }
-        }
-        private void DisplayMap()
-        {
-            int step = 1;
-            
-            for (int y = 0; y < Player.mapHeight; y++)
-            {
-                for (int x = 0; x < Player.mapWidth; x++)
-                {
-                    if (x == Player.X && y == Player.Y)
-                    {
-                        Console.Write("[P]");
-                        step++; // players current position
-                    }
-                    else
-                    {                        
-                        Console.Write($"[{step}]");
-                        step++; 
-                    }
-                }
-                Console.WriteLine(); 
-            }
-        }
+        Console.WriteLine();
+    }
+}
 
     }
 }
