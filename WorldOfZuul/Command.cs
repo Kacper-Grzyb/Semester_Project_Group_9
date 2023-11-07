@@ -9,12 +9,13 @@ namespace WorldOfZuul
     public class Command
     {
         public string Name { get; }
-        public string? SecondWord { get; } // this might be used for future expansions, such as "take apple".
+        public string[]? arguments { get; }
 
-        public Command(string name, string? secondWord = null)
+        public Command(string name, string[]? secondWord = null)
         {
             Name = name;
-            SecondWord = secondWord;
+            //for now only used for the 'take' command
+            arguments = secondWord;
         }
     }
 }
