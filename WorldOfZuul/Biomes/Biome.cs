@@ -28,6 +28,10 @@ namespace WorldOfZuul
         {
             
         }
+        public virtual void checkForAvailableObjectives()
+        {
+
+        }
     }
    
 }

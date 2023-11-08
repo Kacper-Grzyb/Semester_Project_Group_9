@@ -10,45 +10,46 @@ namespace WorldOfZuul
 {
     public class Quest
     {
-        public string Name { get; internal set; }
-        public string Description { get; internal set; }
+        public string QuestName { get; internal set; }
+        public string QuestDescription { get; internal set; }
         public bool IsCompleted { get; internal set; }
         public bool IsActive { get; private set; }
-        public List<QuestObjective> Objectives { get; private set; } = new List<QuestObjective>();
+        public List<QuestObjective> QuestObjectives { get; private set; } = new List<QuestObjective>();
+        
 
-        public Quest(string name, string description, bool isCompleted, bool isActive, List<QuestObjective> objectives = null!)
+        public Quest(string questName, string questDescription, bool isCompleted, bool isActive, List<QuestObjective> questObjectives = null!)
         {
-            Name = name;
-            Description = description;
+            QuestName = questName;
+            QuestDescription = questDescription;
             IsCompleted = isCompleted;
             IsActive = isActive;
-            Objectives = objectives;
-
+            QuestObjectives = questObjectives;
+            
         }
 
         public virtual void CompleteQuest()
         {
             IsCompleted = true;
-            GameManager.IsActive = false;
+            GameManager.IsActiveQuest = false;
         }
         public void AddObjective(string description, string neededItems)
         {
-            Objectives.Add(new QuestObjective(description, neededItems));
+            QuestObjectives.Add(new QuestObjective(description, neededItems));
         }
 
 
         public bool AreAllObjectivesCompleted()
         {
-            return Objectives.All(o => o.IsCompleted);
+            return QuestObjectives.All(o => o.IsCompleted);
         }
 
         public void AddObjective(QuestObjective objective)
         {
-            Objectives.Add(objective);
+            QuestObjectives.Add(objective);
         }
         public override string ToString()
         {
-            return Name;
+            return QuestName;
         }
 
         public void CheckQuestCompletion()
@@ -59,6 +60,7 @@ namespace WorldOfZuul
             }
         }
     }
+    
     public class QuestObjective
     {
         public string Description { get; set; }

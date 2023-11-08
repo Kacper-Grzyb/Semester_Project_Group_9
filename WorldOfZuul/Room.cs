@@ -11,12 +11,14 @@ namespace WorldOfZuul
         public Dictionary<string, Room> Exits { get; private set; } = new();
         public Dictionary<string, bool> blockedExits { get; protected set; } = new(); // true if an exit is blocked and false if not
         public List<Quest> Quests { get; private set; } = new List<Quest>();
+       
 
 
         public void AddQuest(Quest quest)
         {
             Quests.Add(quest);
         }
+        
 
         public Room(string shortDesc, string longDesc, List<Item> items)
         {

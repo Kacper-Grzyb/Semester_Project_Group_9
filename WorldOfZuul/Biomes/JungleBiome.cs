@@ -6,7 +6,7 @@ using static WorldOfZuul.GameManager;
 
 namespace WorldOfZuul
 {
-    public sealed class JungleBiome:Biome
+    public sealed class JungleBiome : Biome
     {
         public Room startLocation;
         public JungleBiome()
@@ -14,7 +14,7 @@ namespace WorldOfZuul
             JungleBiome.BiomeType = Biomes.Jungle;
             JungleBiome.PointsToWin = 100;
 
-             Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
+            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
 
             Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { });
 
@@ -23,7 +23,7 @@ namespace WorldOfZuul
             Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<Item> { });
 
             Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { new Item("Flashlight", "A way to light your path"),
-            new Item("Map","Useful for navigation"), new Item("Trap", "Can be used against enemies") });
+            new Item("map","Useful for navigation"), new Item("trap", "Can be used against enemies") });
 
             Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { });
 
@@ -63,8 +63,8 @@ namespace WorldOfZuul
         }
         public override void displayMap()
         {
-             int step = 1;
-            
+            int step = 1;
+
             for (int y = 0; y < Player.mapHeight; y++)
             {
                 for (int x = 0; x < Player.mapWidth; x++)
@@ -75,12 +75,137 @@ namespace WorldOfZuul
                         step++; // players current position
                     }
                     else
-                    {                        
+                    {
                         Console.Write($"[{step}]");
-                        step++; 
+                        step++;
                     }
                 }
-                Console.WriteLine(); 
+                Console.WriteLine();
+            }
+        }
+        public override void checkForAvailableObjectives()
+        {
+            if(GameManager.IsActiveQuest == false)
+            {
+                
+                return;
+            }
+            if(GameManager.ActiveQuest?.QuestName == "Disable traps" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 9")
+            {
+                
+              quizTrap();
+            }
+        }
+        public void quizTrap()
+        {
+
+            if (GameManager.ActiveQuest?.QuestName == "Disable traps")
+            {
+                int trapsDisabled = 0;
+
+                string? inputAnswer;
+                Console.WriteLine("You have to disable the traps set by the poachers, you can disable them by answering 5 questions.");
+                Console.WriteLine("Each question will disable one of the traps, try to disable as many as possible.");
+                Console.WriteLine("Good luck! \n");
+
+                Console.WriteLine("\x1b[1mQuestion 1:\x1b: Which of the following is NOT a benefit provided by jungle ecosystems?");
+                Console.WriteLine("A)They are habitats for diverse species.");
+                Console.WriteLine("B)They help stabilize the world's climate.");
+                Console.WriteLine("C) They are the primary source of freshwater.");
+                Console.WriteLine("D) They provide the main ingredients for processed foods.\n");
+
+                inputAnswer = Console.ReadLine();
+                if (inputAnswer?.ToLower() != "d")
+                {
+                    Console.WriteLine("Wrong!");
+                    Console.WriteLine($"Correct asnwer: D ");
+                    GameManager.score -= 3;
+                    
+                }
+                else
+                {
+                    Console.WriteLine($"Correct asnwer!");
+                    GameManager.score += 5;
+                    trapsDisabled++;
+                }
+
+                Console.WriteLine("\x1b1mQuestion 2: Deforestation in jungles is primarily driven by the need for land for agriculture and logging operations.\x1b[0m");
+                Console.WriteLine("True");
+                Console.WriteLine("False");
+
+                inputAnswer = Console.ReadLine();
+                if (inputAnswer?.ToLower() != "true")
+                {
+                    Console.WriteLine("Wrong!");
+                    Console.WriteLine($"Correct asnwer: true ");
+                    GameManager.score -= 3;
+                    
+                }
+                else
+                {
+                    Console.WriteLine($"Correct asnwer!");
+                    GameManager.score += 5;
+                    trapsDisabled++;
+                }
+
+                Console.WriteLine("\x1b[1mQuestion 3:\x1b:What does the term ''poaching'' refer to? ");
+                Console.WriteLine("A) The legal hunting of wild animals.");
+                Console.WriteLine("B) The illegal hunting, capturing, and killing of wild animals.");
+                Console.WriteLine("C) A method of cooking eggs.");
+                Console.WriteLine("D) A technique used in wildlife photography.");
+
+                inputAnswer = Console.ReadLine();
+                if (inputAnswer?.ToLower() != "b")
+                {
+                    Console.WriteLine("Wrong!");
+                    Console.WriteLine($"Correct asnwer: B ");
+                    GameManager.score -= 3;
+                }
+                else
+                {
+                    Console.WriteLine($"Correct asnwer!");
+                    GameManager.score += 5;
+                    trapsDisabled++;
+                }
+
+                Console.WriteLine("\x1b[1mQuestion 4:\x1b Which of these jungle animals is often poached for its valuable parts and has become endangered as a result? ");
+                Console.WriteLine("A) Sloth");
+                Console.WriteLine("B) Toucan");
+                Console.WriteLine("C) Elephant");
+                Console.WriteLine("D) Iguana");
+
+                inputAnswer = Console.ReadLine();
+                if (inputAnswer?.ToLower() != "C")
+                {
+                    Console.WriteLine("Wrong!");
+                    Console.WriteLine($"Correct asnwer: C ");
+                    GameManager.score -= 3;
+                }
+                else
+                {
+                    Console.WriteLine($"Correct asnwer!");
+                    GameManager.score += 5;
+                    trapsDisabled++;
+                }
+                Console.WriteLine("\x1b[1mQuestion 5:\x1b Establishing protected areas is a key strategy to combat poaching in jungles. ");
+                Console.WriteLine("True");
+                Console.WriteLine("False");
+                inputAnswer = Console.ReadLine();
+
+                if(inputAnswer?.ToLower() != "true")
+                {
+                    Console.WriteLine("Wrong!");
+                    Console.WriteLine($"Correct asnwer: true ");
+                    GameManager.score -= 3;
+                }else{
+                    Console.WriteLine($"Correct asnwer!");
+                    GameManager.score += 5;
+                    trapsDisabled++;
+                }
+
+
+
+
             }
         }
     }

@@ -20,7 +20,7 @@ namespace WorldOfZuul
             GameManager.score = 0;
         }
         public void ChooseWorld()
-        { 
+        {
 
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
@@ -63,7 +63,7 @@ namespace WorldOfZuul
                     worldPicked = true;
                     if (jungleBiome == null) jungleBiome = new JungleBiome();
                     GameManager.currentPlayerRoom = jungleBiome.startLocation;
-                    
+
 
                 }
                 else if (userInput?.ToLower() == "glacial")
@@ -112,7 +112,7 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("I don't know that command.");
                     wrongCommands++;
-                    if(wrongCommands == wrongCommandLimit)
+                    if (wrongCommands == wrongCommandLimit)
                     {
                         Console.WriteLine("Remember that you can type 'help' to display available commands");
                         wrongCommands = 0;
@@ -165,10 +165,10 @@ namespace WorldOfZuul
                         }
                         else if (rsp == 3)
                         {
-                            if (GameManager.ActiveQuest?.Objectives != null)
+                            if (GameManager.ActiveQuest?.QuestObjectives != null)
                             {
                                 Console.WriteLine("These are your objectives:");
-                                foreach (var objective in GameManager.ActiveQuest.Objectives)
+                                foreach (var objective in GameManager.ActiveQuest.QuestObjectives)
                                 {
                                     Console.WriteLine($"- {objective.Description}");
                                 }
@@ -188,13 +188,22 @@ namespace WorldOfZuul
                         GameManager.Inventory?.ShowInventory();
                         break;
                     case "map":
-                        if(currentPlayerBiomeName == "Jungle")
+                        if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name == "map"))
                         {
-                            jungleBiome?.displayMap();
-                        }else
-                        {
-                            Console.WriteLine("there is no map ");
+                            if (currentPlayerBiomeName == "Jungle" && GameManager.Inventory.items.Any(item => item.name == "map")) 
+                            {
+                                jungleBiome?.displayMap();
+                            }
+                            else
+                            {
+                                Console.WriteLine("there is no map ");
+                            }
                         }
+                        else
+                        {
+                            Console.WriteLine($"You dont have the map");
+                        }
+
                         break;
                     case "paths":
                         GameManager.currentPlayerRoom?.showPaths();
@@ -202,24 +211,40 @@ namespace WorldOfZuul
                     case "north":
                         Player.Y = Math.Max(0, Player.Y - 1);
                         Move(command.Name);
-                       
+
+                        if(currentPlayerBiomeName == "Jungle"){
+                            jungleBiome?.checkForAvailableObjectives();
+                        }
+
                         break;
                     case "south":
                         Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
                         Move(command.Name);
-                        
+
+                        if(currentPlayerBiomeName == "Jungle"){
+                            jungleBiome?.checkForAvailableObjectives();
+                        }
+
                         break;
                     case "east":
                         Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
                         Move(command.Name);
-                        
+
+                        if(currentPlayerBiomeName == "Jungle"){
+                            jungleBiome?.checkForAvailableObjectives();
+                        }
+
                         break;
                     case "west":
                         Player.X = Math.Max(0, Player.X - 1);
                         Move(command.Name);
-                        
+
+                        if(currentPlayerBiomeName == "Jungle"){
+                            jungleBiome?.checkForAvailableObjectives();
+                        }
+
                         break;
- 
+
                     case "quit":
                         continuePlaying = false;
                         break;
@@ -245,7 +270,7 @@ namespace WorldOfZuul
         {
             if (GameManager.currentPlayerRoom?.Exits.ContainsKey(direction) == true && GameManager.currentPlayerRoom != null)
             {
-                if(GameManager.currentPlayerRoom?.blockedExits[direction] == false)
+                if (GameManager.currentPlayerRoom?.blockedExits[direction] == false)
                 {
                     GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
                     GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
@@ -295,7 +320,7 @@ namespace WorldOfZuul
         }
         public void PickAvailableQuests()
         {
-            if (GameManager.IsActive)
+            if (GameManager.IsActiveQuest)
             {
                 Console.WriteLine("You are already on one quest");
                 return;
@@ -313,7 +338,7 @@ namespace WorldOfZuul
             {
                 if (quest is Quest jungleQuest && !jungleQuest.IsCompleted)
                 {
-                    Console.WriteLine($"{index}. {jungleQuest.Name}: {jungleQuest.Description}");
+                    Console.WriteLine($"{index}. {jungleQuest.QuestName}: {jungleQuest.QuestDescription}");
                     availableQuests.Add(jungleQuest);
                     index++;
                 }
@@ -330,12 +355,12 @@ namespace WorldOfZuul
             if (int.TryParse(Console.ReadLine(), out int questNumber) && questNumber > 0 && questNumber <= availableQuests.Count)
             {
                 GameManager.ActiveQuest = availableQuests[questNumber - 1];
-                Console.WriteLine($"You have picked the quest: {GameManager.ActiveQuest.Name}");
-                foreach (var objective in GameManager.ActiveQuest.Objectives)
+                Console.WriteLine($"You have picked the quest: {GameManager.ActiveQuest.QuestName}");
+                foreach (var objective in GameManager.ActiveQuest.QuestObjectives)
                 {
                     Console.WriteLine($"- {objective.Description}");
                 }
-                GameManager.IsActive = true;
+                GameManager.IsActiveQuest = true;
             }
             else
             {
@@ -356,19 +381,19 @@ namespace WorldOfZuul
 
         private void Drop(Command command)
         {
-            if(GameManager.Inventory?.Size() == 0)
+            if (GameManager.Inventory?.Size() == 0)
             {
                 Console.WriteLine("There are no items in your inventory!");
                 return;
             }
-            if(command.arguments == null)
+            if (command.arguments == null)
             {
                 Console.WriteLine("Please specify which items you want to drop.");
                 return;
             }
             else
             {
-                if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
+                if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null)
                 {
                     foreach (string itemName in command.arguments)
                     {
@@ -383,7 +408,7 @@ namespace WorldOfZuul
                     // This check is implemented just in case there is something wrong with currentPlayerRoom
                     // so that the player doesn't end up deleting an item from his game
                 }
-                
+
             }
         }
 
@@ -400,13 +425,13 @@ namespace WorldOfZuul
                 foreach (string itemName in command.arguments)
                 {
                     Item? takeItem = GameManager.currentPlayerRoom?.GetItem(itemName);
-                    if(GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && takeItem != null)
+                    if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.Items != null && takeItem != null)
                     {
                         GameManager.Inventory?.AddItem(takeItem);
 
                         if (GameManager.ActiveQuest != null)
                         {
-                            foreach (var objective in GameManager.ActiveQuest.Objectives)
+                            foreach (var objective in GameManager.ActiveQuest.QuestObjectives)
                             {
                                 if (!objective.IsCompleted && objective.NeededItems.Contains(itemName))
                                 {
@@ -427,7 +452,7 @@ namespace WorldOfZuul
         }
 
         //for now this function checks if an item can be activated and activates it, to be expanded in the future
-        private void UseItem(Command command) 
+        private void UseItem(Command command)
         {
             if (command.arguments == null)
             {
@@ -436,11 +461,11 @@ namespace WorldOfZuul
             }
             else
             {
-                foreach(string itemName in command.arguments)
+                foreach (string itemName in command.arguments)
                 {
                     Item? useItem = GameManager.Inventory?.GetItem(itemName);
                     if (useItem != null)
-                    { 
+                    {
                         useItem.Activate();
                     }
                     else
@@ -449,8 +474,8 @@ namespace WorldOfZuul
                     }
                 }
             }
-        } 
+        }
 
-        
+
     }
 }
