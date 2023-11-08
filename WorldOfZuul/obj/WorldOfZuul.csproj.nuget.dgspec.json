@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj": {}
+    "E:\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
-    "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj": {
+    "E:\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj",
+        "projectUniqueName": "E:\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
         "projectName": "WorldOfZuul",
-        "projectPath": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\WorldOfZuul.csproj",
-        "packagesPath": "C:\\Users\\natal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\natal\\source\\repos\\project202311071149\\WorldOfZuul\\obj\\",
+        "projectPath": "E:\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+        "packagesPath": "C:\\Users\\Lillia\\.nuget\\packages\\",
+        "outputPath": "E:\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\natal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Lillia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

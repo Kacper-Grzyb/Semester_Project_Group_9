@@ -24,5 +24,10 @@ namespace WorldOfZuul
         {
 
         }
+        public virtual void displayMap()
+        {
+            
+        }
     }
+   
 }
