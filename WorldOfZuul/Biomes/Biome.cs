@@ -24,5 +24,14 @@ namespace WorldOfZuul
         {
 
         }
+        public virtual void displayMap()
+        {
+            
+        }
+        public virtual void checkForAvailableObjectives()
+        {
+
+        }
     }
+   
 }

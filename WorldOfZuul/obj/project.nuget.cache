@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3W1wQch+BSHBnKOe7Dt8/kBtqu5vHIVCHhnfiKwLwNWcraBJmqLyQ5kIaEKWo1kfhBWdf5ZTJ4++FuvX0PskEw==",
+  "dgSpecHash": "AkXc5pFCy5KAE4k/y9FFvJ2sOfWliRfla+KLjkHfgnanD1GzXAqB+KCKiXdFmNb673D5Ayh+t1WppFhorS8aTQ==",
   "success": true,
-  "projectFilePath": "/Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/WorldOfZuul.csproj",
-  "expectedPackageFiles": [
-    "/Users/gigwebs/.nuget/packages/microsoft.netcore.app.ref/6.0.11/microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
-    "/Users/gigwebs/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.11/microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
-    "/Users/gigwebs/.nuget/packages/microsoft.netcore.app.host.osx-x64/6.0.11/microsoft.netcore.app.host.osx-x64.6.0.11.nupkg.sha512"
-  ],
+  "projectFilePath": "E:\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
