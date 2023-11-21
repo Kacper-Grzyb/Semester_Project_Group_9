@@ -11,15 +11,15 @@ namespace WorldOfZuul
         public Dictionary<string, Room> Exits { get; private set; } = new();
         public Dictionary<string, bool> blockedExits { get; protected set; } = new(); // true if an exit is blocked and false if not
         public List<Quest> Quests { get; private set; } = new List<Quest>();
-       public List<NPC> NpcsInRoom { get; private set; }
-       
+        public List<NPC> NpcsInRoom { get; private set; }
+
 
 
         public void AddQuest(Quest quest)
         {
             Quests.Add(quest);
         }
-        
+
 
         public Room(string shortDesc, string longDesc, List<Item> items, List<NPC> npcsInRoom)
         {
@@ -54,7 +54,7 @@ namespace WorldOfZuul
 
         public void BlockExit(string direction)
         {
-            if(blockedExits.ContainsKey(direction))
+            if (blockedExits.ContainsKey(direction))
             {
                 blockedExits[direction] = true;
             }
@@ -82,7 +82,7 @@ namespace WorldOfZuul
             else
             {
                 Console.WriteLine($"There is no {item.name} in this room!");
-            } 
+            }
         }
 
         public void ShowRoomItems()
@@ -139,7 +139,7 @@ namespace WorldOfZuul
 
         public void showPaths()
         {
-          foreach (var direction in Exits.Keys)
+            foreach (var direction in Exits.Keys)
             {
                 Console.WriteLine($"There is a path leading {direction}");
             }
@@ -153,6 +153,29 @@ namespace WorldOfZuul
         {
             NpcsInRoom.Remove(npc);
         }
+
+        public void ShowNpcsInRoom(Room room)
+        {
+            Console.WriteLine("You see the following NPCs:");
+            foreach (var npc in room.NpcsInRoom)
+            {
+                Console.WriteLine($"{npc.Name} - {npc.Description}");
+            }
+        }
+
+        public void InteractWithNpc(Room room, string npcName)
+        {
+            var npc = room.NpcsInRoom.FirstOrDefault(n => n.Name.Equals(npcName, StringComparison.OrdinalIgnoreCase));
+            if (npc != null)
+            {
+                npc.Interact();
+            }
+            else
+            {
+                Console.WriteLine("No such NPC found in this room.");
+            }
+        }
+
 
     }
 }

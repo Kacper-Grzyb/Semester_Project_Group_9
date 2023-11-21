@@ -14,6 +14,7 @@ namespace WorldOfZuul
         {
             JungleBiome.BiomeType = Biomes.Jungle;
             JungleBiome.PointsToWin = 100;
+            
 
             Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
 
@@ -57,6 +58,11 @@ namespace WorldOfZuul
             startLocation = location5;
             GameManager.Inventory = new Inventory();
 
+            Riddler riddler = new Riddler("riddler","Master of riddles and puzzles.");
+            location1.AddNpcToRoom(riddler);
+            
+
+
             Player.mapHeight = 3;
             Player.mapWidth = 3;
             Player.X = 1;
@@ -87,8 +93,7 @@ namespace WorldOfZuul
         public override void checkForAvailableObjectives()
         {
             if(GameManager.IsActiveQuest == false)
-            {
-                
+            {   
                 return;
             }
             if(GameManager.ActiveQuest?.QuestName == "Disable traps" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 9")

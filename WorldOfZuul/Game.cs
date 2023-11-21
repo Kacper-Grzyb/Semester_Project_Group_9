@@ -191,7 +191,7 @@ namespace WorldOfZuul
                     case "map":
                         if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name == "map"))
                         {
-                            if (currentPlayerBiomeName == "Jungle" && GameManager.Inventory.items.Any(item => item.name == "map")) 
+                            if (currentPlayerBiomeName == "Jungle" && GameManager.Inventory.items.Any(item => item.name == "map"))
                             {
                                 jungleBiome?.displayMap();
                             }
@@ -213,7 +213,8 @@ namespace WorldOfZuul
                         Player.Y = Math.Max(0, Player.Y - 1);
                         Move(command.Name);
 
-                        if(currentPlayerBiomeName == "Jungle"){
+                        if (currentPlayerBiomeName == "Jungle")
+                        {
                             jungleBiome?.checkForAvailableObjectives();
                         }
 
@@ -222,7 +223,8 @@ namespace WorldOfZuul
                         Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
                         Move(command.Name);
 
-                        if(currentPlayerBiomeName == "Jungle"){
+                        if (currentPlayerBiomeName == "Jungle")
+                        {
                             jungleBiome?.checkForAvailableObjectives();
                         }
 
@@ -231,7 +233,8 @@ namespace WorldOfZuul
                         Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
                         Move(command.Name);
 
-                        if(currentPlayerBiomeName == "Jungle"){
+                        if (currentPlayerBiomeName == "Jungle")
+                        {
                             jungleBiome?.checkForAvailableObjectives();
                         }
 
@@ -240,10 +243,33 @@ namespace WorldOfZuul
                         Player.X = Math.Max(0, Player.X - 1);
                         Move(command.Name);
 
-                        if(currentPlayerBiomeName == "Jungle"){
+                        if (currentPlayerBiomeName == "Jungle")
+                        {
                             jungleBiome?.checkForAvailableObjectives();
                         }
 
+                        break;
+                    case "talk":
+                        if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.NpcsInRoom.Count < 1)
+                        {
+                            Console.WriteLine("There is no one to talk to!");
+                            break;
+                        }
+                        else
+                        {
+                            GameManager.currentPlayerRoom?.ShowNpcsInRoom(GameManager.currentPlayerRoom);
+                            Console.WriteLine("Which npc would you like to talk to?");
+
+                            string? chosenNpc = Console.ReadLine();
+                            if (chosenNpc != null)
+                            {
+                                GameManager.currentPlayerRoom?.InteractWithNpc(GameManager.currentPlayerRoom, chosenNpc);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        }
                         break;
 
                     case "quit":
