@@ -13,6 +13,8 @@ namespace WorldOfZuul
 
         public GlacialBiome()
         {
+            BiomeName = "Glacial Biome"; // can be changed to glacial, just needed a placeholder so the changed biome name display works
+
             Room? glacialRoom1 = new("Snow Village", "You’re in a small Snow Village. There’s not many people. Everyone is wearing warm clothes. There’s a lot of snow everywhere. It’s hard to walk. It’s very cold. On the west you can see ice/snow desert. It’s not a good idea to go there, you might get lost. You can see some buildings on the south.", new List<Item> { new Item("x", "...") }, new List<NPC>{});
             Room? glacialRoom2 = new("Room 2", "On the east you can see the Ice Island. But there’s no bridge that you could use to get there.", new List<Item> { new Item("x", "...") }, new List<NPC>{});
             Room? glacialRoom3 = new("Room 3", "On the west there is the Ice Lake. You can’t go there. On the south you can see a huge ice mountain. It’s dangerous to go there without proper equipment.", new List<Item> { new Item("x", "...") }, new List<NPC>{});

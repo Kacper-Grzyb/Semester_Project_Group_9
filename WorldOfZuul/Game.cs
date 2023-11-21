@@ -11,8 +11,9 @@ namespace WorldOfZuul
         private int wrongCommandLimit = 5;
         private MountainsBiome? mountainsBiome = null;
         private GlacialBiome? glacialBiome = null;
-        private ForestBiome? forest = null;
+        private ForestBiome? forestBiome = null;
         private JungleBiome? jungleBiome = null;
+        private GrasslandsBiome? grasslandsBiome = null;
 
         public void Setup()
         {
@@ -36,44 +37,38 @@ namespace WorldOfZuul
 
                 if (userInput?.ToLower() == "grasslands")
                 {
-                    GameManager.currentPlayerBiomeName = "Grasslands";
-                    GameManager.currentPlayerBiomeType = Biomes.Grasslands;
                     worldPicked = true;
-
+                    if (grasslandsBiome == null) grasslandsBiome = new GrasslandsBiome();
+                    GameManager.currentPlayerBiome = grasslandsBiome;
+                    // remember to set a starting location for the player
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
-                    GameManager.currentPlayerBiomeName = "Forest";
-                    GameManager.currentPlayerBiomeType = Biomes.Forest;
                     worldPicked = true;
-
+                    if (forestBiome == null) forestBiome = new ForestBiome();
+                    GameManager.currentPlayerBiome = forestBiome;
                 }
                 else if (userInput?.ToLower() == "mountains")
                 {
-                    GameManager.currentPlayerBiomeName = "Mountains";
-                    GameManager.currentPlayerBiomeType = Biomes.Mountains;
                     worldPicked = true;
                     if (mountainsBiome == null) mountainsBiome = new MountainsBiome();
                     GameManager.currentPlayerRoom = mountainsBiome.startLocation;
+                    GameManager.currentPlayerBiome = mountainsBiome;
 
                 }
                 else if (userInput?.ToLower() == "jungle")
                 {
-                    GameManager.currentPlayerBiomeName = "Jungle";
-                    GameManager.currentPlayerBiomeType = Biomes.Jungle;
                     worldPicked = true;
                     if (jungleBiome == null) jungleBiome = new JungleBiome();
                     GameManager.currentPlayerRoom = jungleBiome.startLocation;
-
-
+                    GameManager.currentPlayerBiome = jungleBiome;
                 }
                 else if (userInput?.ToLower() == "glacial")
                 {
-                    GameManager.currentPlayerBiomeName = "Glacial Biome";
-                    GameManager.currentPlayerBiomeType = Biomes.Glacial;
                     worldPicked = true;
                     if (glacialBiome == null) glacialBiome = new GlacialBiome();
                     GameManager.currentPlayerRoom = glacialBiome.startLocation;
+                    GameManager.currentPlayerBiome = glacialBiome;
                 }
                 else
                 {
@@ -189,22 +184,14 @@ namespace WorldOfZuul
                         GameManager.Inventory?.ShowInventory();
                         break;
                     case "map":
-                        if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name == "map"))
+                        if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "map"))
                         {
-                            if (currentPlayerBiomeName == "Jungle" && GameManager.Inventory.items.Any(item => item.name == "map"))
-                            {
-                                jungleBiome?.displayMap();
-                            }
-                            else
-                            {
-                                Console.WriteLine("there is no map ");
-                            }
+                            GameManager.currentPlayerBiome?.displayMap();
                         }
                         else
                         {
-                            Console.WriteLine($"You dont have the map");
+                            Console.WriteLine($"You dont have a map.");
                         }
-
                         break;
                     case "paths":
                         GameManager.currentPlayerRoom?.showPaths();
@@ -213,40 +200,21 @@ namespace WorldOfZuul
                         Player.Y = Math.Max(0, Player.Y - 1);
                         Move(command.Name);
 
-                        if (currentPlayerBiomeName == "Jungle")
-                        {
-                            jungleBiome?.checkForAvailableObjectives();
-                        }
-
                         break;
                     case "south":
                         Player.Y = Math.Min(Player.mapHeight - 1, Player.Y + 1);
                         Move(command.Name);
 
-                        if (currentPlayerBiomeName == "Jungle")
-                        {
-                            jungleBiome?.checkForAvailableObjectives();
-                        }
-
                         break;
                     case "east":
                         Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
                         Move(command.Name);
-
-                        if (currentPlayerBiomeName == "Jungle")
-                        {
-                            jungleBiome?.checkForAvailableObjectives();
-                        }
+                        
 
                         break;
                     case "west":
                         Player.X = Math.Max(0, Player.X - 1);
                         Move(command.Name);
-
-                        if (currentPlayerBiomeName == "Jungle")
-                        {
-                            jungleBiome?.checkForAvailableObjectives();
-                        }
 
                         break;
                     case "talk":
@@ -311,6 +279,8 @@ namespace WorldOfZuul
             {
                 Console.WriteLine($"You can't go {direction}!");
             }
+            // Deleted this from the ifs in the north south east west switch statements and moved it here
+            currentPlayerBiome?.checkForAvailableObjectives();
         }
 
 
@@ -325,7 +295,7 @@ namespace WorldOfZuul
         private void PrintBiomeWelcome()
         {
             Console.WriteLine();
-            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiomeName}!");
+            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome?.returnBiomeName()}!");
             PrintHelp();
         }
 

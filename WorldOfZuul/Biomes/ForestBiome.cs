@@ -19,6 +19,8 @@ namespace WorldOfZuul
         public ForestBiome()
 
         {
+            // Initialization of biome variables
+            BiomeName = "Forest";
 
             // Initialization of forest-specific rooms
 
