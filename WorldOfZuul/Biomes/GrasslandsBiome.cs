@@ -6,8 +6,12 @@ using static WorldOfZuul.GameManager;
 
 namespace WorldOfZuul
 {
-    public class Grasslands
+    public class GrasslandsBiome : Biome
     {
+        public GrasslandsBiome() {
+            BiomeName = "Grasslands";
+        }
+
         public void CreateGrasslands()
         {
             Room? GrasslandsStartRoom = new("Welcome to the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});

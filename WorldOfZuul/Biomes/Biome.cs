@@ -19,6 +19,7 @@ namespace WorldOfZuul
         public static int PointsToWin {  get; set; }
         public static List<Room>? rooms { get; set; }
         public static Biomes BiomeType { get; set; }
+        public static string? BiomeName { get; set; }
 
         public virtual void WelcomeMessage()
         {
@@ -28,10 +29,18 @@ namespace WorldOfZuul
         {
             
         }
+
         public virtual void checkForAvailableObjectives()
         {
 
         }
+
+        public string returnBiomeName()
+        {
+            if (BiomeName == null) return "Null Biome, someone forgot to set their biome name.";
+            else return BiomeName;
+        }
+
     }
    
 }
