@@ -1,4 +1,5 @@
 using System.ComponentModel.Design;
+using System.Diagnostics.Tracing;
 using System.Linq.Expressions;
 using System.Security;
 using static WorldOfZuul.GameManager;
@@ -14,28 +15,28 @@ namespace WorldOfZuul
             JungleBiome.BiomeType = Biomes.Jungle;
             JungleBiome.PointsToWin = 100;
 
-            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
+            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
 
-            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { });
+            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { }, new List<NPC>{});
 
-            Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { });
+            Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
 
-            Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<Item> { });
+            Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<Item> { }, new List<NPC>{});
 
             Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { new Item("Flashlight", "A way to light your path"),
-            new Item("map","Useful for navigation"), new Item("trap", "Can be used against enemies") });
+            new Item("map","Useful for navigation"), new Item("trap", "Can be used against enemies") }, new List<NPC>{});
 
-            Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { });
+            Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { }, new List<NPC>{});
 
-            Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
+            Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
 
-            Room? location8 = new("Sector 8", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { });
+            Room? location8 = new("Sector 8", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { }, new List<NPC>{});
 
-            Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { });
+            Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
 
             var stopPoachers = new List<QuestObjective>
             {
-             new QuestObjective("Destroy 9 traps that poachers setup in Sector 9","Map")
+             new QuestObjective("Destroy 6 traps that poachers setup in Sector 9","Map")
 
             };
             Quest Poachers = new Quest("Disable traps", "fing all the traps that poachers setup in Sector 9", false, false, stopPoachers);
@@ -91,14 +92,12 @@ namespace WorldOfZuul
                 return;
             }
             if(GameManager.ActiveQuest?.QuestName == "Disable traps" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 9")
-            {
-                
+            {  
               quizTrap();
             }
         }
         public void quizTrap()
         {
-
             if (GameManager.ActiveQuest?.QuestName == "Disable traps")
             {
                 int trapsDisabled = 0;
@@ -202,10 +201,9 @@ namespace WorldOfZuul
                     GameManager.score += 5;
                     trapsDisabled++;
                 }
-
-
-
-
+                GameManager.ActiveQuest.IsCompleted = true;
+                GameManager.ActiveQuest = null;
+                GameManager.IsActiveQuest = false;        
             }
         }
     }

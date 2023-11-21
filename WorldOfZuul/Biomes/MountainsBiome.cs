@@ -16,17 +16,17 @@ namespace WorldOfZuul
             MountainsBiome.PointsToWin = 100;
 
             Room mountainsStartRoom = new Room("Foot of the Mountains", "You are at the bottom of the mountains.\nThe clouds cover their very tops " +
-            "and you can spot patches of snow here and there.\nBefore you lie paths to east and west on which you can begin your climb.", new List<Item>());
-            Room mountainsRoom1 = new Room("Entrance to a cave", "You arrive at an entrance to a dark cave to the north. There is also a path leading away from it to the east.", new List<Item>() { new Item("Flashlight", "Used to light the way", true) });
-            Room mountainsRoom2 = new Room("Room 2", "Room 2 Description", new List<Item>());
-            Room mountainsRoom3 = new Room("Room 3", "Room 3 Description", new List<Item>());
-            Room mountainsRoom4 = new Room("Room 4", "Room 4 Description", new List<Item>());
-            Room mountainsRoom5 = new DarkRoom("Inside of a cave", "You enter a small cave. On the walls you can see signs telling you about unprotected areas in the mountains.\nYou find out about endangered mountain ecosystems that are experiencing environmental degradation.\nZones in need of protecting have been marked on your map. (not really)", new List<Item>() { new Item("hiddenItem", "Hidden Cave Treasure")}, "south");
-            Room mountainsRoom6 = new Room("Room 6", "Room 6 Description", new List<Item>());
-            Room mountainsRoom7 = new Room("Room 7", "Room 7 Description", new List<Item>());
-            Room mountainsRoom8 = new Room("Room 8", "Room 8 Description", new List<Item>());
-            Room mountainsOptionalRoom = new Room("Optional Room", "Optional Room Description", new List<Item>());
-            Room mountainsFinalRoom = new Room("Top of the Highest Mountain", "Final Room Description", new List<Item>());
+            "and you can spot patches of snow here and there.\nBefore you lie paths to east and west on which you can begin your climb.", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom1 = new Room("Entrance to a cave", "You arrive at an entrance to a dark cave to the north. There is also a path leading away from it to the east.", new List<Item>() { new Item("Flashlight", "Used to light the way", true) }, new List<NPC>{});
+            Room mountainsRoom2 = new Room("Room 2", "Room 2 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom3 = new Room("Room 3", "Room 3 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom4 = new Room("Room 4", "Room 4 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom5 = new DarkRoom("Inside of a cave", "You enter a small cave. On the walls you can see signs telling you about unprotected areas in the mountains.\nYou find out about endangered mountain ecosystems that are experiencing environmental degradation.\nZones in need of protecting have been marked on your map. (not really)", new List<Item>() { new Item("hiddenItem", "Hidden Cave Treasure")}, "south",new List<NPC>{});
+            Room mountainsRoom6 = new Room("Room 6", "Room 6 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom7 = new Room("Room 7", "Room 7 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsRoom8 = new Room("Room 8", "Room 8 Description", new List<Item>(), new List<NPC>{});
+            Room mountainsOptionalRoom = new Room("Optional Room", "Optional Room Description", new List<Item>(), new List<NPC>{});
+            Room mountainsFinalRoom = new Room("Top of the Highest Mountain", "Final Room Description", new List<Item>(), new List<NPC>{});
 
             mountainsStartRoom.SetExits(null, mountainsRoom4, null, mountainsRoom1);
             mountainsRoom1.SetExits(mountainsRoom5, mountainsRoom2, mountainsStartRoom, null);
@@ -70,12 +70,13 @@ namespace WorldOfZuul
             }
         }
 
-        public DarkRoom(string shortDesc, string longDesc, List<Item> items, string unblockableDirection) : base(shortDesc, longDesc, items)
+        public DarkRoom(string shortDesc, string longDesc, List<Item> items, string unblockableDirection, List<NPC> npcsInRoom) : base(shortDesc, longDesc, items, npcsInRoom)
         {
             CheckForLight();
             Update();
             lightShortDescription = shortDesc;
             lightLongDescription = longDesc;
+            npcsInRoom = npcsInRoom ?? new List<NPC>();
         }
 
         public override void Update()

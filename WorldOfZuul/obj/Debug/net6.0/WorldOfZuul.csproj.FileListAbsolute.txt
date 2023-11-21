@@ -130,3 +130,18 @@ C:/Users/natal/source/repos/project202311071149/WorldOfZuul/obj/Debug/net6.0/ref
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/WorldOfZuul.pdb
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/WorldOfZuul.genruntimeconfig.cache
 /Users/gigwebs/Dropbox (Personal)/SDU - Software Engineering/Object-oriented Programming/Software Development Project - Group 9/Semester_Project/Semester_Project_Group_9/WorldOfZuul/obj/Debug/net6.0/ref/WorldOfZuul.dll
+E:\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.exe
+E:\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.deps.json
+E:\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.runtimeconfig.json
+E:\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.dll
+E:\Semester_Project_Group_9\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.pdb
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.csproj.AssemblyReference.cache
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.GeneratedMSBuildEditorConfig.editorconfig
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfoInputs.cache
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfo.cs
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.csproj.CoreCompileInputs.cache
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.dll
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\refint\WorldOfZuul.dll
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.pdb
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.genruntimeconfig.cache
+E:\Semester_Project_Group_9\WorldOfZuul\obj\Debug\net6.0\ref\WorldOfZuul.dll

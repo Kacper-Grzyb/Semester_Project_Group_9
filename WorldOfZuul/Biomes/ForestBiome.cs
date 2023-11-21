@@ -22,23 +22,23 @@ namespace WorldOfZuul
 
             // Initialization of forest-specific rooms
 
-            Room location1 = new Room("Forest Entrance", "You are at the edge of a dense forest. The sounds of wildlife resonate around you. A path leads north into the woods.", new List<Item>());
+            Room location1 = new Room("Forest Entrance", "You are at the edge of a dense forest. The sounds of wildlife resonate around you. A path leads north into the woods.", new List<Item>(), new List<NPC>{});
 
-            Room location2 = new Room("Forest Clearing", "A sunlit clearing lies before you, surrounded by towering trees. There's a sense of serenity here.", new List<Item>());
+            Room location2 = new Room("Forest Clearing", "A sunlit clearing lies before you, surrounded by towering trees. There's a sense of serenity here.", new List<Item>(), new List<NPC>{});
 
-            Room location3 = new Room("Ancient Tree", "You stand before an ancient tree, its massive trunk suggesting centuries of growth. There's an aura of wisdom about this place.", new List<Item>());
+            Room location3 = new Room("Ancient Tree", "You stand before an ancient tree, its massive trunk suggesting centuries of growth. There's an aura of wisdom about this place.", new List<Item>(), new List<NPC>{});
 
-            Room location4 = new Room("Rushing River", "A river cuts through the forest, its waters rushing over rocks. The sound of the water is both loud and calming.", new List<Item>());
+            Room location4 = new Room("Rushing River", "A river cuts through the forest, its waters rushing over rocks. The sound of the water is both loud and calming.", new List<Item>(), new List<NPC>{});
 
             Room location5 = new Room("Forest Camp", "An abandoned campsite, with a firepit and some scattered supplies. It looks like someone left in a hurry.", new List<Item> {
 
-new Item("Seedling", "A young tree ready for planting"),
+            new Item("Seedling", "A young tree ready for planting"),
 
-new Item("Watering Can", "Useful for nurturing plants"),
+            new Item("Watering Can", "Useful for nurturing plants"),
 
-new Item("Field Guide", "Helps with identifying flora and fauna")
+            new Item("Field Guide", "Helps with identifying flora and fauna")
 
-});
+            }, new List<NPC>{});
 
             // Adding reforestation challenges to the forest biome
 

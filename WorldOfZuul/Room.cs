@@ -11,6 +11,7 @@ namespace WorldOfZuul
         public Dictionary<string, Room> Exits { get; private set; } = new();
         public Dictionary<string, bool> blockedExits { get; protected set; } = new(); // true if an exit is blocked and false if not
         public List<Quest> Quests { get; private set; } = new List<Quest>();
+       public List<NPC> NpcsInRoom { get; private set; }
        
 
 
@@ -20,12 +21,13 @@ namespace WorldOfZuul
         }
         
 
-        public Room(string shortDesc, string longDesc, List<Item> items)
+        public Room(string shortDesc, string longDesc, List<Item> items, List<NPC> npcsInRoom)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
             Items = items ?? new List<Item>();
             hiddenItems = new List<Item>();
+            NpcsInRoom = npcsInRoom ?? new List<NPC>();
         }
 
         public virtual void Update()
@@ -137,23 +139,20 @@ namespace WorldOfZuul
 
         public void showPaths()
         {
-            if ( Exits.ContainsKey("south") )
+          foreach (var direction in Exits.Keys)
             {
-                Console.WriteLine("There is a path leading south");
+                Console.WriteLine($"There is a path leading {direction}");
             }
-            if ( Exits.ContainsKey("north") )
-            {
-                Console.WriteLine("There is a path leading north");
-            }
-            if ( Exits.ContainsKey("east") )
-            {
-                Console.WriteLine("There is a path leading east");
-            }
-            if ( Exits.ContainsKey("west") )
-            {
-                Console.WriteLine("There is a path leading west");
-            }
-        
         }
+
+        public void AddNpcToRoom(NPC npc)
+        {
+            NpcsInRoom.Add(npc);
+        }
+        public void RemoveNpcFromRoom(NPC npc)
+        {
+            NpcsInRoom.Remove(npc);
+        }
+
     }
 }

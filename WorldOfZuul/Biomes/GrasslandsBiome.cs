@@ -10,17 +10,17 @@ namespace WorldOfZuul
     {
         public void CreateGrasslands()
         {
-            Room? GrasslandsStartRoom = new("Welcome to the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom1 = new("Room 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom2 = new("Room 2", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom3 = new("Room 3", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom4 = new("Room 4", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom5 = new("Room 5", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom6 = new("Room 6", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom7 = new("Room 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom8 = new("Room 8", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
-            Room? GrasslandsRoom9 = new("Room 9", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });       
-            Room? GrasslandsFinalRoom = new("You've reached the final room of the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { });
+            Room? GrasslandsStartRoom = new("Welcome to the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom1 = new("Room 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom2 = new("Room 2", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom3 = new("Room 3", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom4 = new("Room 4", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom5 = new("Room 5", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom6 = new("Room 6", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom7 = new("Room 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom8 = new("Room 8", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? GrasslandsRoom9 = new("Room 9", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});       
+            Room? GrasslandsFinalRoom = new("You've reached the final room of the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
 
             
             // North East South West
