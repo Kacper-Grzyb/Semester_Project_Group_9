@@ -9,7 +9,6 @@ namespace WorldOfZuul
 {
     public sealed class GlacialBiome : Biome
     {
-        public Room startLocation;
 
         public GlacialBiome()
         {
@@ -27,24 +26,25 @@ namespace WorldOfZuul
             Room? glacialRoom10 = new("Ice Island", "You're on the Ice Island, surrounded by water.", new List<Item> { }, new List<NPC>{});
             Room? glacialFinalRoom = new("The top of the mountain", "You're at the top of the Ice Mountain. Right in front of you there is an igloo (..?), but the entrance is locked.", new List<Item> { }, new List<NPC>{});
 
-
             glacialRoom1.SetExits(null, glacialRoom2, glacialRoom4, null);
             glacialRoom2.SetExits(null, glacialRoom10, glacialRoom5, glacialRoom1);
             glacialRoom3.SetExits(null, glacialRoom4, glacialRoom7, null);
             glacialRoom4.SetExits(glacialRoom1, glacialRoom5, glacialRoom8, glacialRoom3);
-            glacialRoom5.SetExits(glacialRoom2, glacialRoom4, null, null);
+            glacialRoom5.SetExits(glacialRoom2, null, null, glacialRoom4);
             glacialRoom6.SetExits(null, glacialRoom7, glacialFinalRoom, null);
             glacialRoom7.SetExits(glacialRoom3, glacialRoom8, null, glacialRoom6);
             glacialRoom8.SetExits(glacialRoom4, null, glacialRoom9, glacialRoom7);
             glacialRoom9.SetExits(glacialRoom8, null, null, null);
             glacialRoom10.SetExits(null, null, null, glacialRoom2);
-            glacialFinalRoom.SetExits(glacialRoom10, null, null, null);
+            glacialFinalRoom.SetExits(glacialRoom6, null, null, null);
 
             startLocation = glacialRoom1;
+            northmostRoom = glacialRoom1;
             GlacialBiome.rooms = new List<Room>(){ glacialRoom1, glacialRoom2, glacialRoom3, glacialRoom4,
             glacialRoom5, glacialRoom6, glacialRoom7, glacialRoom8, glacialRoom9, glacialRoom10, glacialFinalRoom};
 
         }
+
     }
 
         

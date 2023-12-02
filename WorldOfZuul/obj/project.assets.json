@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+      "projectUniqueName": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
       "projectName": "WorldOfZuul",
-      "projectPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+      "projectPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
       "packagesPath": "C:\\Users\\kgrzy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
+      "outputPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

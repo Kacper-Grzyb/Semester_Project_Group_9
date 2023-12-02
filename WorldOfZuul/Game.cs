@@ -39,13 +39,14 @@ namespace WorldOfZuul
                 {
                     worldPicked = true;
                     if (grasslandsBiome == null) grasslandsBiome = new GrasslandsBiome();
+                    GameManager.currentPlayerRoom = grasslandsBiome.startLocation;
                     GameManager.currentPlayerBiome = grasslandsBiome;
-                    // remember to set a starting location for the player
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
                     worldPicked = true;
                     if (forestBiome == null) forestBiome = new ForestBiome();
+                    GameManager.currentPlayerRoom = forestBiome.startLocation;
                     GameManager.currentPlayerBiome = forestBiome;
                 }
                 else if (userInput?.ToLower() == "mountains")
@@ -184,6 +185,7 @@ namespace WorldOfZuul
                         GameManager.Inventory?.ShowInventory();
                         break;
                     case "map":
+                        /*
                         if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "map"))
                         {
                             GameManager.currentPlayerBiome?.displayMap();
@@ -192,6 +194,8 @@ namespace WorldOfZuul
                         {
                             Console.WriteLine($"You dont have a map.");
                         }
+                        */
+                        GameManager.currentPlayerBiome?.DisplayMap();
                         break;
                     case "paths":
                         GameManager.currentPlayerRoom?.showPaths();

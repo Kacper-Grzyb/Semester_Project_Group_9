@@ -9,7 +9,6 @@ namespace WorldOfZuul
 {
     public sealed class JungleBiome : Biome
     {
-        public Room startLocation;
         public JungleBiome()
         {
             JungleBiome.BiomeType = Biomes.Jungle;
@@ -57,8 +56,11 @@ namespace WorldOfZuul
             location9.SetExits(location6, null, null, location8);
 
             startLocation = location5;
+
             GameManager.Inventory = new Inventory();
 
+            rooms = new List<Room> { location1, location2, location3, location4, location5, location6, location7, location8, location9 };
+            northmostRoom = location1;
             Riddler riddler = new Riddler("riddler","Master of riddles and puzzles.");
             location1.AddNpcToRoom(riddler);
             
@@ -69,8 +71,11 @@ namespace WorldOfZuul
             Player.X = 1;
             Player.Y = 1;
         }
-        public override void displayMap()
+        public override void DisplayMap()
         {
+            // this is a new display map function, if you prefer the old one you can uncomment it
+            base.DisplayMap();
+            /*
             int step = 1;
 
             for (int y = 0; y < Player.mapHeight; y++)
@@ -90,6 +95,7 @@ namespace WorldOfZuul
                 }
                 Console.WriteLine();
             }
+            */
         }
         public override void checkForAvailableObjectives()
         {

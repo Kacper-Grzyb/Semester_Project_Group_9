@@ -65,9 +65,7 @@ new QuestObjective("Plant 5 seedlings in the clearing to promote forest growth",
             // Establish the starting point within the forest biome
             // now currentRoom = GameManager.currentPlayerRoom;
 
-            GameManager.currentPlayerRoom = location1;
-
-            GameManager.currentPlayerRoom = GameManager.currentPlayerRoom;
+            startLocation = location1;
 
             // Configure the map dimensions and player's starting position for the forest biome
 

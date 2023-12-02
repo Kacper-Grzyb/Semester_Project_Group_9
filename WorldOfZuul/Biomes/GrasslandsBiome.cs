@@ -24,7 +24,7 @@ namespace WorldOfZuul
             Room? GrasslandsRoom7 = new("Room 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC> { });
             Room? GrasslandsRoom8 = new("Room 8", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC> { });
             Room? GrasslandsRoom9 = new("Room 9", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC> { });
-            Room? GrasslandsFinalRoom = new("You've reached the final room of the grasslands biome!", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC> { });
+            Room? GrasslandsFinalRoom = new("Final Room", "You've reached the final room of the grasslands biome!", new List<Item> { }, new List<NPC> { });
 
 
             // North East South West
@@ -36,10 +36,14 @@ namespace WorldOfZuul
             GrasslandsRoom5.SetExits(GrasslandsRoom2, GrasslandsRoom3, GrasslandsRoom8, GrasslandsRoom7);
             GrasslandsRoom6.SetExits(GrasslandsRoom4, null, GrasslandsRoom9, GrasslandsRoom3);
             GrasslandsRoom7.SetExits(null, GrasslandsRoom5, GrasslandsFinalRoom, null);
-            GrasslandsRoom8.SetExits(GrasslandsRoom5, null, GrasslandsFinalRoom, null);
-            GrasslandsRoom9.SetExits(null, null, GrasslandsFinalRoom, GrasslandsRoom6);
-            GrasslandsFinalRoom.SetExits(GrasslandsRoom8, GrasslandsRoom9, null /*this is going to be replaced by the "gate"*/, GrasslandsRoom7);
+            GrasslandsRoom8.SetExits(GrasslandsRoom5, null, null, GrasslandsFinalRoom);
+            GrasslandsRoom9.SetExits(GrasslandsRoom6, null, null, null);
+            GrasslandsFinalRoom.SetExits(GrasslandsRoom7, GrasslandsRoom8, null /*this is going to be replaced by the "gate"*/, null);
 
+
+            startLocation = GrasslandsStartRoom;
+            northmostRoom = GrasslandsStartRoom;
+            rooms = new List<Room>() { GrasslandsStartRoom, GrasslandsRoom1, GrasslandsRoom2, GrasslandsRoom3, GrasslandsRoom4, GrasslandsRoom5, GrasslandsRoom6, GrasslandsRoom7, GrasslandsRoom8, GrasslandsRoom9, GrasslandsFinalRoom };
 
             Player.mapHeight = 5;
             Player.mapWidth = 4;
