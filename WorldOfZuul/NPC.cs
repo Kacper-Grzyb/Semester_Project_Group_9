@@ -1,16 +1,22 @@
 using System.ComponentModel;
+using System.Security.Policy;
 using WorldOfZuul;
 
 public class NPC
 {
     public string Name { get; set; }
     public string Description { get; set; }
-
+    public List<Quest> Quests { get; private set; } = new List<Quest>();
     public NPC(string name, string description)
     {
         Name = name;
         Description = description;
     }
+    
+    public virtual void AddQuestToNPC(Quest quest)
+    {
+    }
+
 
     public virtual void Interact()
     {
@@ -89,6 +95,46 @@ public class Riddler : NPC
         {
             Console.WriteLine($"Incorrect. The correct answer was: {correctAnswer}");
             GameManager.score -= 7;
+        }
+    }
+}
+
+public class QuestGiver : NPC
+{
+    List<Quest> availableQuests = new List<Quest>();
+
+    public QuestGiver(string name, string description) : base(name, description)
+    {
+    }
+
+    public override void AddQuestToNPC(Quest quest)
+    {
+        availableQuests.Add(quest);
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+        if (availableQuests.Count > 0)
+        {
+            Console.WriteLine("I have a task for you, are you interested?");
+            Console.WriteLine("Do you want to accept the quest? (yes/no)");
+            string? ans = Console.ReadLine();
+            if (ans?.Trim().ToLower() == "yes")
+            {
+                GameManager.ActiveQuest = availableQuests[0];
+                Console.WriteLine($"You have accepted the quest: {availableQuests[0].QuestName}");
+                // Optionally, remove the quest from availableQuests if it's a one-time quest
+                // availableQuests.RemoveAt(0);
+            }
+            else
+            {
+                Console.WriteLine("Maybe another time then.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("I don't have any tasks for you at the moment.");
         }
     }
 }

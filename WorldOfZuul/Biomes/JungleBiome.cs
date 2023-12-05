@@ -35,14 +35,6 @@ namespace WorldOfZuul
 
             Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
 
-            var stopPoachers = new List<QuestObjective>
-            {
-             new QuestObjective("Destroy 6 traps that poachers setup in Sector 9","Map")
-
-            };
-            Quest Poachers = new Quest("Disable traps", "fing all the traps that poachers setup in Sector 9", false, false, stopPoachers);
-            location5.AddQuest(Poachers);
-
             location1.SetExits(null, location2, location4, null);
             location2.SetExits(null, location3, location5, location1);
             location3.SetExits(null, null, location6, location2);
@@ -62,9 +54,33 @@ namespace WorldOfZuul
             rooms = new List<Room> { location1, location2, location3, location4, location5, location6, location7, location8, location9 };
             northmostRoom = location1;
             
-            Riddler riddler = new Riddler("riddler","Master of riddles and puzzles.");
-            location1.AddNpcToRoom(riddler);
             
+
+            //--------------------------------------Quests----------------------------------------------
+            
+            var stopPoachers = new List<QuestObjective>
+            {
+             new QuestObjective("Destroy 6 traps that poachers setup in Sector 9","Map")
+
+            };
+            Quest Poachers = new Quest("Disable traps", "fing all the traps that poachers setup in Sector 9", false, false, stopPoachers);
+            
+            var findEvidence = new List<QuestObjective>
+            {
+             new QuestObjective("Find the evidence that poachers left in Sector 3","Map")
+
+            };
+            Quest Evidence = new Quest("Find evidence", "Find the evidence that poachers left in Sector 3", false, false, findEvidence);
+            
+
+            //--------------------------------------NPCs------------------------------------------------
+            Riddler riddler = new Riddler("Riddler","Master of riddles and puzzles.");
+            QuestGiver questGiver = new QuestGiver("Mitch","A local villager.");
+            
+            location5.AddQuest(Poachers);
+            location5.AddNpcToRoom(questGiver);
+            location1.AddNpcToRoom(riddler);
+            questGiver.AddQuestToNPC(Evidence);
 
 
             Player.mapHeight = 3;
@@ -98,6 +114,7 @@ namespace WorldOfZuul
             }
             */
         }
+
         public override void checkForAvailableObjectives()
         {
             if(GameManager.IsActiveQuest == false)
@@ -217,6 +234,7 @@ namespace WorldOfZuul
                 GameManager.ActiveQuest.IsCompleted = true;
                 GameManager.ActiveQuest = null;
                 GameManager.IsActiveQuest = false; 
+                
 
                 if(trapsDisabled == 0)
                 {
@@ -229,31 +247,37 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("You disabled 1 trap, not a great job but you did atleast something but you lose points for not doing more.");
                     Console.WriteLine("You've lost 10 points for that.");
+                    GameManager.score -= 10;
                 }
                 else if(trapsDisabled == 2)
                 {
                     Console.WriteLine("You disabled 2 traps, you did an alright job but you lose points for not doing more.");
                     Console.WriteLine("You've lost 5 points for that.");
+                    GameManager.score -= 5;
                 }
                 else if(trapsDisabled == 3)
                 {
                     Console.WriteLine("You disabled 3 traps, good job, you saved half of the animals that would be other wise killed.");
                     Console.WriteLine("You've gained 5 points for that.");
+                    GameManager.score += 5;
                 }
                 else if(trapsDisabled == 4)
                 {
                     Console.WriteLine("You disabled 4 traps, really good job, you could have done better but you still did a good job.");
                     Console.WriteLine("You've gained 10 points for that.");
+                    GameManager.score += 10;
                 }
                 else if(trapsDisabled == 5)
                 {
-                    Console.WriteLine("You disabled 5 traps, good job!");
+                    Console.WriteLine("You disabled 5 traps, amazing job, you saved almost all the animals that would be other wise killed.");
                     Console.WriteLine("You've gained 15 points for that.");
+                    GameManager.score += 15;
                 }
                 else if(trapsDisabled == 6)
                 {
-                    Console.WriteLine("You disabled all the traps, good job!");
+                    Console.WriteLine("You disabled all the traps, you stop the poachers from theirs evil plan, and saved all the animals.");
                     Console.WriteLine("You've gained 20 points that.");
+                    GameManager.score += 20;
                 }
 
             }

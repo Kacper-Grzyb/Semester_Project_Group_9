@@ -42,11 +42,6 @@ namespace WorldOfZuul
         {
             return QuestObjectives.All(o => o.IsCompleted);
         }
-
-        public void AddObjective(QuestObjective objective)
-        {
-            QuestObjectives.Add(objective);
-        }
         public override string ToString()
         {
             return QuestName;

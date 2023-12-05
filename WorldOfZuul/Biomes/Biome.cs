@@ -352,6 +352,13 @@ namespace WorldOfZuul
 
         }
 
+        public virtual void addQuests()
+        {
+
+        }
+        public virtual void addNPCs(){
+
+        }
         public string returnBiomeName()
         {
             if (BiomeName == null) return "Null Biome, someone forgot to set their biome name.";
