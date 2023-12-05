@@ -213,7 +213,7 @@ namespace WorldOfZuul
                     case "east":
                         Player.X = Math.Min(Player.mapWidth - 1, Player.X + 1);
                         Move(command.Name);
-                        
+
 
                         break;
                     case "west":
@@ -229,18 +229,26 @@ namespace WorldOfZuul
                         }
                         else
                         {
-                            GameManager.currentPlayerRoom?.ShowNpcsInRoom(GameManager.currentPlayerRoom);
-                            Console.WriteLine("Which npc would you like to talk to?");
-
-                            string? chosenNpc = Console.ReadLine();
-                            if (chosenNpc != null)
+                            if (GameManager.currentPlayerRoom != null && GameManager.currentPlayerRoom.NpcsInRoom.Count == 1)
                             {
-                                GameManager.currentPlayerRoom?.InteractWithNpc(GameManager.currentPlayerRoom, chosenNpc);
+                                GameManager.currentPlayerRoom?.InteractWithNpc(GameManager.currentPlayerRoom, GameManager.currentPlayerRoom.NpcsInRoom[0].Name);
                             }
                             else
                             {
-                                Console.WriteLine("Invalid input. Please try again.");
+                                GameManager.currentPlayerRoom?.ShowNpcsInRoom(GameManager.currentPlayerRoom);
+                                Console.WriteLine("Which npc would you like to talk to?");
+
+                                string? chosenNpc = Console.ReadLine();
+                                if (chosenNpc != null)
+                                {
+                                    GameManager.currentPlayerRoom?.InteractWithNpc(GameManager.currentPlayerRoom, chosenNpc);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid input. Please try again.");
+                                }
                             }
+
                         }
                         break;
 

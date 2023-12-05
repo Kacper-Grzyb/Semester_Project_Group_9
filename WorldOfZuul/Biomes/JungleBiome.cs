@@ -125,6 +125,10 @@ namespace WorldOfZuul
             {  
               quizTrap();
             }
+            if(GameManager.ActiveQuest?.QuestName == "Find evidence" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
+            {  
+              Evidence();
+            }
         }
         public void quizTrap()
         {
@@ -282,5 +286,13 @@ namespace WorldOfZuul
 
             }
         }
+
+        public void Evidence(){
+            if (GameManager.ActiveQuest?.QuestName == "Find evidence")
+            {
+                
+            }
+        }
+    
     }
 }
