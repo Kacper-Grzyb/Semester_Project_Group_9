@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using WorldOfZuul;
 
 public class NPC
 {
@@ -19,41 +20,75 @@ public class NPC
     
 public class Riddler : NPC
 {
-    private Queue<(string answer, string riddle)> riddles;
+    private List<(string answer, string riddle)> riddles;
+    private int currentRiddleIndex;
+
     public Riddler(string name, string description): base(name, description)
     {
-       riddles = new Queue<(string , string)>();
-       initializeRiddles();
+        riddles = new List<(string, string)>();
+        currentRiddleIndex = 0;
+        InitializeRiddles();
     }
 
-    public void initializeRiddles()
+    public void InitializeRiddles()
     {
-        riddles.Enqueue(("tree.", "I wear a green coat from head to toe, am older than you but still grow. I clean the air you breathe, you see. Cut me down, and you'll miss me. What am I?"));
-        riddles.Enqueue(("poaching","I am a silent war waged in forests and plains. I take what is not given and bring endless pains. I threaten kings of the jungle and monarchs of the sky, with every life I take, a piece of the world says goodbye. What am I?"));
-        riddles.Enqueue(("A forest.", "I’m home to creatures great and small, I cover about a quarter of your world in all. I can be tropical or cool, and chopping me down is really not cool. What am I"));
+        riddles.Add(("tree", "I wear a green coat from head to toe, am older than you but still grow. I clean the air you breathe, you see. Cut me down, and you'll miss me. What am I?"));
+        riddles.Add(("poaching", "I am a silent war waged in forests and plains. I take what is not given and bring endless pains. I threaten kings of the jungle and monarchs of the sky, with every life I take, a piece of the world says goodbye. What am I?"));
+        riddles.Add(("forest", "I’m home to creatures great and small, I cover about a quarter of your world in all. I can be tropical or cool, and chopping me down is really not cool. What am I"));
     }
-
+        
     public override void Interact()
     {
         base.Interact();
-        Console.WriteLine("I have a riddle for you!");
-        Console.WriteLine("Do you want to proceed?");
-        string? ans = Console.ReadLine();
-        if(ans == "yes")
+        if(currentRiddleIndex > riddles.Count)
         {
-            Console.WriteLine(GiveNextRiddle());
+           GiveNextRiddle();
+        }
+    
+        if(currentRiddleIndex == 0)
+        {
+        Console.WriteLine("I have a riddle for you!");
+        }
+        else
+        {
+            Console.WriteLine("I have another riddle for you!");
+        }
+
+        Console.WriteLine("Do you want to proceed? (yes/no)");
+        string? ans = Console.ReadLine();
+        if (ans?.Trim().ToLower() == "yes")
+        {
+            var riddle = GiveNextRiddle();
+            Console.WriteLine(riddle.riddle);
+            Console.WriteLine("What's your answer?: ");
+            string? playerAnswer = Console.ReadLine();
+            CheckAnswer(playerAnswer, riddle.answer);
         }
     }   
 
-    public (string asnwer, string riddle) GiveNextRiddle()
+    private (string answer, string riddle) GiveNextRiddle()
     {
-        if (riddles.Count > 0)
+        if (currentRiddleIndex < riddles.Count)
         {
-            return riddles.Dequeue();
+            return riddles[currentRiddleIndex++];
         }
         else
         {
             return ("", "You have solved all my riddles!");
+        }
+    }
+
+    private void CheckAnswer(string? playerAnswer, string correctAnswer)
+    {
+        if (playerAnswer?.Trim().ToLower() == correctAnswer.ToLower())
+        {
+            Console.WriteLine("Correct! Well done.");
+            GameManager.score += 5;
+        }
+        else
+        {
+            Console.WriteLine($"Incorrect. The correct answer was: {correctAnswer}");
+            GameManager.score -= 7;
         }
     }
 }

@@ -61,6 +61,7 @@ namespace WorldOfZuul
 
             rooms = new List<Room> { location1, location2, location3, location4, location5, location6, location7, location8, location9 };
             northmostRoom = location1;
+            
             Riddler riddler = new Riddler("riddler","Master of riddles and puzzles.");
             location1.AddNpcToRoom(riddler);
             
@@ -130,13 +131,13 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Wrong!");
                     Console.WriteLine($"Correct asnwer: D ");
-                    GameManager.score -= 3;
+                    
                     
                 }
                 else
                 {
                     Console.WriteLine($"Correct asnwer!");
-                    GameManager.score += 5;
+                    
                     trapsDisabled++;
                 }
 
@@ -149,13 +150,13 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Wrong!");
                     Console.WriteLine($"Correct asnwer: true ");
-                    GameManager.score -= 3;
+                    
                     
                 }
                 else
                 {
                     Console.WriteLine($"Correct asnwer!");
-                    GameManager.score += 5;
+                    
                     trapsDisabled++;
                 }
 
@@ -170,12 +171,12 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Wrong!");
                     Console.WriteLine($"Correct asnwer: B ");
-                    GameManager.score -= 3;
+                    
                 }
                 else
                 {
                     Console.WriteLine($"Correct asnwer!");
-                    GameManager.score += 5;
+                    
                     trapsDisabled++;
                 }
 
@@ -190,12 +191,12 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Wrong!");
                     Console.WriteLine($"Correct asnwer: C ");
-                    GameManager.score -= 3;
+                    
                 }
                 else
                 {
                     Console.WriteLine($"Correct asnwer!");
-                    GameManager.score += 5;
+                    
                     trapsDisabled++;
                 }
                 Console.WriteLine("\x1b[1mQuestion 5:\x1b Establishing protected areas is a key strategy to combat poaching in jungles. ");
@@ -207,15 +208,54 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Wrong!");
                     Console.WriteLine($"Correct asnwer: true ");
-                    GameManager.score -= 3;
+                    
                 }else{
                     Console.WriteLine($"Correct asnwer!");
-                    GameManager.score += 5;
+                    
                     trapsDisabled++;
                 }
                 GameManager.ActiveQuest.IsCompleted = true;
                 GameManager.ActiveQuest = null;
-                GameManager.IsActiveQuest = false;        
+                GameManager.IsActiveQuest = false; 
+
+                if(trapsDisabled == 0)
+                {
+                    Console.WriteLine("You didn't disable any traps, because of that the poachers caught you and endangered species.");
+                    Console.WriteLine("You failed to save the jungle");
+                    Console.WriteLine("Game over, Score: " + GameManager.score);
+                    Environment.Exit(0);
+                }
+                else if(trapsDisabled == 1)
+                {
+                    Console.WriteLine("You disabled 1 trap, not a great job but you did atleast something but you lose points for not doing more.");
+                    Console.WriteLine("You've lost 10 points for that.");
+                }
+                else if(trapsDisabled == 2)
+                {
+                    Console.WriteLine("You disabled 2 traps, you did an alright job but you lose points for not doing more.");
+                    Console.WriteLine("You've lost 5 points for that.");
+                }
+                else if(trapsDisabled == 3)
+                {
+                    Console.WriteLine("You disabled 3 traps, good job, you saved half of the animals that would be other wise killed.");
+                    Console.WriteLine("You've gained 5 points for that.");
+                }
+                else if(trapsDisabled == 4)
+                {
+                    Console.WriteLine("You disabled 4 traps, really good job, you could have done better but you still did a good job.");
+                    Console.WriteLine("You've gained 10 points for that.");
+                }
+                else if(trapsDisabled == 5)
+                {
+                    Console.WriteLine("You disabled 5 traps, good job!");
+                    Console.WriteLine("You've gained 15 points for that.");
+                }
+                else if(trapsDisabled == 6)
+                {
+                    Console.WriteLine("You disabled all the traps, good job!");
+                    Console.WriteLine("You've gained 20 points that.");
+                }
+
             }
         }
     }

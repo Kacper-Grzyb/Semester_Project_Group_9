@@ -17,7 +17,7 @@ namespace WorldOfZuul
     }
     public class Biome
     {
-        public static int PointsToWin {  get; set; }
+        public static int PointsToWin { get; set; }
         public static List<Room>? rooms { get; set; }
         public static Biomes BiomeType { get; set; }
         public static string? BiomeName { get; set; }
@@ -68,17 +68,17 @@ namespace WorldOfZuul
                 return;
 
             }
-            if(northmostRoom == null)
+            if (northmostRoom == null)
             {
                 Console.WriteLine("This biome has not set the northmostRoom variable to anything!");
                 return;
             }
 
             string map = "";
-            int longestRoomName = 0, width=0, height=0;
+            int longestRoomName = 0, width = 0;
             foreach (Room room in rooms)
             {
-                if(room.ShortDescription.Length > longestRoomName)
+                if (room.ShortDescription.Length > longestRoomName)
                 {
                     longestRoomName = room.ShortDescription.Length;
                 }
@@ -101,7 +101,7 @@ namespace WorldOfZuul
             // northmost room is currPos 0 and maxE and minW were set in the FindMapWidth function
 
             // finding the grid position of starting room
-            foreach(var room in rooms)
+            foreach (var room in rooms)
             {
                 roomPositions[room] -= minW;
             }
@@ -111,7 +111,7 @@ namespace WorldOfZuul
 
             //removing placeholders so that they don't appear on the map
             string placeholderSwap = new string(' ', longestRoomName);
-            for (int i= 0; i < mapLines.Count; i++)
+            for (int i = 0; i < mapLines.Count; i++)
             {
                 mapLines[i] = mapLines[i].Replace("|Placeholder|", placeholderSwap);
             }
@@ -211,7 +211,7 @@ namespace WorldOfZuul
             if (visited.ContainsKey(currentRoom)) return;
             visited[currentRoom] = true;
             if (!roomPos.ContainsKey(currentRoom)) roomPos[currentRoom] = currPos;
-            if(currPos > maxE)
+            if (currPos > maxE)
             {
                 s = s + $"[{currentRoom.ShortDescription}]";
                 maxE = currPos;
@@ -235,7 +235,7 @@ namespace WorldOfZuul
                 if (!roomPos.ContainsKey(currentRoom)) roomPos[currentRoom] = currPos;
 
                 if (CanGoFromRoom(currentRoom, "south")) FindMapWidth(currentRoom.Exits["south"], ref s, currPos, ref maxE, ref minW, ref visited, ref roomPos);
-                if(currPos < minW)
+                if (currPos < minW)
                 {
                     s = $"[{currentRoom.ShortDescription}]" + s;
                     minW = currPos;
@@ -244,7 +244,7 @@ namespace WorldOfZuul
 
             currPos = initialPos;
             currentRoom = r;
-            while(CanGoFromRoom(currentRoom, "east"))
+            while (CanGoFromRoom(currentRoom, "east"))
             {
                 currentRoom = currentRoom.Exits["east"];
                 if (visited.ContainsKey(currentRoom)) return;
@@ -278,7 +278,11 @@ namespace WorldOfZuul
                         temp += s[i];
                         i++;
                     }
-                    rooms.Add(FindRoomByName(temp));
+                    var room = FindRoomByName(temp);
+                    if (room != null)
+                    {
+                        rooms.Add(room);
+                    }
                 }
             }
 
@@ -292,7 +296,7 @@ namespace WorldOfZuul
                     if (countBrackets == 0) border = -1;
                     else border = positions[rooms[countBrackets - 1]];
 
-                    int k = positions[rooms[countBrackets]]-1;
+                    int k = positions[rooms[countBrackets]] - 1;
                     while (k > border)
                     {
                         s = s.Insert(i, "|Placeholder| ");
@@ -355,5 +359,5 @@ namespace WorldOfZuul
         }
 
     }
-   
+
 }
