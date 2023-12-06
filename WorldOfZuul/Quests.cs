@@ -31,6 +31,7 @@ namespace WorldOfZuul
         {
             IsCompleted = true;
             GameManager.IsActiveQuest = false;
+            GameManager.ActiveQuest = null;
         }
         public void AddObjective(string description, string neededItems)
         {

@@ -56,6 +56,18 @@ namespace WorldOfZuul
                 Console.WriteLine("There is not enough space in your inventory!");
             }
         }
+        public void AddNPCItem(Item newItem)
+        {
+            if (items.Count() < maxInventorySize)
+            {
+                items.Add(newItem);
+                Console.WriteLine($"{newItem.name} added to your inventory");
+            }
+            else
+            {
+                Console.WriteLine("There is not enough space in your inventory!");
+            }
+        }
 
         /// <summary>
         ///  To use this method you must provide the name of the item you want to remove

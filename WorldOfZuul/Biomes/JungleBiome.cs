@@ -16,9 +16,9 @@ namespace WorldOfZuul
             BiomeName = "Jungle";
             
 
-            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { new Item("nickle", "Can be used to distract enemies") }, new List<NPC>{});
 
-            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { }, new List<NPC>{});
+            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { new Item("bat", "Can be used to beat up enemies") }, new List<NPC>{});
 
             Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
 
@@ -141,7 +141,7 @@ namespace WorldOfZuul
                 Console.WriteLine("Each question will disable one of the traps, try to disable as many as possible.");
                 Console.WriteLine("Good luck! \n");
 
-                Console.WriteLine("\x1b[1mQuestion 1:\x1b: Which of the following is NOT a benefit provided by jungle ecosystems?");
+                Console.WriteLine("1mQuestion 1: Which of the following is NOT a benefit provided by jungle ecosystems?");
                 Console.WriteLine("A)They are habitats for diverse species.");
                 Console.WriteLine("B)They help stabilize the world's climate.");
                 Console.WriteLine("C) They are the primary source of freshwater.");
@@ -290,9 +290,79 @@ namespace WorldOfZuul
         public void Evidence(){
             if (GameManager.ActiveQuest?.QuestName == "Find evidence")
             {
-                
+                Console.WriteLine("You stumbled across a poachers camp, you have to search the camp for some evidance (search), or you can turn around and leave (leave).");
+                string? ans  = Console.ReadLine();
+                bool decision = false;
+
+                if (ans == "search"){
+                    Console.WriteLine("You proceeded to search an enemy territory be careful to not get caught.");
+                    Console.WriteLine("You see 2 buildings in front of you, which one do you want to search first? (1,2)");
+                    int ans2 = Convert.ToInt32(Console.ReadLine());
+                    if(ans2 == 1){
+                        while(decision == false)
+                        {
+                            Console.WriteLine("you chose to proceed to the first building, you see a guard in front of the building, you can try to sneak past him (sneak), or you can try to fight him (fight) or leave (quit).");
+                            string? ans3 = Console.ReadLine();
+                            if(ans3 == "sneak")
+                            {
+                                if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "coin")){
+                                    Console.WriteLine("You have used a coin that you got to distract the guard, you can now proceed to search the building.");
+                                    Console.WriteLine("You found the evidence, you can now leave the camp");
+                                    decision = true;
+                                    GameManager.ActiveQuest.IsCompleted = true;
+                                }
+                                else{
+                                    Console.WriteLine("You don't have anything to distract the guard, you can't sneak past him, you have to fight him.");
+                                    Console.WriteLine("Try to come back when you have something to distract the guard with. Or you can try to fight him");
+                                    ans3 = Console.ReadLine();
+                                    return;
+                                    
+                                }
+                            }
+                            else if(ans3 == "fight"){
+                                if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "bat"))
+                                {
+                                    Console.WriteLine("You have a bat, you can use it to fight the guard.");
+                                    Console.WriteLine("You can try to hit him in the head (head), or you can try to hit him in the legs (legs).");
+                                    string? ans4 = Console.ReadLine();
+                                    if(ans4 == "head"){
+                                        Console.WriteLine("You hit the guard in the head, he fell to the ground, you can now proceed to search the building.");
+                                    }
+                                    else if(ans4 == "legs"){
+                                        Console.WriteLine("You hit the guard in the legs, he fell to the ground, but he is still conscious, and called reinforcmants, you ran away");
+                                        FailedQuest();
+                                    }
+                                }
+                                else{
+                                    Console.WriteLine("You don't have a bat, you can't fight the guard, you have to sneak past him.");
+                                    ans3 = "sneak";
+                                }
+                            }
+                    }   }
+                    else if(ans2 == 2){
+
+                    }
+                   
+                    
+                }
+                else
+                {
+                    Console.WriteLine("You turned around and left the camp.");
+                    FailedQuest();
+                    return;
+                }
             }
         }
-    
+
+        public void FailedQuest(){
+            Console.WriteLine("You failed the quest, you lost 10 points for that.");
+            GameManager.score -= 10;
+            if(GameManager.ActiveQuest != null)
+            {
+            GameManager.ActiveQuest.IsCompleted = false;
+            GameManager.ActiveQuest = null;
+            GameManager.IsActiveQuest = false; 
+            }
+        }
     }
 }

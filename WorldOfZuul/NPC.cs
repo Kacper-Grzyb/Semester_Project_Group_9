@@ -7,6 +7,7 @@ public class NPC
     public string Name { get; set; }
     public string Description { get; set; }
     public List<Quest> Quests { get; private set; } = new List<Quest>();
+    
     public NPC(string name, string description)
     {
         Name = name;
@@ -23,12 +24,13 @@ public class NPC
         Console.WriteLine($"You are interacting with {Name}. {Description}");
     }
 }
-    
+
 public class Riddler : NPC
 {
     private List<(string answer, string riddle)> riddles;
     private int currentRiddleIndex;
-
+    public int correctAnswers { get; private set; } = 0;
+    public List<Item> items = new List<Item>(){new Item("coin", "You can distract enemies with this")};
     public Riddler(string name, string description): base(name, description)
     {
         riddles = new List<(string, string)>();
@@ -45,30 +47,42 @@ public class Riddler : NPC
         
     public override void Interact()
     {
-        base.Interact();
+        
+        
         if(currentRiddleIndex > riddles.Count)
         {
-           GiveNextRiddle();
+          Console.WriteLine("You have answered all my riddles!");
+          return; 
         }
     
         if(currentRiddleIndex == 0)
         {
-        Console.WriteLine("I have a riddle for you!");
+            base.Interact();
+            Console.WriteLine($"I have {riddles.Count} riddles for you!");
+            Console.WriteLine("And if you want a prise you have to correctly answer all my riddles!");
+            Console.WriteLine("Do you want to proceed? (yes/no)");
         }
         else
         {
             Console.WriteLine("I have another riddle for you!");
         }
 
-        Console.WriteLine("Do you want to proceed? (yes/no)");
+        
         string? ans = Console.ReadLine();
         if (ans?.Trim().ToLower() == "yes")
         {
-            var riddle = GiveNextRiddle();
-            Console.WriteLine(riddle.riddle);
-            Console.WriteLine("What's your answer?: ");
-            string? playerAnswer = Console.ReadLine();
-            CheckAnswer(playerAnswer, riddle.answer);
+            while (currentRiddleIndex < riddles.Count)
+            {
+                var riddle = GiveNextRiddle();
+                Console.WriteLine(riddle.riddle);
+                Console.WriteLine("What's your answer?: ");
+                string? playerAnswer = Console.ReadLine();
+                CheckAnswer(playerAnswer, riddle.answer);
+            }
+            if(currentRiddleIndex >= riddles.Count)
+            {
+                GiveNextRiddle();
+            }
         }
     }   
 
@@ -80,16 +94,29 @@ public class Riddler : NPC
         }
         else
         {
-            return ("", "You have solved all my riddles!");
+            if(correctAnswers == riddles.Count){
+                
+                GameManager.Inventory?.AddNPCItem(items[0]);
+                items.RemoveAt(0);
+
+                return ("", "You have correctly solved all my riddles! Here is your prize: A coin");
+            }else
+            {
+                return ("", "You have not solved all my riddles! But didnt get all the answers :( !");
+                
+            }
+            
         }
     }
 
     private void CheckAnswer(string? playerAnswer, string correctAnswer)
     {
+        
         if (playerAnswer?.Trim().ToLower() == correctAnswer.ToLower())
         {
             Console.WriteLine("Correct! Well done.");
             GameManager.score += 5;
+            correctAnswers++;
         }
         else
         {
@@ -115,6 +142,16 @@ public class QuestGiver : NPC
     public override void Interact()
     {
         base.Interact();
+        
+            if(GameManager.ActiveQuest?.QuestName == "Find evidence" && GameManager.ActiveQuest.IsCompleted)
+            {
+                Console.WriteLine("You have borught back evidence for the quest giver! ");
+                Console.WriteLine("You have completed the quest! And you got 20 points for stopping the poachers");
+                GameManager.score += 20;
+                GameManager.ActiveQuest.CompleteQuest();
+                return;
+            }
+        
         if (availableQuests.Count > 0)
         {
             Console.WriteLine("I have a task for you, are you interested?");
@@ -123,9 +160,9 @@ public class QuestGiver : NPC
             if (ans?.Trim().ToLower() == "yes")
             {
                 GameManager.ActiveQuest = availableQuests[0];
+                GameManager.IsActiveQuest = true;
                 Console.WriteLine($"You have accepted the quest: {availableQuests[0].QuestName}");
-                // Optionally, remove the quest from availableQuests if it's a one-time quest
-                // availableQuests.RemoveAt(0);
+                
             }
             else
             {

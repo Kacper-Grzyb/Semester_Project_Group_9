@@ -93,7 +93,7 @@ namespace WorldOfZuul
             {
                 GameManager.currentPlayerRoom?.Update();
                 Console.WriteLine("\nCurrent room: " + GameManager.currentPlayerRoom?.ShortDescription);
-                Console.Write("> ");
+                Console.Write("> ");          
 
                 string? input = Console.ReadLine();
 
@@ -116,9 +116,9 @@ namespace WorldOfZuul
                     }
                     continue;
                 }
-
                 switch (command.Name)
                 {
+
                     case "look":
                         if (GameManager.currentPlayerRoom == null)
                         {
