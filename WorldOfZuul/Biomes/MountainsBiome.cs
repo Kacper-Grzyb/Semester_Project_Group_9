@@ -20,7 +20,7 @@ namespace WorldOfZuul
             Room mountainsStartRoom = new Room("Foot of the Mountains", "You are at the bottom of the mountains.\nThe clouds cover their very tops " +
             "and you can spot patches of snow here and there.\nBefore you lie paths to east and west on which you can begin your climb.", new List<Item>(), new List<NPC>{});
             Room mountainsRoom1 = new Room("Grassy Planes", "Next to the Starting Room", new List<Item>(), new List<NPC>());
-            Room mountainsRoom2 = new Room("Entrance to a cave", "You arrive at an entrance to a dark cave to the north. There is also a path leading away from it to the east.", new List<Item>() { new Item("Flashlight", "Used to light the way", true), new Item("Map", "With this you can navigate the mountains") }, new List<NPC>{});
+            Room mountainsRoom2 = new Room("Entrance to a cave", "You arrive at an entrance to a dark cave to the north. There is also a path leading away from it to the east.", new List<Item>() { new Item("Flashlight", "Used to light the way", true), new Map("Map", "With this you can navigate the mountains") }, new List<NPC>{});
             Room mountainsRoom3 = new Room("Old Lodge", "Cranky Shop", new List<Item>(), new List<NPC>{});
             Room mountainsRoom4 = new Room("Foothill Woodland", "Unprotected zone", new List<Item>(), new List<NPC>{});
             Room mountainsRoom5 = new Room("Grassy Valley", "Unprotected zone", new List<Item>(), new List<NPC>{});

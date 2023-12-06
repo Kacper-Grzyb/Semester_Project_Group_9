@@ -20,7 +20,7 @@ namespace WorldOfZuul
             this.activable = activable;
         }
 
-        public void Activate()
+        public virtual void Activate()
         {
             if (activable)
             {
@@ -51,6 +51,24 @@ namespace WorldOfZuul
         public object Clone()
         {
             return this.MemberwiseClone();
+        }
+    }
+
+    public class Map : Item
+    {
+        public Map(string name, string description, bool activable = true) : base(name, description, activable)
+        {
+
+        }
+
+        public override void Activate()
+        {
+            if(GameManager.currentPlayerBiome == null)
+            {
+                Console.WriteLine("The current player biome is not set to anything!");
+                return;
+            }
+            GameManager.currentPlayerBiome.DisplayMap();
         }
     }
 }

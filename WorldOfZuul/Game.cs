@@ -184,19 +184,6 @@ namespace WorldOfZuul
                     case "inv":
                         GameManager.Inventory?.ShowInventory();
                         break;
-                    case "map":
-                        /*
-                        if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "map"))
-                        {
-                            GameManager.currentPlayerBiome?.displayMap();
-                        }
-                        else
-                        {
-                            Console.WriteLine($"You dont have a map.");
-                        }
-                        */
-                        GameManager.currentPlayerBiome?.DisplayMap();
-                        break;
                     case "paths":
                         GameManager.currentPlayerRoom?.showPaths();
                         break;
@@ -263,8 +250,6 @@ namespace WorldOfZuul
                     default:
                         Console.WriteLine("I don't know that command.");
                         break;
-
-
 
 
                 }
