@@ -11,7 +11,6 @@ namespace WorldOfZuul
 {
     public sealed class MountainsBiome : Biome
     {
-        // TODO Update Map according to google drive
         public MountainsBiome() {
             MountainsBiome.BiomeType = Biomes.Mountains;
             MountainsBiome.PointsToWin = 100;
@@ -34,17 +33,17 @@ namespace WorldOfZuul
 
             // set exits is north east south west
             mountainsStartRoom.SetExits(mountainsRoom2, mountainsRoom1, null, null);
-            mountainsRoom1.SetExits(mountainsRoom5, null, null, mountainsStartRoom);
+            mountainsRoom1.SetExits(mountainsRoom3, null, null, mountainsStartRoom);
             mountainsRoom2.SetExits(mountainsRoom6, mountainsRoom3, mountainsStartRoom, null);
-            mountainsRoom3.SetExits(null, mountainsRoom4, null, mountainsRoom2);
+            mountainsRoom3.SetExits(null, mountainsRoom4, mountainsRoom1, mountainsRoom2);
             mountainsRoom4.SetExits(null, mountainsRoom5, null, mountainsRoom3);
-            mountainsRoom5.SetExits(mountainsRoom7, null, mountainsRoom1, mountainsRoom4);
+            mountainsRoom5.SetExits(mountainsRoom7, null, null, mountainsRoom4);
             mountainsRoom6.SetExits(mountainsRoom8, mountainsSecretRoom, mountainsRoom2, null);
             mountainsRoom7.SetExits(mountainsRoom9, null, mountainsRoom5, null);
             mountainsRoom8.SetExits(null, mountainsPenultimateRoom, mountainsRoom6, null);
-            mountainsRoom9.SetExits(null, null, mountainsRoom7, mountainsPenultimateRoom);
+            mountainsRoom9.SetExits(null, null, mountainsRoom7, null);
             mountainsSecretRoom.SetExits(null, null, null, mountainsRoom6);
-            mountainsPenultimateRoom.SetExits(mountainsFinalRoom, mountainsRoom9, null, mountainsRoom8);
+            mountainsPenultimateRoom.SetExits(mountainsFinalRoom, null, null, mountainsRoom8);
             mountainsFinalRoom.SetExits(null, null, mountainsPenultimateRoom, null);
 
             startLocation = mountainsStartRoom;

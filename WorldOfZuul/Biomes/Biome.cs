@@ -173,7 +173,7 @@ namespace WorldOfZuul
                 map += spaceLine + "\n";
             }
 
-            //Console.Clear();
+            Console.Clear();
             WriteMapWithHighlight(map);
             Console.WriteLine("\n\nPress Any Key to exit Map View");
             Console.ReadKey();
@@ -356,7 +356,8 @@ namespace WorldOfZuul
         {
 
         }
-        public virtual void addNPCs(){
+        public virtual void addNPCs()
+        {
 
         }
         public string returnBiomeName()
