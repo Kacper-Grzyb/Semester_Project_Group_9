@@ -292,57 +292,65 @@ namespace WorldOfZuul
             {
                 Console.WriteLine("You stumbled across a poachers camp, you have to search the camp for some evidance (search), or you can turn around and leave (leave).");
                 string? ans  = Console.ReadLine();
+                bool decision2 = false;
                 bool decision = false;
-
                 if (ans == "search"){
                     Console.WriteLine("You proceeded to search an enemy territory be careful to not get caught.");
                     Console.WriteLine("You see 2 buildings in front of you, which one do you want to search first? (1,2)");
                     int ans2 = Convert.ToInt32(Console.ReadLine());
-                    if(ans2 == 1){
-                        while(decision == false)
-                        {
-                            Console.WriteLine("you chose to proceed to the first building, you see a guard in front of the building, you can try to sneak past him (sneak), or you can try to fight him (fight) or leave (quit).");
-                            string? ans3 = Console.ReadLine();
-                            if(ans3 == "sneak")
+                    while(!decision)
+                    {
+                        if(ans2 == 1){
+                            while(decision2 == false)
                             {
-                                if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "coin")){
-                                    Console.WriteLine("You have used a coin that you got to distract the guard, you can now proceed to search the building.");
-                                    Console.WriteLine("You found the evidence, you can now leave the camp");
-                                    decision = true;
-                                    GameManager.ActiveQuest.IsCompleted = true;
-                                }
-                                else{
-                                    Console.WriteLine("You don't have anything to distract the guard, you can't sneak past him, you have to fight him.");
-                                    Console.WriteLine("Try to come back when you have something to distract the guard with. Or you can try to fight him");
-                                    ans3 = Console.ReadLine();
-                                    return;
-                                    
-                                }
-                            }
-                            else if(ans3 == "fight"){
-                                if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "bat"))
+                                Console.WriteLine("you chose to proceed to the first building, you see a guard in front of the building, you can try to sneak past him (sneak), or you can try to fight him (fight) or leave (quit).");
+                                string? ans3 = Console.ReadLine();
+                                if(ans3 == "sneak")
                                 {
-                                    Console.WriteLine("You have a bat, you can use it to fight the guard.");
-                                    Console.WriteLine("You can try to hit him in the head (head), or you can try to hit him in the legs (legs).");
-                                    string? ans4 = Console.ReadLine();
-                                    if(ans4 == "head"){
-                                        Console.WriteLine("You hit the guard in the head, he fell to the ground, you can now proceed to search the building.");
+                                    if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "coin")){
+                                        Console.WriteLine("You have used a coin that you got to distract the guard, you can now proceed to search the building.");
+                                        Console.WriteLine("You found some incriminating evidence against the pouchers, you can now leave the camp");
+                                        decision2 = true;
+                                        GameManager.ActiveQuest.IsCompleted = true;
                                     }
-                                    else if(ans4 == "legs"){
-                                        Console.WriteLine("You hit the guard in the legs, he fell to the ground, but he is still conscious, and called reinforcmants, you ran away");
-                                        FailedQuest();
+                                    else{
+                                        Console.WriteLine("You don't have anything to distract the guard, you can't sneak past him, you have to fight him.");
+                                        Console.WriteLine("Try to come back when you have something to distract the guard with. Or you can try to fight him");
+                                        ans3 = Console.ReadLine();
+                                        return;
+                                        
                                     }
                                 }
-                                else{
-                                    Console.WriteLine("You don't have a bat, you can't fight the guard, you have to sneak past him.");
-                                    ans3 = "sneak";
+                                else if(ans3 == "fight"){
+                                    if (GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "bat"))
+                                    {
+                                        Console.WriteLine("You have a bat, you can use it to fight the guard.");
+                                        Console.WriteLine("You can try to hit him in the head (head), or you can try to hit him in the legs (legs).");
+                                        string? ans4 = Console.ReadLine();
+                                        if(ans4 == "head"){
+                                            Console.WriteLine("You hit the guard in the head, he fell to the ground, you can now proceed to search the building.");
+                                            Console.WriteLine("You found some incriminating evidence against the pouchers, you can now leave the camp");
+                                            decision2 = true;
+                                            GameManager.ActiveQuest.IsCompleted = true;
+                                        }
+                                        else if(ans4 == "legs"){
+                                            Console.WriteLine("You hit the guard in the legs, he fell to the ground, but he is still conscious, and called reinforcmants, you ran away");
+                                            FailedQuest();
+                                        }
+                                    }
+                                    else{
+                                        Console.WriteLine("You don't have a bat, you can't fight the guard, you have to sneak past him.");
+                                        
+                                    }
+                                }else{
+                                    return;
                                 }
-                            }
-                    }   }
-                    else if(ans2 == 2){
-
+                        }   }
+                        else if(ans2 == 2){
+                            Console.WriteLine("You chose to proceed to the second building");
+                            Console.WriteLine("the building is competly empty");
+                        }
                     }
-                   
                     
                 }
                 else
@@ -359,9 +367,9 @@ namespace WorldOfZuul
             GameManager.score -= 10;
             if(GameManager.ActiveQuest != null)
             {
-            GameManager.ActiveQuest.IsCompleted = false;
-            GameManager.ActiveQuest = null;
-            GameManager.IsActiveQuest = false; 
+                GameManager.ActiveQuest.IsCompleted = false;
+                GameManager.ActiveQuest = null;
+                GameManager.IsActiveQuest = false; 
             }
         }
     }
