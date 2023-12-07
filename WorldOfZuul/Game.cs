@@ -307,7 +307,6 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'drop [item name]' to drop an item from your inventory");
             Console.WriteLine("Type 'inv' to display your inventory");
             Console.WriteLine("Type 'quest' to see available quest in the room");
-            Console.WriteLine("Type 'map' to display the biome map and your current location");
             Console.WriteLine("Type 'paths' to show directions in which you can go from your current location");
             Console.WriteLine("Type 'quit' to exit the game");
             Console.WriteLine("Type 'help' to print this message again");

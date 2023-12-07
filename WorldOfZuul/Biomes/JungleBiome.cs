@@ -27,7 +27,7 @@ namespace WorldOfZuul
             Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { new Item("Flashlight", "A way to light your path"),
             new Map("map","Useful for navigation"), new Item("trap", "Can be used against enemies") }, new List<NPC>{});
 
-            Room? location6 = new("Sector 6 ", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { }, new List<NPC>{});
+            Room? location6 = new("Sector 6", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { }, new List<NPC>{});
 
             Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
 

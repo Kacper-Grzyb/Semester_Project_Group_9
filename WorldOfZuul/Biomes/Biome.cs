@@ -80,6 +80,8 @@ namespace WorldOfZuul
 
             string map = "";
             int longestRoomName = 0, width = 0;
+
+            // Find the longest room name so the other room names can be filled with placeholders to match it so the map is uniform
             foreach (Room room in rooms)
             {
                 if (room.ShortDescription.Length > longestRoomName)
@@ -87,61 +89,57 @@ namespace WorldOfZuul
                     longestRoomName = room.ShortDescription.Length;
                 }
             }
+
             // currentRoom needs to be set to the room that's located most north in the map in order for the function to work
             Room currentRoom = northmostRoom;
             Dictionary<Room, bool> printedRooms = new Dictionary<Room, bool>();
             List<string> mapLines = new List<string>();
-            mapLines.Add("");
-            // getting rows of rooms 'on the same level' to the list mapLines
-            UpdateRooms(currentRoom, ref mapLines, 0, ref printedRooms);
 
             // getting the longest row of rooms
             string longestRoomChain = "";
-            int currPos = 0, maxE = -1, minW = 0;
+            int currPos = 0, maxE = -1, minW = 0, currDepth=0, maxDepth=0;
             Dictionary<Room, bool> visitedRooms = new Dictionary<Room, bool>();
             Dictionary<Room, int> roomPositions = new Dictionary<Room, int>(); // this will be useful later
-            FindMapWidth(currentRoom, ref longestRoomChain, currPos, ref maxE, ref minW, ref visitedRooms, ref roomPositions);
+            Dictionary<Room, int> roomDepths = new Dictionary<Room, int>();
+            FindGridDimensions(currentRoom, ref longestRoomChain, currPos, ref maxE, ref minW, currDepth, ref maxDepth, ref visitedRooms, ref roomPositions, ref roomDepths);
             width = HowManyRoomsInLine(longestRoomChain);
-            // northmost room is currPos 0 and maxE and minW were set in the FindMapWidth function
+            string[,] helperArray = new string[maxDepth + 1, width];
+            Dictionary<Room, int>.KeyCollection keys = roomPositions.Keys;
 
-            // finding the grid position of starting room
+            // Shifting values so that the room most on the west starts with index 0
             foreach (var room in rooms)
             {
                 roomPositions[room] -= minW;
+                helperArray[roomDepths[room], roomPositions[room]] = room.ShortDescription;
+                Console.WriteLine($"{room.ShortDescription} has a position of {roomPositions[room]} and a depth of {roomDepths[room]}");
             }
 
-            // adding placeholders to allign all of the rooms
-            for (int i = 0; i < mapLines.Count; i++) AddPlaceholders(ref mapLines, width - 1, i, roomPositions);
-
-            //removing placeholders so that they don't appear on the map
-            string placeholderSwap = new string(' ', longestRoomName);
-            for (int i = 0; i < mapLines.Count; i++)
+            for(int i= 0; i < maxDepth+1; i++)
             {
-                mapLines[i] = mapLines[i].Replace("|Placeholder|", placeholderSwap);
-            }
-
-            for (int i = 0; i < mapLines.Count; i++)
-            {
-                int openBracketI, closedBracketI;
-                for (int j = 0; j < mapLines[i].Length; j++)
+                mapLines.Add("");
+                for (int j= 0; j < width; j++)
                 {
-                    if (mapLines[i][j] == '[' || mapLines[i][j] == '|')
+                    if (helperArray[i, j] != null)
                     {
-                        j++;
-                        openBracketI = j;
-                        while (mapLines[i][j] != ']' && mapLines[i][j] != '|') j++;
-                        closedBracketI = j;
-                        while (closedBracketI - openBracketI < longestRoomName)
+                        //helperArray[i, j]
+                        mapLines[i] += AddFillers(helperArray[i, j], filler, longestRoomName);
+                        if (CanGoFromRoom(FindRoomByName(helperArray[i,j]), "east"))
                         {
-                            mapLines[i] = mapLines[i].Insert(openBracketI, filler);
-                            closedBracketI++;
-                            mapLines[i] = mapLines[i].Insert(closedBracketI, filler);
-                            closedBracketI++;
-                            j += 2;
+                            mapLines[i] += "-";
+                        }
+                        else
+                        {
+                            mapLines[i] += " ";
                         }
                     }
+                    else
+                    {
+                        mapLines[i] += new string(' ', longestRoomName + 3);
+                    }
+
                 }
             }
+
             // Place the vertical connections and add to the mapToPrint string
             int openBracketPos = 0, closedBracketPos = 0, longestLineLength = (longestRoomName * width) + width + 10;
             string roomName = "";
@@ -184,37 +182,15 @@ namespace WorldOfZuul
             Console.Clear();
         }
 
-        void UpdateRooms(Room r, ref List<string> list, int index, ref Dictionary<Room, bool> printedRooms)
-        {
-            if (printedRooms.ContainsKey(r)) return;
-            Room currentRoom = r;
-            while (CanGoFromRoom(currentRoom, "west")) currentRoom = currentRoom.Exits["west"];
-            if (list[index].Length > 0) list[index] += " ";
-            while (true)
-            {
-                if (CanGoFromRoom(currentRoom, "south"))
-                {
-                    if (list.Count == index + 1) list.Add("");
-                    UpdateRooms(currentRoom.Exits["south"], ref list, index + 1, ref printedRooms);
-                }
-
-                list[index] += $"[{currentRoom.ShortDescription}]";
-                printedRooms[currentRoom] = true;
-                if (CanGoFromRoom(currentRoom, "east"))
-                {
-                    list[index] += "-";
-                    currentRoom = currentRoom.Exits["east"];
-                }
-                else break;
-            }
-        }
-
-        private void FindMapWidth(Room r, ref string s, int currPos, ref int maxE, ref int minW, ref Dictionary<Room, bool> visited, ref Dictionary<Room, int> roomPos)
+        private void FindGridDimensions(Room r, ref string s, int currPos, ref int maxE, ref int minW, int currDepth, ref int maxDepth, ref Dictionary<Room, bool> visited, ref Dictionary<Room, int> roomPos, ref Dictionary<Room, int> roomDepths)
         {
             Room currentRoom = r;
-            if (visited.ContainsKey(currentRoom)) return;
-            visited[currentRoom] = true;
             if (!roomPos.ContainsKey(currentRoom)) roomPos[currentRoom] = currPos;
+            if (!roomDepths.ContainsKey(currentRoom)) roomDepths[currentRoom] = currDepth;
+
+            if (visited.ContainsKey(currentRoom)) return;
+            else visited[currentRoom] = true;
+
             if (currPos > maxE)
             {
                 s = s + $"[{currentRoom.ShortDescription}]";
@@ -226,98 +202,60 @@ namespace WorldOfZuul
                 minW = currPos;
             }
 
-            if (CanGoFromRoom(currentRoom, "south")) FindMapWidth(currentRoom.Exits["south"], ref s, currPos, ref maxE, ref minW, ref visited, ref roomPos);
-            int initialPos = currPos;
+            if(currDepth > maxDepth) maxDepth = currDepth;
 
-
-            while (CanGoFromRoom(currentRoom, "west"))
+            if (CanGoFromRoom(currentRoom, "south"))
             {
-                currentRoom = currentRoom.Exits["west"];
-                if (visited.ContainsKey(currentRoom)) return;
-                visited[currentRoom] = true;
-                currPos--;
-                if (!roomPos.ContainsKey(currentRoom)) roomPos[currentRoom] = currPos;
-
-                if (CanGoFromRoom(currentRoom, "south")) FindMapWidth(currentRoom.Exits["south"], ref s, currPos, ref maxE, ref minW, ref visited, ref roomPos);
-                if (currPos < minW)
+                Room southRoom = currentRoom.Exits["south"];
+                if (!visited.ContainsKey(southRoom))
                 {
-                    s = $"[{currentRoom.ShortDescription}]" + s;
-                    minW = currPos;
+                    FindGridDimensions(currentRoom.Exits["south"], ref s, currPos, ref maxE, ref minW, currDepth+1, ref maxDepth, ref visited, ref roomPos, ref roomDepths);
                 }
             }
-
-            currPos = initialPos;
-            currentRoom = r;
-            while (CanGoFromRoom(currentRoom, "east"))
+            if(CanGoFromRoom(currentRoom, "north"))
             {
-                currentRoom = currentRoom.Exits["east"];
-                if (visited.ContainsKey(currentRoom)) return;
-                visited[currentRoom] = true;
-                currPos++;
-                if (!roomPos.ContainsKey(currentRoom)) roomPos[currentRoom] = currPos;
-
-                if (CanGoFromRoom(currentRoom, "south")) FindMapWidth(currentRoom.Exits["south"], ref s, currPos, ref maxE, ref minW, ref visited, ref roomPos);
-                if (currPos > maxE)
+                Room northRoom = currentRoom.Exits["north"];
+                if (!visited.ContainsKey(northRoom))
                 {
-                    s = s + $"[{currentRoom.ShortDescription}]";
-                    maxE = currPos;
+                    FindGridDimensions(currentRoom.Exits["north"], ref s, currPos, ref maxE, ref minW, currDepth-1, ref maxDepth, ref visited, ref roomPos, ref roomDepths);
+                }
+            }
+            if(CanGoFromRoom(currentRoom, "west"))
+            {
+                Room westRoom = currentRoom.Exits["west"];
+                if (!visited.ContainsKey(westRoom))
+                {
+                    FindGridDimensions(r.Exits["west"], ref s, currPos - 1, ref maxE, ref minW, currDepth, ref maxDepth, ref visited, ref roomPos, ref roomDepths);
+                }
+            }
+            if(CanGoFromRoom(currentRoom, "east"))
+            {
+                Room eastRoom = currentRoom.Exits["east"];
+                if (!visited.ContainsKey(eastRoom))
+                {
+                    FindGridDimensions(r.Exits["east"], ref s, currPos + 1, ref maxE, ref minW, currDepth, ref maxDepth, ref visited, ref roomPos, ref roomDepths);
                 }
             }
         }
 
-        private void AddPlaceholders(ref List<string> mapLines, int maxPos, int depth, Dictionary<Room, int> positions)
+        private string AddFillers(string roomName, string filler, int requiredWidth)
         {
-            string s = mapLines[depth];
-            List<Room> rooms = new List<Room>();
-
-            // Get rooms from string
-            for (int i = 0; i < s.Length; i++)
+            string newRoomName = roomName;
+            bool alternate = true;
+            while(newRoomName.Length < requiredWidth)
             {
-                if (s[i] == '[')
+                if(alternate)
                 {
-                    string temp = "";
-                    i++;
-                    while (s[i] != ']')
-                    {
-                        temp += s[i];
-                        i++;
-                    }
-                    var room = FindRoomByName(temp);
-                    if (room != null)
-                    {
-                        rooms.Add(room);
-                    }
+                    newRoomName = filler + newRoomName;
+                    alternate = false;
+                }
+                else
+                {
+                    newRoomName = newRoomName + filler;
+                    alternate = true;
                 }
             }
-
-            int countBrackets = -1, loopLength = s.Length;
-            for (int i = 0; i < loopLength; i++)
-            {
-                if (s[i] == '[')
-                {
-                    countBrackets++;
-                    int border;
-                    if (countBrackets == 0) border = -1;
-                    else border = positions[rooms[countBrackets - 1]];
-
-                    int k = positions[rooms[countBrackets]] - 1;
-                    while (k > border)
-                    {
-                        s = s.Insert(i, "|Placeholder| ");
-                        //s = s.Insert(i, placeholder + " ");
-                        i += 14;
-                        loopLength += 14;
-                        k--;
-                    }
-                }
-            }
-            while (positions[rooms[countBrackets]] < maxPos)
-            {
-                s = s + " |Placeholder|";
-                //s = s + " " + placeholder;
-                positions[rooms[countBrackets]]++;
-            }
-            mapLines[depth] = s;
+            return "[" + newRoomName + "]";
         }
 
         private int HowManyRoomsInLine(string s)
@@ -330,7 +268,7 @@ namespace WorldOfZuul
             return count;
         }
 
-        private bool CanGoFromRoom(Room room, string direction)
+        private bool CanGoFromRoom(Room? room, string direction)
         {
             if (room != null && room.Exits.ContainsKey(direction))
             {
