@@ -28,7 +28,7 @@ namespace WorldOfZuul
 
         public virtual void WelcomeMessage()
         {
-
+            Console.WriteLine($"Welcome to the {GameManager.currentPlayerBiome?.returnBiomeName()}!");
         }
         public virtual void CheckWinCondition()
         {

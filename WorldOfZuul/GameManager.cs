@@ -19,6 +19,11 @@ namespace WorldOfZuul
         public static Room? currentPlayerRoom { get; set; }
         public static Stack<Room>? previousPlayerRooms { get; set; }
         public static Biome? currentPlayerBiome { get; set; }
+        public static MountainsBiome? mountainsBiomeInstance { get; set; }
+        public static JungleBiome? jungleBiomeInstance { get; set; }
+        public static GrasslandsBiome? grasslandsBiomeInstance { get; set; }
+        public static GlacialBiome? glacialBiomeInstance { get; set; }
+        public static ForestBiome? forestBiomeInstance { get; set; }
 
         public static class Player
         {

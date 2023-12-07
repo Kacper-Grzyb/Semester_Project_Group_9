@@ -89,15 +89,15 @@ namespace WorldOfZuul
         {
             if (Items.Count == 0)
             {
-                Console.WriteLine("There are no items in this room.");
+                Console.WriteLine("\nThere are no items in this room.");
             }
             else
             {
-                Console.WriteLine("On the floor you can see:");
+                Console.WriteLine("\nOn the floor you can see:");
                 foreach (Item item in Items)
                 {
                     string showItems = string.Join(",", item);
-                    Console.WriteLine("\n" + showItems);
+                    Console.WriteLine("* " + showItems);
                 }
             }
         }
@@ -173,6 +173,19 @@ namespace WorldOfZuul
             else
             {
                 Console.WriteLine("No such NPC found in this room.");
+            }
+        }
+
+        // If you provide null as one of the function arguments, the corresponding description won't be updated
+        public void UpdateDescriptions(string? shortDesc, string? longDesc)
+        {
+            if(shortDesc != null)
+            {
+                ShortDescription = shortDesc;
+            }
+            if(longDesc != null)
+            {
+                LongDescription = longDesc;
             }
         }
 
