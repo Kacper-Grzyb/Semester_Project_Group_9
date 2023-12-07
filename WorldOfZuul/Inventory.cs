@@ -25,7 +25,7 @@ namespace WorldOfZuul
                 foreach (Item item in items)
                 {
                      string showInvetory = string.Join(",", item);
-                     Console.WriteLine(showInvetory);
+                     Console.WriteLine("* " + showInvetory);
                 }
             }
         }
@@ -91,8 +91,25 @@ namespace WorldOfZuul
             }
             // This Console.WriteLine will only execute if the foreach loop loops through every item without finding a match
             Console.WriteLine($"Could not find {itemName} in your inventory!");
+        }
 
-            
+        public void RemoveItem(string itemName)
+        {
+            if (items.Count() == 0)
+            {
+                return;
+            }
+            foreach (Item item in items)
+            {
+                if (item.name.ToLower() == itemName.ToLower())
+                {
+                    items.Remove(item);
+                    Console.WriteLine($"{item.name} was removed from your inventory");
+                    return;
+                }
+            }
+            // This Console.WriteLine will only execute if the foreach loop loops through every item without finding a match
+            Console.WriteLine($"Could not find {itemName} in your inventory!");
         }
 
         public Item? GetItem(string itemName)

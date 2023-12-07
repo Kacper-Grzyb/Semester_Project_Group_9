@@ -82,6 +82,7 @@ namespace WorldOfZuul
     {
         public static void Main()
         {
+            //Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             Game game = new();
             game.Play();
         }
