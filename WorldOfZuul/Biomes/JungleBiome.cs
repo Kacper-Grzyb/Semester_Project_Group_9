@@ -71,7 +71,12 @@ namespace WorldOfZuul
 
             };
             Quest Evidence = new Quest("Find evidence", "Find the evidence that poachers left in Sector 3", false, false, findEvidence);
-            
+            var destroyBaseCamp = new List<QuestObjective>
+            {
+             new QuestObjective("Destroy the base camp in Sector 3","Map")
+
+            };
+            Quest DestroyBaseCamp = new Quest("Destroy base camp", "Destroy the base camp in Sector 3", false, false, destroyBaseCamp);
 
             //--------------------------------------NPCs------------------------------------------------
             Riddler riddler = new Riddler("Riddler","Master of riddles and puzzles.");
@@ -80,7 +85,9 @@ namespace WorldOfZuul
             location5.AddQuest(Poachers);
             location5.AddNpcToRoom(questGiver);
             location1.AddNpcToRoom(riddler);
+            
             questGiver.AddQuestToNPC(Evidence);
+            questGiver.AddQuestToNPC(DestroyBaseCamp);
 
 
             Player.mapHeight = 3;
@@ -128,6 +135,10 @@ namespace WorldOfZuul
             if(GameManager.ActiveQuest?.QuestName == "Find evidence" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
             {  
               Evidence();
+            }
+            if(GameManager.ActiveQuest?.QuestName == "Destroy base camp" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
+            {  
+              DestroyBaseCamp();
             }
         }
         public void quizTrap()
@@ -292,8 +303,8 @@ namespace WorldOfZuul
             {
                 Console.WriteLine("You stumbled across a poachers camp, you have to search the camp for some evidance (search), or you can turn around and leave (leave).");
                 string? ans  = Console.ReadLine();
-                bool decision2 = false;
                 bool decision = false;
+                bool decision2 = false;
                 if (ans == "search"){
                     Console.WriteLine("You proceeded to search an enemy territory be careful to not get caught.");
                     Console.WriteLine("You see 2 buildings in front of you, which one do you want to search first? (1,2)");
@@ -301,6 +312,7 @@ namespace WorldOfZuul
                     while(!decision)
                     {
                         if(ans2 == 1){
+                            decision = true;
                             while(decision2 == false)
                             {
                                 Console.WriteLine("you chose to proceed to the first building, you see a guard in front of the building, you can try to sneak past him (sneak), or you can try to fight him (fight) or leave (quit).");
@@ -315,9 +327,7 @@ namespace WorldOfZuul
                                     }
                                     else{
                                         Console.WriteLine("You don't have anything to distract the guard, you can't sneak past him, you have to fight him.");
-                                        Console.WriteLine("Try to come back when you have something to distract the guard with. Or you can try to fight him");
-                                        ans3 = Console.ReadLine();
-                                        return;
+                                        Console.WriteLine("Try to come back when you have something to distract the guard with. Or you can try to fight him");                             
                                         
                                     }
                                 }
@@ -361,7 +371,41 @@ namespace WorldOfZuul
                 }
             }
         }
+        public void DestroyBaseCamp()
+        {
+            if(GameManager.ActiveQuest?.QuestName == "Destroy base camp"){
+                Console.WriteLine("You came back for revenge, you saw what those poachers are going to do, and you have to stop them.");
+                Console.WriteLine("You sneak to the back of the main building, and place your dynimate");  
+                GameManager.Inventory?.DropItem("dynamite");
+                int ans = Convert.ToInt32(Console.ReadLine());
+                if(GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "matches"))
+                {
+                    
+                    Console.WriteLine("You have matches, you can use them to light the dynimate");
+                    Console.WriteLine("You've lit the dynamite and run for cover");
+                    Thread.Sleep(3000);
+                    Console.WriteLine("3");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("2");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("1");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("BOOM");
+                    Console.WriteLine("You've destroyed the base camp, and all the poachers equipment");
+                    GameManager.Inventory.DropItem("matches");
+                    GameManager.currentPlayerRoom?.RemoveItem(new Item("dynamite", "You can destroy the base camp with this, but firstly you'll need somthing to light it with"));
+                    GameManager.ActiveQuest.IsCompleted = true;
 
+                }
+                else
+                {
+                    Console.WriteLine("You don't have anything to light the dynamite with, you can't destroy the base camp");
+                    Console.WriteLine("Comeback when you have something to light the dynamite with");
+                    return;
+                }
+                
+            }
+        }
         public void FailedQuest(){
             Console.WriteLine("You failed the quest, you lost 10 points for that.");
             GameManager.score -= 10;
@@ -370,6 +414,21 @@ namespace WorldOfZuul
                 GameManager.ActiveQuest.IsCompleted = false;
                 GameManager.ActiveQuest = null;
                 GameManager.IsActiveQuest = false; 
+            }
+        }
+        public override void CheckWinCondition()
+        {
+            if (GameManager.score >= PointsToWin)
+            {
+                Console.WriteLine("You have won the game, you saved the jungle from the poachers!");
+                Console.WriteLine("Score: " + GameManager.score);
+                Environment.Exit(0);
+            }
+            else if (GameManager.score <= 0)
+            {
+                Console.WriteLine("You have lost the game, you didn't save the jungle from the poachers!");
+                Console.WriteLine("Score: " + GameManager.score);
+                Environment.Exit(0);
             }
         }
     }

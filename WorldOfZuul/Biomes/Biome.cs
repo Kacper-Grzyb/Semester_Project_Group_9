@@ -30,6 +30,10 @@ namespace WorldOfZuul
         {
 
         }
+        public virtual void CheckWinCondition()
+        {
+            
+        }
         public void WriteMapWithHighlight(string map)
         {
             for (int i = 0; i < map.Count(); i++)

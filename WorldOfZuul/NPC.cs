@@ -129,7 +129,8 @@ public class Riddler : NPC
 public class QuestGiver : NPC
 {
     List<Quest> availableQuests = new List<Quest>();
-
+    public List<Item> items = new List<Item>(){new Item("dyamite", "You can destroy the base camp with this, but firstly you'll need somthing to light it with")};
+    int questIndex = 0;
     public QuestGiver(string name, string description) : base(name, description)
     {
     }
@@ -145,9 +146,19 @@ public class QuestGiver : NPC
         
             if(GameManager.ActiveQuest?.QuestName == "Find evidence" && GameManager.ActiveQuest.IsCompleted)
             {
-                Console.WriteLine("You have borught back evidence for the quest giver! ");
-                Console.WriteLine("You have completed the quest! And you got 20 points for stopping the poachers");
+                Console.WriteLine("You have borught back evidence for the quest giver! \nYou are one step closer to stop those pesky poachers! ");
+
+                Console.WriteLine("You have completed the quest! And you got 20 points for envailing the poachers plan");
                 GameManager.score += 20;
+                questIndex++;
+                GameManager.ActiveQuest.CompleteQuest();
+                return;
+            }
+            if(GameManager.ActiveQuest?.QuestName == "Destroy base camp" && GameManager.ActiveQuest.IsCompleted){
+                Console.WriteLine("You have destroyed the base camp! \n You stopped at least some of them");
+                Console.WriteLine("You have completed the quest! And you got 20 points for envailing the poachers plan");
+                GameManager.score += 20;
+                questIndex++;
                 GameManager.ActiveQuest.CompleteQuest();
                 return;
             }
@@ -157,12 +168,20 @@ public class QuestGiver : NPC
             Console.WriteLine("I have a task for you, are you interested?");
             Console.WriteLine("Do you want to accept the quest? (yes/no)");
             string? ans = Console.ReadLine();
-            if (ans?.Trim().ToLower() == "yes")
+            if (ans?.Trim().ToLower() == "yes" && questIndex == 0)    
             {
-                GameManager.ActiveQuest = availableQuests[0];
+                GameManager.ActiveQuest = availableQuests[questIndex];
                 GameManager.IsActiveQuest = true;
-                Console.WriteLine($"You have accepted the quest: {availableQuests[0].QuestName}");
+                Console.WriteLine($"You have accepted the quest: {availableQuests[questIndex].QuestName}");
                 
+            }
+            if(ans?.Trim().ToLower() == "yes" && questIndex == 1)
+            {
+                GameManager.ActiveQuest = availableQuests[questIndex];
+                GameManager.IsActiveQuest = true;
+                GameManager.Inventory?.AddNPCItem(items[0]);
+                Console.WriteLine("Now that you found the evidence, you have to destroy the poachers base camp!");
+                Console.WriteLine($"You have accepted the quest: {availableQuests[questIndex].QuestName}");
             }
             else
             {
