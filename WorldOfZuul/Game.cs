@@ -7,6 +7,7 @@ namespace WorldOfZuul
 {
     public class Game
     {
+        private bool continuePlaying = true;
         private int wrongCommands = 0;
         private int wrongCommandLimit = 5;
         private MountainsBiome? mountainsBiome = null;
@@ -24,7 +25,14 @@ namespace WorldOfZuul
         }
         public void ChooseWorld()
         {
-            // TODO Add win game screen when all biomes are finished
+            if(grasslandsFinished && forestFinished && mountainsFinished &&  jungleFinished && glacialFinished)
+            {
+                Console.WriteLine("Congratulations for beating the game!");
+                Console.WriteLine("Thank you for being an active participant in our mission to raise awareness about the Sustainable Development Goals.");
+                Console.WriteLine("Your achievements in the game contribute to a broader understanding of the challenges we face and the collective efforts required to overcome them.");
+                continuePlaying = false;
+                return;
+            } 
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
             bool worldPicked = false;
@@ -149,7 +157,6 @@ namespace WorldOfZuul
             Console.Clear();
             ChooseWorld();
 
-            bool continuePlaying = true;
             while (continuePlaying)
             {
                 GameManager.currentPlayerRoom?.Update();
@@ -201,7 +208,6 @@ namespace WorldOfZuul
                         }
                         break;
                     case "drop":
-                        // turned this into a method also
                         Drop(command);
                         break;
                     case "take":
@@ -315,7 +321,8 @@ namespace WorldOfZuul
                 }
             }
 
-            Console.WriteLine("Thank you for playing Scribescape!");
+            Console.WriteLine("\nThank you for playing Scribescape!");
+            Console.WriteLine("Created by:\n Jakub Galica\n Kacper Grzyb\n Filip Sima\n Natalia Fudali\n Samuel Osei Adjabeng");
         }
 
         private void Move(string direction)
