@@ -15,6 +15,8 @@ namespace WorldOfZuul
         private ForestBiome? forestBiome = null;
         private JungleBiome? jungleBiome = null;
         private GrasslandsBiome? grasslandsBiome = null;
+        TrashSort trashgame = new();
+        SustainabilityGame sustainabilitybasegame = new();
 
         public void Setup()
         {
@@ -387,6 +389,38 @@ namespace WorldOfZuul
                             }
 
                         }
+                        break;
+
+                    case "close1":
+                        if (currentPlayerBiome == grasslandsBiome)
+                            grasslandsBiome.AnimalRoom1();
+                        break;
+
+                    case "close2":
+                        if (currentPlayerBiome == grasslandsBiome)
+                            grasslandsBiome.AnimalRoom2();
+                        break;
+
+                    case "close3":
+                        if (currentPlayerBiome == grasslandsBiome)
+                            grasslandsBiome.AnimalRoom3();
+                        break;
+                    case "recycle":
+
+                        if (currentPlayerBiome == grasslandsBiome)
+                            trashgame.Game();
+                        break;
+                    case "trackingdevice":
+                        if (currentPlayerBiome == grasslandsBiome)
+                            currentPlayerRoom = grasslandsBiome.GetRoomByName("Collaboration Corner");
+                        break;
+                    case "exit-grasslands":
+                        if (currentPlayerBiome == grasslandsBiome && currentPlayerRoom == grasslandsBiome.GetRoomByName("Collaboration Corner"))
+                            grasslandsBiome.CheckWinCondition();
+                        break;
+                    case "sustainable-quiz":
+                        if (currentPlayerBiome == grasslandsBiome)
+                            sustainabilitybasegame.SustainableQuiz();
                         break;
 
                     case "quit":

@@ -256,3 +256,17 @@ public class Gambler : NPC
 
 }
 
+public class Photograph : NPC
+{
+    public Photograph(string name, string description) : base(name, description)
+    {
+    }
+
+    public void PhotographInteract()
+    {
+        Console.WriteLine("Hello and welcome to Animal Aid: \n\n Our job here will be to take pictures of the engangered species of animas and send said photos back to Colaboration Corner! \n\n ");
+        Console.WriteLine("Among these species we can count the nubat, the marsupial mouse, praire dogs, black-footed ferrets and so much more.");
+        Console.WriteLine("We better get going because we don't want to miss any of them.\n\n Let's start going West, I believe we might find something there...");
+    }
+}
+
