@@ -43,7 +43,7 @@ namespace WorldOfZuul
 
             Room? glacialRoom1 = new("Snowy Village",
                 "You’re in a small village. There are not many people here. Everyone is wearing warm clothes. There’s a lot of snow everywhere. It’s hard to walk. It’s very cold. On the west you can see ice desert – it’s just snow, no sign of life. It’s not a good idea to go there, you might get lost. You can see some buildings on the south.",
-                new List<Item> { letter, new Item("Map", "Map of the Glacial Biome.") }, new List<NPC> { villager, oldMan });
+                new List<Item> { letter, new Map("Map", "Map of the Glacial Biome.") }, new List<NPC> { villager, oldMan });
 
             PuzzleRoom? glacialRoom2 = new("Ice Coast",
                 "You’re at the coast. You can see some penguins a bit further away. On the east there is the Ice Island. But there’s no bridge that you could use to get there. On the west there is the village.",
