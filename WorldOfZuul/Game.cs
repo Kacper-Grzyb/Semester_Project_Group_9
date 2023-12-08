@@ -18,6 +18,7 @@ namespace WorldOfZuul
         public void Setup()
         {
             GameManager.Inventory = new Inventory();
+            GameManager.gameInstance = this;
             GameManager.previousPlayerRooms = new Stack<Room>();
             GameManager.score = 0;
         }
@@ -97,7 +98,8 @@ namespace WorldOfZuul
                 }
             }
             while (!worldPicked);
-
+            Console.Clear();
+            PrintBiomeWelcome();
         }
 
         public void Play()
@@ -107,8 +109,6 @@ namespace WorldOfZuul
             PrintWelcome();
             Console.Clear();
             ChooseWorld();
-            Console.Clear();
-            PrintBiomeWelcome();
 
             bool continuePlaying = true;
             while (continuePlaying)
@@ -287,6 +287,7 @@ namespace WorldOfZuul
                 {
                     GameManager.previousPlayerRooms?.Push(GameManager.currentPlayerRoom);
                     GameManager.currentPlayerRoom = GameManager.currentPlayerRoom?.Exits[direction];
+                    Console.Clear();
                 }
                 else
                 {
@@ -299,7 +300,6 @@ namespace WorldOfZuul
             }
             // Deleted this from the ifs in the north south east west switch statements and moved it here
             currentPlayerBiome?.checkForAvailableObjectives();
-            Console.Clear();
         }
 
 

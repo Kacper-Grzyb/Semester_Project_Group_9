@@ -24,6 +24,7 @@ namespace WorldOfZuul
         public static GrasslandsBiome? grasslandsBiomeInstance { get; set; }
         public static GlacialBiome? glacialBiomeInstance { get; set; }
         public static ForestBiome? forestBiomeInstance { get; set; }
+        public static Game? gameInstance { get; set; }
 
         public static class Player
         {
