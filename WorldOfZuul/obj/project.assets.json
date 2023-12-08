@@ -8,23 +8,23 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\kgrzy\\.nuget\\packages\\": {},
+    "C:\\Users\\simaf\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+      "projectUniqueName": "C:\\Users\\simaf\\OneDrive\\Desktop\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
       "projectName": "WorldOfZuul",
-      "projectPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
-      "packagesPath": "C:\\Users\\kgrzy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kgrzy\\Pulpit\\Programming Workspace\\Semester Project Beta\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
+      "projectPath": "C:\\Users\\simaf\\OneDrive\\Desktop\\Semester_Project_Group_9\\WorldOfZuul\\WorldOfZuul.csproj",
+      "packagesPath": "C:\\Users\\simaf\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\simaf\\OneDrive\\Desktop\\Semester_Project_Group_9\\WorldOfZuul\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\kgrzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\simaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -33,6 +33,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -66,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

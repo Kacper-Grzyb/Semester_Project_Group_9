@@ -23,9 +23,6 @@ namespace WorldOfZuul
         }
         public void ChooseWorld()
         {
-
-            // Direct user to desired world
-            // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
             bool worldPicked = false;
             do
             {
@@ -40,7 +37,7 @@ namespace WorldOfZuul
                     worldPicked = true;
                     if (grasslandsBiome == null) grasslandsBiome = new GrasslandsBiome();
                     GameManager.currentPlayerBiome = grasslandsBiome;
-                    // remember to set a starting location for the player
+                    GameManager.currentPlayerRoom = grasslandsBiome.startLocation; // remember to set a starting location for the player
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
