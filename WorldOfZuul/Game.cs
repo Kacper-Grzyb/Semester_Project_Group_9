@@ -25,126 +25,210 @@ namespace WorldOfZuul
         }
         public void ChooseWorld()
         {
-            if(grasslandsFinished && forestFinished && mountainsFinished &&  jungleFinished && glacialFinished)
+            if (grasslandsFinished && mountainsFinished && jungleFinished && glacialFinished)
             {
                 Console.WriteLine("Congratulations for beating the game!");
                 Console.WriteLine("Thank you for being an active participant in our mission to raise awareness about the Sustainable Development Goals.");
                 Console.WriteLine("Your achievements in the game contribute to a broader understanding of the challenges we face and the collective efforts required to overcome them.");
                 continuePlaying = false;
                 return;
-            } 
-            // Direct user to desired world
-            // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
-            bool worldPicked = false;
-            do
-            {
-                Console.WriteLine();
-                Console.WriteLine("\x1b[31mChoose the world you'll be starting in: \x1b[0m");
-                WriteBiomeOptions();
-                Console.Write("> ");
-                string? userInput = Console.ReadLine()?.ToString();
-
-                if (userInput?.ToLower() == "grasslands")
-                {
-                    if(!grasslandsFinished)
-                    {
-                        worldPicked = true;
-                        if (grasslandsBiome == null)
-                        {
-                            grasslandsBiome = new GrasslandsBiome();
-                            GameManager.grasslandsBiomeInstance = grasslandsBiome;
-                        }
-                        GameManager.currentPlayerRoom = grasslandsBiome.startLocation;
-                        GameManager.currentPlayerBiome = grasslandsBiome;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished the Grasslands biome.");
-                    }
-                }
-                else if (userInput?.ToLower() == "forest")
-                {
-                    if(!forestFinished)
-                    {
-                        worldPicked = true;
-                        if (forestBiome == null)
-                        {
-                            forestBiome = new ForestBiome();
-                            GameManager.forestBiomeInstance = forestBiome;
-                        }
-                        GameManager.currentPlayerRoom = forestBiome.startLocation;
-                        GameManager.currentPlayerBiome = forestBiome;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished the Forest biome.");
-                    }
-                }
-                else if (userInput?.ToLower() == "mountains")
-                {
-                    if(!mountainsFinished)
-                    {
-                        worldPicked = true;
-                        if (mountainsBiome == null)
-                        {
-                            mountainsBiome = new MountainsBiome();
-                            GameManager.mountainsBiomeInstance = mountainsBiome;
-                        }
-                        GameManager.currentPlayerRoom = mountainsBiome.startLocation;
-                        GameManager.currentPlayerBiome = mountainsBiome;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished the Mountains biome.");
-                    }
-
-                }
-                else if (userInput?.ToLower() == "jungle")
-                {
-                    if(!jungleFinished)
-                    {
-                        worldPicked = true;
-                        if (jungleBiome == null)
-                        {
-                            jungleBiome = new JungleBiome();
-                            GameManager.jungleBiomeInstance = jungleBiome;
-                        }
-                        GameManager.currentPlayerRoom = jungleBiome.startLocation;
-                        GameManager.currentPlayerBiome = jungleBiome;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished the Jungle biome.");
-                    }
-                }
-                else if (userInput?.ToLower() == "glacial")
-                {
-                    if (!glacialFinished)
-                    {
-                        worldPicked = true;
-                        if (glacialBiome == null)
-                        {
-                            glacialBiome = new GlacialBiome();
-                            GameManager.glacialBiomeInstance = glacialBiome;
-                        }
-                        GameManager.currentPlayerRoom = glacialBiome.startLocation;
-                        GameManager.currentPlayerBiome = glacialBiome;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have already finished the Glacial biome.");
-                    }
-                }
-                else if(userInput?.ToLower() == "quit")
-                {
-                    System.Environment.Exit(0);
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect input. Please try again. (Type in the name of the biome)");
-                }
             }
-            while (!worldPicked);
+
+            Console.WriteLine("Use \u001b[33m↑\u001b[0m or \u001b[33m↓\u001b[0m to navigate and press \u001b[33mEnter\u001b[0m to select the biome you want to play");
+            ConsoleKeyInfo key;
+            int option = 1;
+            bool isSelected = false;
+            (int left, int top) = Console.GetCursorPosition();
+            string selection = " \u001b[33m→\u001b[0m \u001b[7m";
+
+            Console.CursorVisible = false;
+
+            while (!isSelected)
+            {
+                Console.SetCursorPosition(left, top);
+
+                Console.Write($"\n{(option == 1 ? selection : "   ")}");
+                if (grasslandsFinished)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Grasslands");
+                    Console.ResetColor();
+                }
+                else Console.Write("Grasslands");
+                Console.Write("\u001b[0m");
+                /*
+                Console.Write($"\n{(option == 2 ? selection : "   ")}");
+                if (forestFinished)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Forest");
+                    Console.ResetColor();
+                }
+                else Console.Write("Forest");
+                Console.Write("\u001b[0m");
+                */
+                Console.Write($"\n{(option == 2 ? selection : "   ")}");
+                if (mountainsFinished)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Mountains");
+                    Console.ResetColor();
+                }
+                else Console.Write("Mountains");
+                Console.Write("\u001b[0m");
+
+                Console.Write($"\n{(option == 3 ? selection : "   ")}");
+                if (jungleFinished)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Jungle");
+                    Console.ResetColor();
+                }
+                else Console.Write("Jungle");
+                Console.Write("\u001b[0m");
+
+                Console.Write($"\n{(option == 4 ? selection : "   ")}");
+                if (glacialFinished)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Glacial");
+                    Console.ResetColor();
+                }
+                else Console.Write("Glacial");
+                Console.Write("\u001b[0m");
+                Console.Write('\n');
+
+
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        option = (option == 4 ? 1 : option + 1);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        option = (option == 1 ? 4 : option - 1);
+                        break;
+                    case ConsoleKey.Enter:
+                        (int l, int t) = Console.GetCursorPosition();
+                        if (option == 1 && grasslandsFinished)
+                        {
+                            Console.WriteLine("\nYou have already finished the Grasslands biome.");
+                            Thread.Sleep(750);
+                            Console.SetCursorPosition(l, t);
+                            Console.WriteLine();
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                            break;
+                        }
+                        /*
+                        else if (option == 2 && forestFinished)
+                        {
+                            Console.WriteLine("\nYou have already finished the Forest biome.");
+                            Thread.Sleep(750);
+                            Console.SetCursorPosition(l, t);
+                            Console.WriteLine();
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                            break;
+                        }
+                        */
+                        else if (option == 2 && mountainsFinished)
+                        {
+                            Console.WriteLine("\nYou have already finished the Mountains biome.");
+                            Thread.Sleep(750);
+                            Console.SetCursorPosition(l, t);
+                            Console.WriteLine();
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                            break;
+                        }
+                        else if (option == 3 && jungleFinished)
+                        {
+                            Console.WriteLine("\nYou have already finished the Jungle biome.");
+                            Thread.Sleep(750);
+                            Console.SetCursorPosition(l, t);
+                            Console.WriteLine();
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                            break;
+                        }
+                        else if (option == 4 && glacialFinished)
+                        {
+                            Console.WriteLine("\nYou have already finished the Glacial biome.");
+                            Thread.Sleep(750);
+                            Console.SetCursorPosition(l, t);
+                            Console.WriteLine();
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                            break;
+                        }
+
+                        isSelected = true;
+                        break;
+                }
+
+            }
+
+            Console.CursorVisible = true;
+            Console.WriteLine();
+            if (option == 1)
+            {
+                Console.WriteLine("You have selected the Grasslands Biome.");
+                Thread.Sleep(500);
+                if (grasslandsBiome == null)
+                {
+                    grasslandsBiome = new GrasslandsBiome();
+                    GameManager.grasslandsBiomeInstance = grasslandsBiome;
+                }
+                GameManager.currentPlayerRoom = grasslandsBiome.startLocation;
+                GameManager.currentPlayerBiome = grasslandsBiome;
+            }
+            /*
+            else if (option == 2)
+            {
+                Console.WriteLine("You have selected the Forest Biome.");
+                Thread.Sleep(500);
+                if (forestBiome == null)
+                {
+                    forestBiome = new ForestBiome();
+                    GameManager.forestBiomeInstance = forestBiome;
+                }
+                GameManager.currentPlayerRoom = forestBiome.startLocation;
+                GameManager.currentPlayerBiome = forestBiome;
+            }
+            */
+            else if (option == 2)
+            {
+                Console.WriteLine("You have selected the Mountains Biome.");
+                Thread.Sleep(500);
+                if (mountainsBiome == null)
+                {
+                    mountainsBiome = new MountainsBiome();
+                    GameManager.mountainsBiomeInstance = mountainsBiome;
+                }
+                GameManager.currentPlayerRoom = mountainsBiome.startLocation;
+                GameManager.currentPlayerBiome = mountainsBiome;
+            }
+            else if (option == 3)
+            {
+                Console.WriteLine("You have selected the Jungle Biome.");
+                Thread.Sleep(500);
+                if (jungleBiome == null)
+                {
+                    jungleBiome = new JungleBiome();
+                    GameManager.jungleBiomeInstance = jungleBiome;
+                }
+                GameManager.currentPlayerRoom = jungleBiome.startLocation;
+                GameManager.currentPlayerBiome = jungleBiome;
+            }
+            else
+            {
+                Console.WriteLine("You have selected the Glacial Biome.");
+                Thread.Sleep(500);
+                if (glacialBiome == null)
+                {
+                    glacialBiome = new GlacialBiome();
+                    GameManager.glacialBiomeInstance = glacialBiome;
+                }
+                GameManager.currentPlayerRoom = glacialBiome.startLocation;
+                GameManager.currentPlayerBiome = glacialBiome;
+            }
+
             Console.Clear();
             PrintBiomeWelcome();
         }
@@ -161,7 +245,7 @@ namespace WorldOfZuul
             {
                 GameManager.currentPlayerRoom?.Update();
                 Console.WriteLine("\nCurrent room: " + GameManager.currentPlayerRoom?.ShortDescription);
-                Console.Write("> ");          
+                Console.Write("> ");
 
                 string? input = Console.ReadLine();
 
