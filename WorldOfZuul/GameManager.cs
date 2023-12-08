@@ -26,6 +26,13 @@ namespace WorldOfZuul
         public static ForestBiome? forestBiomeInstance { get; set; }
         public static Game? gameInstance { get; set; }
 
+        public static bool mountainsFinished = false;
+        public static bool jungleFinished = false;
+        public static bool grasslandsFinished = false;
+        public static bool glacialFinished = false;
+        public static bool forestFinished = false;
+
+
         public static class Player
         {
             public static int X { get; set; }

@@ -24,7 +24,7 @@ namespace WorldOfZuul
         }
         public void ChooseWorld()
         {
-
+            // TODO Add win game screen when all biomes are finished
             // Direct user to desired world
             // The do while loop is to keep asking the user to pick a world until they give an appropriate answer
             bool worldPicked = false;
@@ -32,65 +32,100 @@ namespace WorldOfZuul
             {
                 Console.WriteLine();
                 Console.WriteLine("\x1b[31mChoose the world you'll be starting in: \x1b[0m");
-                Console.WriteLine("1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n");
+                WriteBiomeOptions();
                 Console.Write("> ");
                 string? userInput = Console.ReadLine()?.ToString();
 
                 if (userInput?.ToLower() == "grasslands")
                 {
-                    worldPicked = true;
-                    if (grasslandsBiome == null)
+                    if(!grasslandsFinished)
                     {
-                        grasslandsBiome = new GrasslandsBiome();
-                        GameManager.grasslandsBiomeInstance = grasslandsBiome;
+                        worldPicked = true;
+                        if (grasslandsBiome == null)
+                        {
+                            grasslandsBiome = new GrasslandsBiome();
+                            GameManager.grasslandsBiomeInstance = grasslandsBiome;
+                        }
+                        GameManager.currentPlayerRoom = grasslandsBiome.startLocation;
+                        GameManager.currentPlayerBiome = grasslandsBiome;
                     }
-                    GameManager.currentPlayerRoom = grasslandsBiome.startLocation;
-                    GameManager.currentPlayerBiome = grasslandsBiome;
+                    else
+                    {
+                        Console.WriteLine("You have already finished the Grasslands biome.");
+                    }
                 }
                 else if (userInput?.ToLower() == "forest")
                 {
-                    worldPicked = true;
-                    if (forestBiome == null)
+                    if(!forestFinished)
                     {
-                        forestBiome = new ForestBiome();
-                        GameManager.forestBiomeInstance = forestBiome;
+                        worldPicked = true;
+                        if (forestBiome == null)
+                        {
+                            forestBiome = new ForestBiome();
+                            GameManager.forestBiomeInstance = forestBiome;
+                        }
+                        GameManager.currentPlayerRoom = forestBiome.startLocation;
+                        GameManager.currentPlayerBiome = forestBiome;
                     }
-                    GameManager.currentPlayerRoom = forestBiome.startLocation;
-                    GameManager.currentPlayerBiome = forestBiome;
+                    else
+                    {
+                        Console.WriteLine("You have already finished the Forest biome.");
+                    }
                 }
                 else if (userInput?.ToLower() == "mountains")
                 {
-                    worldPicked = true;
-                    if (mountainsBiome == null)
+                    if(!mountainsFinished)
                     {
-                        mountainsBiome = new MountainsBiome();
-                        GameManager.mountainsBiomeInstance = mountainsBiome;
+                        worldPicked = true;
+                        if (mountainsBiome == null)
+                        {
+                            mountainsBiome = new MountainsBiome();
+                            GameManager.mountainsBiomeInstance = mountainsBiome;
+                        }
+                        GameManager.currentPlayerRoom = mountainsBiome.startLocation;
+                        GameManager.currentPlayerBiome = mountainsBiome;
                     }
-                    GameManager.currentPlayerRoom = mountainsBiome.startLocation;
-                    GameManager.currentPlayerBiome = mountainsBiome;
+                    else
+                    {
+                        Console.WriteLine("You have already finished the Mountains biome.");
+                    }
 
                 }
                 else if (userInput?.ToLower() == "jungle")
                 {
-                    worldPicked = true;
-                    if (jungleBiome == null)
+                    if(!jungleFinished)
                     {
-                        jungleBiome = new JungleBiome();
-                        GameManager.jungleBiomeInstance = jungleBiome;
+                        worldPicked = true;
+                        if (jungleBiome == null)
+                        {
+                            jungleBiome = new JungleBiome();
+                            GameManager.jungleBiomeInstance = jungleBiome;
+                        }
+                        GameManager.currentPlayerRoom = jungleBiome.startLocation;
+                        GameManager.currentPlayerBiome = jungleBiome;
                     }
-                    GameManager.currentPlayerRoom = jungleBiome.startLocation;
-                    GameManager.currentPlayerBiome = jungleBiome;
+                    else
+                    {
+                        Console.WriteLine("You have already finished the Jungle biome.");
+                    }
                 }
                 else if (userInput?.ToLower() == "glacial")
                 {
-                    worldPicked = true;
-                    if (glacialBiome == null)
+                    if (!glacialFinished)
                     {
-                        glacialBiome = new GlacialBiome();
-                        GameManager.glacialBiomeInstance = glacialBiome;
+                        worldPicked = true;
+                        if (glacialBiome == null)
+                        {
+                            glacialBiome = new GlacialBiome();
+                            GameManager.glacialBiomeInstance = glacialBiome;
+                        }
+                        GameManager.currentPlayerRoom = glacialBiome.startLocation;
+                        GameManager.currentPlayerBiome = glacialBiome;
                     }
-                    GameManager.currentPlayerRoom = glacialBiome.startLocation;
-                    GameManager.currentPlayerBiome = glacialBiome;
+                    else
+                    {
+                        Console.WriteLine("You have already finished the Glacial biome.");
+                    }
                 }
                 else
                 {
@@ -492,6 +527,57 @@ namespace WorldOfZuul
             }
         }
 
+
+        private void WriteBiomeOptions()
+        {
+            //"1. Grasslands\n2. Forest\n3. Mountains\n4. Jungle\n5. Glacial\n"
+            Console.Write("1. ");
+            if (grasslandsFinished)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Grasslands");
+                Console.ResetColor();
+            }
+            else Console.Write("Grasslands");
+
+            Console.Write("\n2. ");
+            if (forestFinished)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Forest");
+                Console.ResetColor();
+            }
+            else Console.Write("Forest");
+
+            Console.Write("\n3. ");
+            if (mountainsFinished)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Mountains");
+                Console.ResetColor();
+            }
+            else Console.Write("Mountains");
+
+            Console.Write("\n4. ");
+            if (jungleFinished)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Jungle");
+                Console.ResetColor();
+            }
+            else Console.Write("Jungle");
+
+            Console.Write("\n5. ");
+            if (glacialFinished)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Glacial");
+                Console.ResetColor();
+            }
+            else Console.Write("Glacial");
+
+            Console.Write('\n');
+        }
 
     }
 }

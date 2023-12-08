@@ -218,6 +218,7 @@ namespace WorldOfZuul
             if(GameManager.mountainsBiomeInstance.completed)
             {
                 Console.WriteLine("You have completed the mountains biome! Congratulations!");
+                GameManager.mountainsFinished = true;
                 GameManager.gameInstance.ChooseWorld();
             }
         }
