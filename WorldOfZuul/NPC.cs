@@ -194,3 +194,52 @@ public class QuestGiver : NPC
         }
     }
 }
+public class Gambler : NPC
+{
+    private List<(string answer, string riddle)> Gambas;
+    private int chosenGambaIndex;
+
+
+    public Gambler(string name, string description): base(name, description)
+    {      
+        Gambas = new List<(string, string)>();
+    }
+    public override void Interact()
+    {
+        WowRoulette();
+    }
+    public void WowRoulette()
+    {
+        Random ran = new Random();
+        int num = 100;  
+        Console.WriteLine("the rules are simple, you'll roll from 1-100 and what number you get the other has to roll from 1-(number that the previous one got)");
+        Console.WriteLine("if you someone gets one they lose");
+        
+        Console.WriteLine("do you want to play? (yes/no)");
+        string? ans = Console.ReadLine();
+        if(ans == "yes")
+        {
+            Console.WriteLine("As my guest you can start");
+            while(num != 1)
+            {
+                Console.WriteLine("Roll the dice (Press Enter)");
+                
+                Console.ReadLine();
+                num = ran.Next(1, num);
+                if(num == 1)
+                {
+                    Console.WriteLine("You rolled: " + num);
+                    Console.WriteLine("You lost");
+                    break;
+                }
+                Console.WriteLine("You rolled: " + num);
+                Console.WriteLine("My turn");
+                num = ran.Next(1, num);
+                Console.WriteLine("I rolled: " + num);
+            }
+            
+        }
+    }
+
+}
+

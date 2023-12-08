@@ -16,24 +16,23 @@ namespace WorldOfZuul
             BiomeName = "Jungle";
             
 
-            Room? location1 = new("Sector 1", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { new Item("nickle", "Can be used to distract enemies") }, new List<NPC>{});
+            Room? location1 = new("Sector 1", "You've entered Sector 1", new List<Item> { new Item("nickle", "Can be used to distract enemies") }, new List<NPC>{});
 
-            Room? location2 = new("Sector 2", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { new Item("bat", "Can be used to beat up enemies") }, new List<NPC>{});
+            Room? location2 = new("Sector 2", "You've entered Sector 1", new List<Item> { new Item("bat", "Can be used to beat up enemies") }, new List<NPC>{});
 
-            Room? location3 = new("Sector 3", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
+            Room? location3 = new("Sector 3", "You've entered Sector 1", new List<Item> { }, new List<NPC>{});
 
-            Room? location4 = new("sector 4", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.", new List<Item> { }, new List<NPC>{});
+            Room? location4 = new("sector 4", "You've entered Sector 1", new List<Item> { }, new List<NPC>{});
 
-            Room? location5 = new("Sector 5", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { new Item("Flashlight", "A way to light your path"),
-            new Map("map","Useful for navigation"), new Item("trap", "Can be used against enemies") }, new List<NPC>{});
+            Room? location5 = new("Sector 5", "You've entered Sector 1", new List<Item> {new Map("map","Useful for navigation"), new Item("trap", "Can be used against enemies") }, new List<NPC>{});
 
-            Room? location6 = new("Sector 6", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.", new List<Item> { }, new List<NPC>{});
+            Room? location6 = new("Sector 6", "You've entered Sector 1", new List<Item> { }, new List<NPC>{});
 
-            Room? location7 = new("Sector 7", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.", new List<Item> { }, new List<NPC>{});
+            Room? location7 = new("Sector 7", "You've entered Sector 1", new List<Item> { }, new List<NPC>{});
 
-            Room? location8 = new("Sector 8", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.", new List<Item> { }, new List<NPC>{});
+            Room? location8 = new("Sector 8", "You've entered Sector 1", new List<Item> {new Item("animal food", "Can be used to feed the hungry animals") }, new List<NPC>{});
 
-            Room? location9 = new("Sector 9", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.", new List<Item> { }, new List<NPC>{});
+            Room? location9 = new("Sector 9", "You've entered Sector 1", new List<Item> { }, new List<NPC>{});
 
             location1.SetExits(null, location2, location4, null);
             location2.SetExits(null, location3, location5, location1);
@@ -71,19 +70,31 @@ namespace WorldOfZuul
 
             };
             Quest Evidence = new Quest("Find evidence", "Find the evidence that poachers left in Sector 3", false, false, findEvidence);
+            
             var destroyBaseCamp = new List<QuestObjective>
             {
              new QuestObjective("Destroy the base camp in Sector 3","Map")
 
             };
             Quest DestroyBaseCamp = new Quest("Destroy base camp", "Destroy the base camp in Sector 3", false, false, destroyBaseCamp);
+            
+            var feedAnimals = new List<QuestObjective>
+            {
+             new QuestObjective("Feed the animals in Sector 1","Map")
 
+            };
+            Quest FeedAnimals = new Quest("Feed animals", "Feed the animals in Sector 1", false, false, feedAnimals);
+            
             //--------------------------------------NPCs------------------------------------------------
             Riddler riddler = new Riddler("Riddler","Master of riddles and puzzles.");
             QuestGiver questGiver = new QuestGiver("Mitch","A local villager.");
+            Gambler gambaMan = new Gambler("GambaMan","A local gambler.");
             
+            location1.AddQuest(FeedAnimals);
             location5.AddQuest(Poachers);
+
             location5.AddNpcToRoom(questGiver);
+            location4.AddNpcToRoom(gambaMan);
             location1.AddNpcToRoom(riddler);
             
             questGiver.AddQuestToNPC(Evidence);
@@ -139,6 +150,10 @@ namespace WorldOfZuul
             if(GameManager.ActiveQuest?.QuestName == "Destroy base camp" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
             {  
                 DestroyBaseCamp();
+            }
+            if(GameManager.ActiveQuest?.QuestName == "Feed animals" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 1")
+            {  
+                FeedAnimals();
             }
         }
         public void quizTrap()
@@ -411,6 +426,24 @@ namespace WorldOfZuul
                 FailedQuest();
             }
         }
+        public void FeedAnimals()
+        {
+            if(GameManager.ActiveQuest?.QuestName == "Feed animals" && GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "animal food")){
+                Console.WriteLine("You found the animals, you can feed them with the animal food that you have.");
+                Console.WriteLine("You've fed the animals, they are happy now.");
+                GameManager.Inventory.DropItem("animal food");
+                GameManager.Inventory.RemoveItem("animal food");
+                GameManager.score += 10;
+                GameManager.ActiveQuest.CompleteQuest();
+            }
+            else
+            {
+                Console.WriteLine("You don't have anything to feed the animals with, you can't complete the quest.");
+                Console.WriteLine("Comeback when you have something to feed the animals with");
+                return;
+            }
+        }
+
         public void FailedQuest(){
             Console.WriteLine("You failed the quest, you lost 10 points for that.");
             GameManager.score -= 10;
