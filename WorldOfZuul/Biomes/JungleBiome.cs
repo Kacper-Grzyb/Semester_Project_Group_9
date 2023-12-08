@@ -152,7 +152,7 @@ namespace WorldOfZuul
                 Console.WriteLine("Each question will disable one of the traps, try to disable as many as possible.");
                 Console.WriteLine("Good luck! \n");
 
-                Console.WriteLine("1mQuestion 1: Which of the following is NOT a benefit provided by jungle ecosystems?");
+                Console.WriteLine("Question 1: Which of the following is NOT a benefit provided by jungle ecosystems?");
                 Console.WriteLine("A)They are habitats for diverse species.");
                 Console.WriteLine("B)They help stabilize the world's climate.");
                 Console.WriteLine("C) They are the primary source of freshwater.");
@@ -173,7 +173,7 @@ namespace WorldOfZuul
                     trapsDisabled++;
                 }
 
-                Console.WriteLine("\x1b1mQuestion 2: Deforestation in jungles is primarily driven by the need for land for agriculture and logging operations.\x1b[0m");
+                Console.WriteLine("Question 2: Deforestation in jungles is primarily driven by the need for land for agriculture and logging operations.\x1b[0m");
                 Console.WriteLine("True");
                 Console.WriteLine("False");
 
@@ -192,7 +192,7 @@ namespace WorldOfZuul
                     trapsDisabled++;
                 }
 
-                Console.WriteLine("\x1b[1mQuestion 3:\x1b:What does the term ''poaching'' refer to? ");
+                Console.WriteLine("Question 3: What does the term ''poaching'' refer to? ");
                 Console.WriteLine("A) The legal hunting of wild animals.");
                 Console.WriteLine("B) The illegal hunting, capturing, and killing of wild animals.");
                 Console.WriteLine("C) A method of cooking eggs.");
@@ -212,7 +212,7 @@ namespace WorldOfZuul
                     trapsDisabled++;
                 }
 
-                Console.WriteLine("\x1b[1mQuestion 4:\x1b Which of these jungle animals is often poached for its valuable parts and has become endangered as a result? ");
+                Console.WriteLine("Question 4: Which of these jungle animals is often poached for its valuable parts and has become endangered as a result? ");
                 Console.WriteLine("A) Sloth");
                 Console.WriteLine("B) Toucan");
                 Console.WriteLine("C) Elephant");
@@ -231,7 +231,7 @@ namespace WorldOfZuul
                     
                     trapsDisabled++;
                 }
-                Console.WriteLine("\x1b[1mQuestion 5:\x1b Establishing protected areas is a key strategy to combat poaching in jungles. ");
+                Console.WriteLine("Question 5: Establishing protected areas is a key strategy to combat poaching in jungles. ");
                 Console.WriteLine("True");
                 Console.WriteLine("False");
                 inputAnswer = Console.ReadLine();
@@ -256,7 +256,7 @@ namespace WorldOfZuul
                     Console.WriteLine("You didn't disable any traps, because of that the poachers caught you and endangered species.");
                     Console.WriteLine("You failed to save the jungle");
                     Console.WriteLine("Game over, Score: " + GameManager.score);
-                    Environment.Exit(0);
+                    FailedQuest();
                 }
                 else if(trapsDisabled == 1)
                 {
@@ -294,6 +294,7 @@ namespace WorldOfZuul
                     Console.WriteLine("You've gained 20 points that.");
                     GameManager.score += 20;
                 }
+                CheckWinCondition();
 
             }
         }
@@ -373,7 +374,7 @@ namespace WorldOfZuul
         }
         public void DestroyBaseCamp()
         {
-            if(GameManager.ActiveQuest?.QuestName == "Destroy base camp"){
+            if(GameManager.ActiveQuest?.QuestName == "Destroy base camp" && GameManager.Inventory != null && GameManager.Inventory.items != null && GameManager.Inventory.items.Any(item => item.name.ToLower() == "dynamite")){
                 Console.WriteLine("You came back for revenge, you saw what those poachers are going to do, and you have to stop them.");
                 Console.WriteLine("You sneak to the back of the main building, and place your dynimate");  
                 GameManager.Inventory?.DropItem("dynamite");
@@ -404,6 +405,10 @@ namespace WorldOfZuul
                     return;
                 }
                 
+            }else
+            {
+                Console.WriteLine("You droped the dynamite when you were here the first time, but meanwhile you were gone the poachers found it and took it.");
+                FailedQuest();
             }
         }
         public void FailedQuest(){
@@ -422,13 +427,14 @@ namespace WorldOfZuul
             {
                 Console.WriteLine("You have won the game, you saved the jungle from the poachers!");
                 Console.WriteLine("Score: " + GameManager.score);
-                Environment.Exit(0);
+                GameManager.jungleFinished = true;
+                Program.Main();
             }
             else if (GameManager.score <= 0)
             {
                 Console.WriteLine("You have lost the game, you didn't save the jungle from the poachers!");
                 Console.WriteLine("Score: " + GameManager.score);
-                Environment.Exit(0);
+                
             }
         }
     }

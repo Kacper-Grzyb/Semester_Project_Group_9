@@ -127,6 +127,10 @@ namespace WorldOfZuul
                         Console.WriteLine("You have already finished the Glacial biome.");
                     }
                 }
+                else if(userInput?.ToLower() == "quit")
+                {
+                    System.Environment.Exit(0);
+                }
                 else
                 {
                     Console.WriteLine("Incorrect input. Please try again. (Type in the name of the biome)");
