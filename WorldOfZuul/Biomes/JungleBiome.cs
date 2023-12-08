@@ -130,15 +130,15 @@ namespace WorldOfZuul
             }
             if(GameManager.ActiveQuest?.QuestName == "Disable traps" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 9")
             {  
-              quizTrap();
+                quizTrap();
             }
             if(GameManager.ActiveQuest?.QuestName == "Find evidence" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
             {  
-              Evidence();
+                Evidence();
             }
             if(GameManager.ActiveQuest?.QuestName == "Destroy base camp" && GameManager.currentPlayerRoom?.ShortDescription == "Sector 3")
             {  
-              DestroyBaseCamp();
+                DestroyBaseCamp();
             }
         }
         public void quizTrap()

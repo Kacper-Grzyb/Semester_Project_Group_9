@@ -79,14 +79,14 @@ namespace WorldOfZuul
 
         public void UpdateGrassyPlanes()
         {
-            rooms[1].UpdateDescriptions(null, "You see the freshly fixed salamander passage in the meadow\nYour heart fills with joy knowing you established a protected zone");
+            rooms?[1].UpdateDescriptions(null, "You see the freshly fixed salamander passage in the meadow\nYour heart fills with joy knowing you established a protected zone");
             protectedZones++;
             isFinished();
         }
 
         public void UpdateGrassyValley()
         {
-            rooms[5].UpdateDescriptions(null, "The reserve is fully functional again, it keeps the sheep out of harms way and the sheperds can finally rest.\nYour heart fills with joy knowing you established a protected zone");
+            rooms?[5].UpdateDescriptions(null, "The reserve is fully functional again, it keeps the sheep out of harms way and the sheperds can finally rest.\nYour heart fills with joy knowing you established a protected zone");
             protectedZones++;
             isFinished();
             rooms[5].NpcsInRoom.OfType<Sheperds>().FirstOrDefault().zoneProtected = true;
@@ -94,30 +94,30 @@ namespace WorldOfZuul
 
         public void UpdateFoothillWoodland()
         {
-            rooms[4].UpdateDescriptions(null, "Calling Resource Protection worked!\nThe beautiful forest has been preserved and the habitats of many animals remain untouched.\nYour heart fills with joy knowing you established a protected zone");
+            rooms?[4].UpdateDescriptions(null, "Calling Resource Protection worked!\nThe beautiful forest has been preserved and the habitats of many animals remain untouched.\nYour heart fills with joy knowing you established a protected zone");
             protectedZones++;
             isFinished();
-            rooms[4].Items.Add(new Map("Map", "Map of the mountains. Must've been dropped by one of the loggers", true));
+            rooms?[4].Items.Add(new Map("Map", "Map of the mountains. Must've been dropped by one of the loggers", true));
         }
 
         public void UpdateSnowySummit()
         {
-            rooms[8].UpdateDescriptions(null, "You can barely stand the cold.\nThe only way forward is to the east but you have no chances of making it without climbing gear.\nYou have also corrected the path so that it leads away from the habitat of mountain goats.\nThey can finally enjoy some peace. Your heart fills with joy knowing you established a protected zone");
+            rooms?[8].UpdateDescriptions(null, "You can barely stand the cold.\nThe only way forward is to the east but you have no chances of making it without climbing gear.\nYou have also corrected the path so that it leads away from the habitat of mountain goats.\nThey can finally enjoy some peace. Your heart fills with joy knowing you established a protected zone");
             protectedZones++;
             isFinished();
         }
 
         public void UpdateMountainsShoulder()
         {
-            rooms[11].UpdateDescriptions(null, "You see the peak and a clear path to it with the blackberry removed. Your heart fills with joy knowing you established a protected zone");
-            rooms[11].UnlockExit("north");
+            rooms?[11].UpdateDescriptions(null, "You see the peak and a clear path to it with the blackberry removed. Your heart fills with joy knowing you established a protected zone");
+            rooms?[11].UnlockExit("north");
             protectedZones++;
             isFinished();
         }
 
         public void UpdateCave()
         {
-            rooms[6].UnlockExit("east");
+            rooms?[6].UnlockExit("east");
         }
 
         public void isFinished()
