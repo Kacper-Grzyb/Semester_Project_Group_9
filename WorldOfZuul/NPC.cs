@@ -217,9 +217,13 @@ public class Gambler : NPC
         
         Console.WriteLine("do you want to play? (yes/no)");
         string? ans = Console.ReadLine();
+        
         if(ans == "yes")
         {
+            Console.WriteLine("how much do you want to wager?");
+            int wager = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("As my guest you can start");
+
             while(num != 1)
             {
                 Console.WriteLine("Roll the dice (Press Enter)");
@@ -230,11 +234,20 @@ public class Gambler : NPC
                 {
                     Console.WriteLine("You rolled: " + num);
                     Console.WriteLine("You lost");
+                    GameManager.score -= wager;
                     break;
                 }
+
                 Console.WriteLine("You rolled: " + num);
                 Console.WriteLine("My turn");
                 num = ran.Next(1, num);
+                if(num == 1)
+                {
+                    Console.WriteLine("I rolled: " + num);
+                    Console.WriteLine("I lost");
+                    GameManager.score += wager;
+                    break;
+                }
                 Console.WriteLine("I rolled: " + num);
             }
             
